@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <title>JDBC</title>
+    <link href="style.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/googlecode.min.css"
+          rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+</head>
+<body>
+<div class="wrapper">
+    <h1>JDBC</h1>
+    <h2>Зміст</h2>
+
+    <div class="content-table">
+        <ol>
+            <li>Що таке JDBC</li>
+            <ol>
+                <li>Визначення та призначення JDBC</li>
+                <li>Основні компоненти JDBC: драйвер, з'єднання, запит</li>
+                <li>Переваги та недоліки використання JDBC</li>
+                <li>Історія розвитку JDBC та його місце в екосистемі Java</li>
+            </ol>
+            <li>Підключення до бази даних</li>
+            <ol>
+                <li>Налаштування параметрів підключення до бази даних, таких як URL, ім'я користувача та пароль</li>
+                <li>Робота з драйверами баз даних та вибір відповідного драйвера для конкретної бази даних</li>
+                <li>Обробка помилок при підключенні до бази даних</li>
+            </ol>
+            <li>Виконання запитів</li>
+            <ol>
+                <li>Створення та виконання запитів SELECT, INSERT, UPDATE та DELETE</li>
+                <li>Використання параметрів запиту та підготовлених запитів</li>
+                <li>Використання різних типів вибірки даних, таких як ResultSet, Statement та PreparedStatement</li>
+            </ol>
+            <li>Робота з транзакціями</li>
+            <ol>
+                <li>Створення та керування транзакціями в JDBC</li>
+                <li>Використання savepoints для збереження частково виконаних транзакцій</li>
+                <li>Робота з багатомісними транзакціями та використання блокувань для уникнення конфліктів доступу до
+                    даних
+                </li>
+            </ol>
+            <li>Рекомендації з використання JDBC</li>
+            <ol>
+                <li>Використовуйте підготовлені запити для зменшення ризику SQL-ін'єкцій</li>
+                <li>Використовуйте пакетне виконання запитів, коли це можливо, для поліпшення продуктивності</li>
+                <li>Використовуйте з'єднання з пулом з'єднань, щоб уникнути перевантаження бази даних</li>
+                <li>Перевіряйте статус підключення перед виконанням операцій з базою даних</li>
+                <li>Використовуйте іменовані параметри для зрозумілості та безпеки</li>
+            </ol>
+        </ol>
+    </div>
+
+    <div class="content">
+        <div class="1">
+            <h2>1. Що таке JDBC</h2>
+            <div>
+                <h3>1.1 Визначення та призначення JDBC</h3>
+                <p>JDBC - це скорочення від Java Database Connectivity (зв'язок з базою даних Java), технологія, що
+                    дозволяє
+                    Java-програмам з'єднуватися з різними типами баз даних, такими як MySQL, Oracle, PostgreSQL і
+                    багатьма
+                    іншими, використовуючи стандартні API Java.</p>
+                <p>JDBC дозволяє Java-програмістам здійснювати різні операції з базами даних, такі як підключення до
+                    бази
+                    даних, виконання запитів, робота з транзакціями та обробка помилок. Для з'єднання з базою даних
+                    використовуються драйвери, які забезпечують стандартний інтерфейс між JDBC і конкретним типом бази
+                    даних.</p>
+                <p>Це є важливим елементом в розробці багатьох Java-додатків, що використовують бази даних. Він
+                    забезпечує
+                    простий та ефективний спосіб з'єднання з базами даних і дозволяє програмістам працювати з даними в
+                    базі
+                    даних з використанням знайомих мови та інструментів розробки.</p>
+            </div>
+            <div>
+                <h3>1.2 Основні компоненти JDBC: драйвер, з'єднання, запит</h3>
+                <p>Основними компонентами JDBC є драйвер, з'єднання та запит. Драйвер - це програмне забезпечення, що
+                    забезпечує зв'язок між Java-програмою та конкретною базою даних. Кожна база даних має свій власний
+                    драйвер, що необхідно завантажити та зареєструвати перед використанням.</p>
+                <p>З'єднання в JDBC відповідає за з'єднання з базою даних. За допомогою з'єднання, програміст може
+                    підключатися до бази даних, виконувати запити та отримувати результати. З'єднання може бути створене
+                    тільки після завантаження та реєстрації драйвера.</p>
+                <p>Запит - це команда, що виконується в базі даних. Якщо програміст бажає взаємодіяти з базою даних, він
+                    повинен створити запит. JDBC підтримує два типи запитів: статичні та динамічні. Статичний запит
+                    виконується лише один раз, тоді як динамічний запит може бути модифікований під час виконання
+                    програми.</p>
+                <p>Отже, компоненти JDBC - це драйвер, з'єднання та запит. Кожен з цих компонентів є важливим для
+                    успішного
+                    взаємодії з базою даних за допомогою Java-програм. </p>
+            </div>
+            <div>
+                <h3>1.3 Переваги та недоліки використання JDBC</h3>
+                <p>Однією з основних переваг JDBC є те, що це стандартний інтерфейс для взаємодії з базами даних в мові
+                    Java. Це означає, що JDBC можна використовувати для взаємодії з різними типами баз даних, включаючи
+                    MySQL, Oracle, Microsoft SQL Server, PostgreSQL та інші. Крім того, JDBC дозволяє програмістам
+                    працювати
+                    з базами даних на різних рівнях абстракції, від простих запитів до складних транзакцій.</p>
+                <p>Іншою перевагою JDBC є те, що воно забезпечує підтримку транзакцій. Транзакції дозволяють здійснювати
+                    набір операцій як одну атомарну операцію, що забезпечує цілісність даних в базі даних. Це особливо
+                    важливо для критичних за даними систем, таких як банківські додатки.</p>
+                <p>Однак, використання JDBC має й недоліки. Перш за все, JDBC не забезпечує високорівневого інтерфейсу
+                    для
+                    роботи з базами даних, що може призвести до складнощів у розробці додатків. Крім того, JDBC не
+                    забезпечує автоматичного вивільнення ресурсів, таких як з'єднання з базою даних, що може призвести
+                    до
+                    проблем з продуктивністю та надійністю додатку.</p>
+                <p>Іншим недоліком JDBC є те, що він залежить від конкретної бази даних та драйвера, що
+                    використовується. Це
+                    означає, що в разі зміни бази даних або драйвера може знадобитись переробка коду додатку.</p>
+                <p>Загалом, при використанні JDBC потрібно зважати на його переваги та недоліки, а також на особливості
+                    конкретної розробки додатку. Якщо додаток потребує взаємодії з базою даних на низькому рівні,
+                    наприклад
+                    для виконання складних транзакцій або прямих запитів до бази даних, то JDBC може бути дуже корисним
+                    інструментом. Однак, якщо додаток потребує високорівневого інтерфейсу для роботи з базою даних або
+                    планується розробка на різних платформах, то можуть бути кращі альтернативні інструменти.</p>
+                <p>У загальному, при розробці додатків використання JDBC є дуже поширеним і дозволяє розробникам з
+                    легкістю
+                    працювати з базами даних в мові Java. Однак, необхідно враховувати його обмеження та особливості
+                    використання, щоб забезпечити оптимальну продуктивність та надійність додатку.</p>
+            </div>
+            <div>
+                <h3>1.4 Історія розвитку JDBC та його місце в екосистемі Java</h3>
+                <p>JDBC було розроблено компанією Oracle для забезпечення стандартизованого інтерфейсу для доступу до
+                    баз
+                    даних в мові Java. Вперше JDBC було випущено у 1997 році разом з Java Development Kit 1.1 і він
+                    продовжує розвиватися і вдосконалюватися до сьогодні.</p>
+                <p>Це є одним з ключових інструментів для доступу до баз даних в екосистемі Java. Він є частиною Java
+                    Standard Edition (Java SE) та Java Enterprise Edition (Java EE) і є стандартом для роботи з базами
+                    даних
+                    в Java. JDBC інтегрується з багатьма іншими інструментами Java, такими як Java Persistence API
+                    (JPA),
+                    Java Database Connectivity API (JDBC API) та Java Transaction API (JTA), що забезпечують розробникам
+                    Java багато інструментів для роботи з базами даних.</p>
+            </div>
+        </div>
+
+        <div class="2">
+            <h2>2. Підключення до бази даних</h2>
+            <div>
+                <h3>2.1 Налаштування параметрів підключення до бази даних, таких як URL, ім'я користувача та пароль</h3>
+                <p>Налаштування параметрів підключення до бази даних є одним з найважливіших кроків при роботі з JDBC.
+                    Параметри включають URL бази даних, ім'я користувача та пароль. Неправильне налаштування може
+                    призвести
+                    до помилок підключення, або вразливості системи. У цьому розділі ми розглянемо, як правильно
+                    налаштувати
+                    ці параметри.</p>
+                <p>
+                    URL бази даних - це адреса бази даних, до якої потрібно підключитися. Вона містить протокол, адресу
+                    сервера бази даних та назву бази даних. Наприклад, у випадку MySQL бази даних, URL може виглядати
+                    наступним чином:
+                </p>
+                <div class="editor">
+                    <div class="code-block">
+                        <pre>
+                            <code class="language-properties">
+    jdbc:mysql://localhost:3306/mydatabase
+                            </code>
+                        </pre>
+                    </div>
+                </div>
+                <p>У цьому URL, <b>'jdbc'</b> - протокол, <b>'mysql'</b> - тип бази даних, <b>'localhost'</b> - адреса
+                    сервера бази даних, <b>'3306'</b> - порт, на якому працює сервер бази даних, та <b>'mydatabase'</b>
+                    -
+                    назва бази даних.</p>
+                <p>
+                    Ім'я користувача та пароль використовуються для аутентифікації користувача під час підключення до
+                    бази
+                    даних. Наприклад, у випадку MySQL бази даних, код для підключення може виглядати наступним чином:
+                </p>
+                    <div class="code-block">
+                            <pre>
+                                <code class="language-java">
+    String url = "jdbc:mysql://localhost:3306/mydatabase";
+    String user = "myusername";
+    String password = "mypassword";
+    Connection connection = DriverManager.getConnection(url, user, password);
+                                </code>
+                            </pre>
+                    </div>
+                <p>У цьому прикладі, ми створюємо змінні <b>'url'</b>, <b>'user'</b> та <b>'password'</b> для
+                    налаштування
+                    підключення до бази даних. Потім, ми використовуємо метод <b>'getConnection()'</b> з класу <b>'DriverManager'</b>
+                    для отримання з'єднання до бази даних.</p>
+                <p>Важливо пам'ятати, що ім'я користувача та пароль мають бути надійними та безпечними. Рекомендується
+                    використовувати складні паролі та змінювати їх регулярно.</p>
+                <p>
+                    У разі, якщо база даних має додаткові параметри, такі як кодування та інші, їх також можна включити
+                    до
+                    URL, наприклад:
+                </p>
+                <div class="editor">
+                    <div class="code-block">
+                            <pre>
+                                <code class="language-properties">
+    jdbc:mysql://localhost:3306/mydatabase?useUnicode=true&characterEncoding=utf8
+                                </code>
+                            </pre>
+                    </div>
+                </div>
+                <p>
+                У цьому прикладі параметри <b>'useUnicode=true'</b> та <b>'characterEncoding=utf8'</b> дозволяють
+                використовувати кодування UTF-8. Якщо ці параметри не вказані, можливо виникнення проблем з кодуванням
+                при
+                роботі з базою даних.
+                </p>
+                <p>Ім'я користувача та пароль також можуть бути вказані в URL, але це не є найбільш безпечним способом.
+                    Краще використовувати інші методи налаштування, такі як використання файлу конфігурації або передача
+                    параметрів програмі при запуску.</p>
+                <p>
+                    Наприклад, налаштування параметрів підключення до бази даних за допомогою файлу конфігурації може
+                    виглядати наступним чином:
+                </p>
+                <div class="editor">
+                    <div class="code-block">
+                        <pre>
+                            <code class="language-java">
+    Properties props = new Properties();
+    props.setProperty("user", "myuser");
+    props.setProperty("password", "mypassword");
+    props.setProperty("useSSL", "false");
+
+    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydatabase", props);
+                            </code>
+                        </pre>
+                    </div>
+                </div>
+                <p>
+                У цьому прикладі параметри підключення зберігаються у об'єкті <b>'Properties'</b>, який передається в
+                метод
+                <b>'getConnection()'</b> разом з URL.
+                </p>
+                <p>
+                    Іншим методом є передача параметрів програмі при запуску, що дозволяє налаштовувати параметри
+                    безпосередньо перед запуском програми. Наприклад:
+                </p>
+                <div class="editor">
+                    <div class="code-block">
+                            <pre>
+                                <code class="language-bash">
+    java -Djdbc.user=myuser -Djdbc.password=mypassword -Djdbc.useSSL=false myprogram.jar
+                                </code>
+                            </pre>
+                    </div>
+                </div>
+                <p>
+                    У цьому прикладі параметри передаються програмі через системні властивості. Для їх отримання в коді
+                    програми можна використовувати метод <b>'System.getProperty()'</b>, наприклад:
+                </p>
+                    <div class="code-block">
+                        <pre>
+                            <code class="language-java">
+    String user = System.getProperty("jdbc.user");
+    String password = System.getProperty("jdbc.password");
+    String useSSL = System.getProperty("jdbc.useSSL");
+
+    Properties props = new Properties();
+    props.setProperty("user", user);
+    props.setProperty("password", password);
+    props.setProperty("useSSL", useSSL);
+
+    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydatabase", props);
+                            </code>
+                        </pre>
+                    </div>
+                <p>
+                    Існує ще один спосіб вказати параметри підключення до бази даних, а саме, використовуючи об'єкт типу
+                    <b>'Properties'</b>.
+                    Цей спосіб може бути корисним, якщо потрібно передати додаткові параметри підключення, такі як
+                    налаштування кодування, режим виконання автоматичного відновлення підключення тощо. Наприклад, можна
+                    вказати налаштування кодування utf-8 і режим виконання автоматичного відновлення підключення
+                    наступним
+                    чином:
+                </p>
+                    <div class="code-block">
+                        <pre>
+                            <code class="language-java">
+    Properties props = new Properties();
+    props.setProperty("user", "myUsername");
+    props.setProperty("password", "myPassword");
+    props.setProperty("charset", "utf-8");
+    props.setProperty("autoReconnect", "true");
+    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", props);
+                            </code>
+                        </pre>
+                    </div>
+                <p>
+                    У цьому прикладі ми використали метод <b>'setProperty()'</b> для встановлення рядка параметрів, який
+                    містить наші налаштування. Потім ми передали цей об'єкт в метод <b>'getConnection()'</b> разом з URL
+                    підключення. Якщо параметри підключення будуть збережені в окремому файлі, наприклад, у файлі з
+                    розширенням <b>'.properties'</b>, то ми можемо використовувати клас <b>'Properties'</b>, щоб
+                    прочитати ці параметри з файлу і передати їх у метод <b>'getConnection()'</b>.
+                </p>
+                    <div class="code-block">
+                        <pre>
+                            <code class="language-java">
+    Properties props = new Properties();
+    try {
+        props.load(new FileInputStream("config.properties"));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/mydatabase", props);
+                            </code>
+                        </pre>
+                    </div>
+                <p>
+                У цьому прикладі ми завантажуємо параметри з файлу <b>'config.properties'</b> за допомогою методу <b>'load()'</b>.
+                Цей метод автоматично зчитує пари ключ-значення з файлу і додає їх до об'єкта <b>'Properties</b>. Потім
+                ми передаємо цей об'єкт у метод <b>'getConnection()'</b>.
+                </p>
+            </div>
+            <div>
+                <h3>2.2 Робота з драйверами та вибір відповідного драйвера для конкретної бази даних</h3>
+                <div>
+                    <div>
+                        Для підключення драйвера через Maven потрібно додати залежність до файлу pom.xml проекту. Для
+                        прикладу, наведу декілька прикладів залежностей для різних баз даних:
+                    <ol>
+                        <li>
+                            MySQL:
+                            <div class="code-block">
+                                <pre>
+                                    <code class="language-xml">
+    &lt;dependency&gt;
+        &lt;groupId&gt;mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;version&gt;8.0.27&lt;/version&gt;
+    &lt;/dependency&gt;
+                                    </code>
+                                </pre>
+                            </div>
+                        </li>
+                        <li>
+                            PostgreeSQL:
+                            <div class="code-block">
+                                <pre>
+                                    <code class="language-xml">
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.postgresql&lt;/groupId&gt;
+        &lt;artifactId&gt;postgresql&lt;/artifactId&gt;
+        &lt;version&gt;42.3.1&lt;/version&gt;
+    &lt;/dependency&gt;
+                                    </code>
+                                </pre>
+                            </div>
+                        </li>
+                        <li>
+                            Oracle:
+                            <div class="code-block">
+                                <pre>
+                                    <code class="language-xml">
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.oracle.database.jdbc&lt;/groupId&gt;
+        &lt;artifactId&gt;ojdbc11&lt;/artifactId&gt;
+        &lt;version&gt;21.3.0.0&lt;/version&gt;
+    &lt;/dependency&gt;
+                                    </code>
+                                </pre>
+                            </div>
+                        </li>
+                    </ol>
+                    </div>
+                    <div>Для підключення драйвера у вашому коді, скористайтесь наступним кодом:</div>
+                    <div>
+                        <div class="code-block">
+                        <pre>
+                            <code class="language-java">
+    import java.sql.Connection;
+    import java.sql.DriverManager;
+    import java.sql.SQLException;
+
+    public class Example {
+        public static void main(String[] args) {
+            try {
+                // Реєструємо драйвер
+                Class.forName("com.mysql.cj.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                System.out.println("Не вдалося знайти драйвер");
+                e.printStackTrace();
+                return;
+            }
+
+            Connection connection = null;
+
+            try {
+                // Підключаємося до бази даних
+                String url = "jdbc:mysql://localhost:3306/mydatabase";
+                String username = "myusername";
+                String password = "mypassword";
+                connection = DriverManager.getConnection(url, username, password);
+                System.out.println("З'єднання з базою даних успішно встановлено");
+            } catch (SQLException e) {
+                System.out.println("Не вдалося з'єднатися з базою даних");
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (connection != null) {
+                        connection.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+                            </code>
+                        </pre>
+                        </div>
+                        Цей приклад використовує MySQL драйвер, тому ви повинні додати залежність відповідно до коду,
+                        який я навів вище. Щоб використовувати інший драйвер, замініть значення параметра url в методі
+                        <b>'getConnection()'</b> на відповідний URL для вашої бази даних та додайте відповідну
+                        залежність в <b>'pom.xml'</b>.
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3>2.3 Обробка помилок при підключенні до бази даних</h3>
+                <p>При роботі з JDBC можуть виникати різноманітні помилки, які можуть бути пов'язані з підключенням до
+                    бази даних, виконанням запитів або операцій з транзакціями. Щоб зменшити можливість виникнення
+                    помилок і зробити код більш надійним, слід розглянути кілька порад.</p>
+                <p>Під час роботи з базою даних необхідно перевіряти стан підключення. В JDBC це можна зробити з
+                    використанням методу <b>'isClosed()'</b> класу <b>'Connection'</b>. Якщо підключення закрите, то
+                    його потрібно знову відкрити. Також слід слідкувати за тим, щоб всі підключення були закриті перед
+                    завершенням роботи програми.</p>
+                <p>Іншою частою проблемою є виникнення помилок при виконанні запитів до бази даних. Для того, щоб
+                    зменшити кількість помилок, можна використовувати підготовлені запити (prepared statements). Вони
+                    дозволяють виконувати запити до бази даних з параметрами, які вже перевірені та сформатовані.</p>
+                <p>
+                    Також, слід враховувати те, що під час роботи з транзакціями можуть виникати помилки. Щоб запобігти
+                    цьому, слід використовувати метод
+                    <strong>'setAutoCommit(false)'</strong> для вимкнення автоматичної фіксації транзакцій, та метод
+                    <strong>'commit()'</strong> для їх фіксації.
+                </p>
+                <p>Нижче наведений приклад коду, який демонструє використання методу <b>'isClosed()'</b> для перевірки
+                    стану підключення:</p>
+                <div class="code-block">
+                                <pre>
+                                    <code class="language-java">
+    try {
+        Connection connection = DriverManager.getConnection(url, username, password);
+        if (connection.isClosed()) {
+            // виконуємо дії, необхідні для відкриття підключення
+        }
+    } catch (SQLException e) {
+        // обробляємо помилки
+    }
+                                    </code>
+                                </pre>
+                </div>
+                <p>Цей приклад дозволяє перевірити стан підключення та вивести повідомлення про помилку, якщо
+                    підключення невдале. Щоб обробити помилки при підключенні до бази даних використовуються виключення
+                    (exceptions).</p>
+                <p>Коли виникає помилка, об'єкт зв'язку 'Connection' відповідає, викидаючи виключення. Зазвичай воно
+                    генерується у вигляді 'SQLException' або його нащадків. Щоб отримати детальну інформацію про
+                    помилку, можна використовувати метод 'getMessage()' об'єкта 'SQLException', який повертає текстове
+                    повідомлення про помилку.</p>
+                <p>Наприклад, ось як виглядає обробка помилок при підключенні до бази даних:</p>
+                <div class="code-block">
+                                <pre>
+                                    <code class="language-java">
+    Connection conn = null;
+    try {
+        conn = DriverManager.getConnection(DB_URL, USER, PASS);
+    } catch (SQLException e) {
+        System.out.println("Помилка при підключенні до бази даних: " + e.getMessage());
+    } finally {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                System.out.println("Помилка при закритті з'єднання: " + e.getMessage());
+            }
+        }
+    }
+                                    </code>
+                                </pre>
+                </div>
+                <p>У прикладі використовується блок 'try-catch', який перехоплює виключення 'SQLException' при виклику
+                    методу 'getConnection()' класу 'DriverManager'. Якщо підключення не вдається, повідомлення про
+                    помилку виводиться в консоль за допомогою методу 'getMessage()' об'єкта 'SQLException'. Крім того, у
+                    блоці 'finally' закривається об'єкт зв'язку 'Connection', якщо він був успішно створений.</p>
+            </div>
+        </div>
+
+        <div class="3">
+            <h2>3. Виконання запитів</h2>
+            <div class="3.1">
+                <h3>3.1 Створення та виконання запитів SELECT, INSERT, UPDATE та DELETE</h3>
+                <p>JDBC дозволяє виконувати всі основні типи SQL запитів, включаючи SELECT, INSERT, UPDATE та
+                    DELETE.</p>
+                <p>Основний механізм виконання запитів у JDBC - це використання інтерфейсу Statement, який надає методи
+                    для виконання різних типів запитів. Для створення об'єкту Statement потрібно використовувати метод
+                    createStatement() об'єкту Connection.</p>
+                <p>SELECT запити використовуються для вибірки даних з бази даних. Для виконання SELECT запитів потрібно
+                    використовувати метод executeQuery() об'єкту Statement, який поверне об'єкт ResultSet - таблицю з
+                    результатами запиту.</p>
+                <p>INSERT, UPDATE та DELETE запити використовуються для зміни даних в базі даних. Для виконання цих
+                    запитів використовують метод executeUpdate() об'єкту Statement, який поверне кількість змінених
+                    рядків.</p>
+                <p>Ось приклад коду для виконання запиту SELECT:</p>
+                <div class="code-block">
+                        <pre>
+                            <code class="language-java">
+    Statement statement = connection.createStatement();
+    // Виконання запиту SELECT до таблиці "employees" і збереження результатів у ResultSet
+    ResultSet resultSet = statement.executeQuery("SELECT * FROM employees");
+
+    // Цикл для обходу всіх рядків результатів запиту
+    while (resultSet.next()) {
+        // Отримання значення поля "id" для поточного рядка
+        int id = resultSet.getInt("id");
+        String name = resultSet.getString("name");
+        Date hireDate = resultSet.getDate("hire_date");
+        double salary = resultSet.getDouble("salary");
+
+        System.out.println("Employee #" + id + ": " + name + ", hired on " + hireDate + ", salary: " + salary);
+    }
+
+    resultSet.close();
+    statement.close();
+                            </code>
+                        </pre>
+                </div>
+                <p>Ось приклад коду для виконання запиту INSERT:</p>
+                <div class="code-block">
+                        <pre>
+                            <code class="language-java">
+    Statement statement = connection.createStatement();
+    int rowsInserted = statement.executeUpdate("INSERT INTO employees (name, hire_date, salary) VALUES ('John Smith', '2022-02-20', 50000)");
+
+    if (rowsInserted > 0) {
+        System.out.println("A new employee was inserted successfully!");
+    }
+
+    statement.close();
+                            </code>
+                        </pre>
+                </div>
+                <p>Ось приклад коду для виконання запиту UPDATE:</p>
+                <div class="code-block">
+                        <pre>
+                            <code class="language-java">
+    Statement statement = connection.createStatement();
+    int rowsUpdated = statement.executeUpdate("UPDATE employees SET salary = 60000 WHERE name = 'John Smith'");
+
+    if (rowsUpdated > 0) {
+        System.out.println("Salary was updated successfully!");
+    }
+
+    statement.close();
+                            </code>
+                        </pre>
+                </div>
+                <p>Ось приклад коду для виконання запиту DELETE:</p>
+                <div class="code-block">
+                        <pre>
+                            <code class="language-java">
+    Statement statement = connection.createStatement();
+    int rowsDeleted = statement.executeUpdate("DELETE FROM employees WHERE id = 1");
+
+    if (rowsDeleted > 0) {
+        System.out.println("An employee was deleted successfully!");
+    }
+
+    statement.close();
+                            </code>
+                        </pre>
+                </div>
+            </div>
+            <div class="3.2">
+                <h3>3.2 Використання параметрів запиту та підготовлених запитів</h3>
+                <p>У більш складних випадках, коли запити мають параметри, краще використовувати підготовлені запити,
+                    щоб уникнути потенційних проблем з безпекою та отримати покращену продуктивність виконання
+                    запитів.</p>
+                <p>Підготовлений запит - це запит, в якому значення параметрів не задається безпосередньо в запиті, а
+                    замість цього використовується плейсхолдер (звичайно, позначений знаком запитання '?'), який потім
+                    замінюється на фактичне значення під час виконання запиту.</p>
+                <p>Ось приклад використання підготовленого запиту для отримання списку співробітників з певним id:</p>
+                <div class="code-block">
+                        <pre>
+                            <code class="language-java">
+    String sql = "SELECT * FROM employees WHERE id = ?";
+    PreparedStatement statement = connection.prepareStatement(sql);
+    statement.setInt(1, employeeId);
+    ResultSet resultSet = statement.executeQuery();
+
+    while (resultSet.next()) {
+        int id = resultSet.getInt("id");
+        String name = resultSet.getString("name");
+        Date hireDate = resultSet.getDate("hire_date");
+        double salary = resultSet.getDouble("salary");
+
+        System.out.println("Employee #" + id + ": " + name + ", hired on " + hireDate + ", salary: " + salary);
+    }
+
+    resultSet.close();
+    statement.close();
+                            </code>
+                        </pre>
+                </div>
+                <p>У цьому прикладі ми створюємо підготовлений запит з одним параметром (id співробітника), встановлюємо
+                    його значення викликом методу setInt, а потім виконуємо запит за допомогою методу executeQuery.</p>
+                <p>Крім того, використання підготовлених запитів забезпечує захист від SQL-ін'єкцій, оскільки значення
+                    параметрів будуть автоматично екрановані, що дозволяє уникнути можливих атак з боку
+                    зловмисників.</p>
+            </div>
+            <div class="3.3">
+                <h3>3.3 ResultSet та перетворення результату в об'єкти</h3>
+                <p>Об'єкт ResultSet в Java є основним інструментом для отримання даних з бази даних. Він представляє
+                    набір результатів запиту, який виконується на базі даних. ResultSet дозволяє звертатися до рядків
+                    даних, отримувати значення окремих полів та виконувати інші операції над результатами запиту.</p>
+                <p>Існує кілька способів мапінгу результату запиту до об'єктів Java на низькому рівні. Один з таких
+                    способів полягає у створенні об'єктів з результатами запиту вручну. Це може бути важко та часомірно,
+                    особливо якщо результат містить багато полів або має складну структуру.</p>
+                <p>Щоб спростити цей процес, можна використовувати різні бібліотеки маппінгу даних. Наприклад,
+                    бібліотека Apache Commons DbUtils надає набір утиліт, які дозволяють мапити ResultSet до об'єктів
+                    Java автоматично. Ці утиліти забезпечують різні методи мапінгу даних, включаючи використання
+                    анотацій та рефлексії.</p>
+                <p>Маппінг результату SQL запиту до об'єктів Java може бути здійснений вручну, за допомогою стандартних
+                    засобів мови Java. Для цього необхідно виконати наступні дії:</p>
+                <div>
+                    <ol>
+                        <li>Виконати SQL запит та отримати ResultSet.</li>
+                        <li>Створити об'єкт класу, до якого будуть мапитися дані.</li>
+                        <li>Перебирати кожен рядок результату запиту, використовуючи метод next() об'єкта ResultSet.
+                        </li>
+                        <li>Для кожного рядка створити новий об'єкт класу та заповнити його поля значеннями з
+                            відповідних стовпців ResultSet.
+                        </li>
+                    </ol>
+                    <p>Наприклад, якщо є клас Employee з наступними полями: id, name, hireDate, та salary, то код для
+                        маппінгу результату запиту до цього класу може мати наступний вигляд:</p>
+                    <div class="code-block">
+                        <pre>
+                            <code class="language-java">
+    public List&lt;Employee&gt; getEmployees(Connection connection) throws SQLException {
+        List&lt;Employee&gt; employees = new ArrayList&lt;&gt;();
+
+        String sql = "SELECT * FROM employees";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        while (resultSet.next()) {
+            Employee employee = new Employee();
+            employee.setId(resultSet.getInt("id"));
+            employee.setName(resultSet.getString("name"));
+            employee.setHireDate(resultSet.getDate("hire_date"));
+            employee.setSalary(resultSet.getDouble("salary"));
+
+            employees.add(employee);
+        }
+
+        resultSet.close();
+        statement.close();
+
+        return employees;
+    }
+                            </code>
+                        </pre>
+                    </div>
+                </div>
+                <p>У цьому прикладі ми створюємо новий об'єкт класу Employee для кожного рядка результату запиту та
+                    заповнюємо його поля значеннями з відповідних стовпців ResultSet. Після того, як всі рядки були
+                    оброблені, ми повертаємо список об'єктів Employee, який містить всі записи з таблиці employees.</p>
+                <p>Цей підхід має деякі обмеження, зокрема, він не підтримує автоматичне маппінг полям об'єктів, як це
+                    робиться з використанням додаткових бібліотек. Однак, він дозволяє повністю контролювати процес
+                    маппінгу та налаштувати його під свої потреби.</p>
+                <p>Для використання бібліотеки Apache Commons DbUtils потрібно додати залежність в pom.xml файл вашого
+                    проекту:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-xml">
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+        &lt;artifactId&gt;commons-dbutils&lt;/artifactId&gt;
+        &lt;version&gt;1.7&lt;/version&gt;
+    &lt;/dependency&gt;
+                        </code>
+                    </pre>
+                </div>
+                <p>Основний клас, який використовується для мапінгу ResultSet до об'єктів Java, - це QueryRunner. Цей
+                    клас дозволяє виконувати запити до бази даних та мапити результати до об'єктів Java. Для
+                    використання QueryRunner потрібно створити об'єкт типу DataSource та передати його до конструктора
+                    QueryRunner. Наприклад:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-java">
+    DataSource dataSource = new BasicDataSource();
+    dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+    dataSource.setUrl("jdbc:mysql://localhost/mydatabase");
+    dataSource.setUsername("myuser");
+    dataSource.setPassword("mypassword");
+
+    QueryRunner queryRunner = new QueryRunner(dataSource);
+
+    List&lt;Employee&gt; employees = queryRunner.query("SELECT * FROM employees", new BeanListHandler&lt;&gt;(Employee.class));
+                        </code>
+                    </pre>
+                </div>
+                <p>У цьому прикладі використовується BeanListHandler, який дозволяє мапити кожен рядок результату запиту
+                    до об'єкта Java з використанням рефлексії. Для цього потрібно створити клас Java, що відповідає
+                    структурі таблиці в базі даних. Кожен стовпець таблиці повинен мати відповідну властивість у цьому
+                    класі.</p>
+                <p>Наступним кроком є використання класу BeanListHandler з бібліотеки Apache Commons DbUtils. Цей клас
+                    дозволяє зв'язати результат запиту з об'єктами Java. Приклад коду, який виконує запит і мапить
+                    результат до об'єктів:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-java">
+    QueryRunner queryRunner = new QueryRunner(dataSource);
+    List&lt;Employee&gt; employees = queryRunner.query("SELECT * FROM employees", new BeanListHandler&lt;&gt;(Employee.class));
+
+    for (Employee employee : employees) {
+        System.out.println("Employee #" + employee.getId() + ": " + employee.getName() + ", hired on " + employee.getHireDate() + ", salary: " + employee.getSalary());
+    }
+                        </code>
+                    </pre>
+                </div>
+                <p>У цьому прикладі ми створили об'єкт класу QueryRunner з бібліотеки Apache Commons DbUtils і
+                    використали його метод query(), який виконує запит до бази даних і повертає результат у вигляді
+                    списку об'єктів Employee.</p>
+                <p>При використанні BeanListHandler, важливо, щоб імена властивостей у класі Java відповідали назвам
+                    стовпців таблиці бази даних. Якщо назви властивостей не співпадають з назвами стовпців, то можна
+                    використовувати анотації @Column для вказівки відповідності між назвами властивостей та назвами
+                    стовпців.</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-java">
+    public class Employee {
+        @Column(name = "id")
+        private int employeeId;
+        @Column(name = "name")
+        private String employeeName;
+        @Column(name = "hire_date")
+        private Date hireDate;
+        @Column(name = "salary")
+        private double employeeSalary;
+
+        // getters and setters
+    }
+                        </code>
+                    </pre>
+                </div>
+                <p>Наступним кроком є перетворення отриманих даних в об'єкти Java. Для цього можна використовувати різні
+                    бібліотеки, такі як BeanUtils, Apache Commons або MapStruct.</p>
+                <p>Наприклад, при використанні бібліотеки BeanUtils, клас ResultSetHandler повертає список об'єктів, які
+                    можна прив'язати до моделі даних:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-java">
+    QueryRunner run = new QueryRunner(dataSource);
+    ResultSetHandler&lt;List&lt;Employee&gt;&gt; handler = new BeanListHandler&lt;&gt;(Employee.class);
+    List&lt;Employee&gt; employees = run.query("SELECT * FROM employees", handler);
+                        </code>
+                    </pre>
+                </div>
+                <p>Таким чином, список employees буде містити об'єкти класу Employee, заповнені даними з відповідного
+                    рядка ResultSet.</p>
+                <p>Для використання бібліотеки BeanUtils, потрібно додати наступну залежність в файл pom.xml:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-xml">
+    &lt;dependency&gt;
+        &lt;groupId&gt;commons-beanutils&lt;/groupId&gt;
+        &lt;artifactId&gt;commons-beanutils&lt;/artifactId&gt;
+        &lt;version&gt;1.9.4&lt;/version&gt;
+    &lt;/dependency&gt;
+                        </code>
+                    </pre>
+                </div>
+                <p>Після додавання цієї залежності можна створювати об'єкти класу Employee за допомогою
+                    ResultSetHandler.</p>
+                <p>Звісно, є багато інших бібліотек та підходів для маппінгу результату запиту до об'єктів Java. Вибір
+                    конкретного підходу залежить від вимог проекту та особистих уподобань розробника.</p>
+            </div>
+        </div>
+
+        <div class="4">
+            <h2>4. Робота з транзакціями</h2>
+            <div class="4.1">
+                <h3>4.1 Створення та керування транзакціями в JDBC</h3>
+                <p>Транзакції в базі даних дозволяють групувати зміни даних в одну логічну операцію, яка буде
+                    виконуватися атомарно, тобто вона буде виконуватися повністю, або не буде виконуватися взагалі. Якщо
+                    транзакція не виконується повністю, то всі зміни будуть відкочені, і база даних повернеться до
+                    попереднього стану.</p>
+                <p>В JDBC, виконання транзакцій зазвичай включає наступні кроки:</p>
+                <ol>
+                    <li>Виклик методу setAutoCommit(false) на об'єкті Connection, щоб вимкнути автоматичний коміт.</li>
+                    <li>Виклик різних операцій на базі даних в межах однієї транзакції.</li>
+                    <li>Виклик методу commit() на об'єкті Connection, щоб підтвердити транзакцію та зберегти зміни в
+                        базі даних.
+                    </li>
+                    <li>Виклик методу setAutoCommit(true) на об'єкті Connection, щоб включити автоматичний коміт.</li>
+                </ol>
+                <p>Нижче наведено приклад коду, який виконує транзакцію:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-java">
+    Connection connection = DriverManager.getConnection(url, username, password);
+    try {
+        connection.setAutoCommit(false);
+
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("INSERT INTO employees (name, salary) VALUES ('John Smith', 50000)");
+        statement.executeUpdate("UPDATE employees SET salary = 55000 WHERE name = 'John Smith'");
+
+        connection.commit();
+        connection.setAutoCommit(true);
+
+        statement.close();
+    } catch (SQLException e) {
+        connection.rollback();
+        connection.setAutoCommit(true);
+
+        e.printStackTrace();
+    } finally {
+        connection.close();
+    }
+                        </code>
+                    </pre>
+                </div>
+                <p>У цьому прикладі метод setAutoCommit(false) вимикає автоматичний коміт, тому що ми хочемо виконати
+                    декілька операцій в межах однієї транзакції. Потім ми виконуємо декілька операцій на базі даних, які
+                    включають вставку нового запису та оновлення вже існуючого запису. Після цього ми викликаємо метод
+                    commit(), щоб зберегти зміни в базі даних, а потім включаємо автоматичний комit.</p>
+                <p>Якщо виникає помилка, ми викликаємо метод rollback() для скасування змін та відновлення попереднього
+                    стану бази даних.</p>
+            </div>
+            <div class="4.2">
+                <h3>4.2 Використання savepoints для збереження частково виконаних транзакцій</h3>
+                <p>У JDBC існує можливість зберігати savepoints, що дозволяє зберегти частково виконану транзакцію та
+                    продовжити її пізніше з того самого місця, де вона була припинена.</p>
+                <p>Для створення savepoint використовується метод setSavepoint() об'єкта Connection. Метод повертає
+                    об'єкт Savepoint, який можна використовувати для відновлення транзакції в майбутньому.</p>
+                <p>Наприклад, розглянемо сценарій, де ми виконуємо транзакцію, що складається з декількох запитів, і
+                    потрібно зберегти проміжний стан транзакції, щоб продовжити її пізніше:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-java">
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    Savepoint savepoint = null;
+
+    try {
+        connection = DriverManager.getConnection(DB_URL, USER, PASS);
+
+        connection.setAutoCommit(false);
+
+        preparedStatement = connection.prepareStatement("INSERT INTO employees (name, hire_date, salary) VALUES (?, ?, ?)");
+        preparedStatement.setString(1, "John Doe");
+        preparedStatement.setDate(2, Date.valueOf("2022-02-01"));
+        preparedStatement.setDouble(3, 50000.0);
+        preparedStatement.executeUpdate();
+
+        savepoint = connection.setSavepoint();
+
+        preparedStatement.setString(1, "Jane Smith");
+        preparedStatement.setDate(2, Date.valueOf("2022-03-01"));
+        preparedStatement.setDouble(3, 60000.0);
+        preparedStatement.executeUpdate();
+
+        connection.commit();
+
+    } catch (SQLException e) {
+        if (savepoint != null) {
+            connection.rollback(savepoint);
+        } else {
+            connection.rollback();
+        }
+    } finally {
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
+    }
+                        </code>
+                    </pre>
+                </div>
+                <p>У цьому прикладі ми створюємо два записи в таблиці employees. Після першого INSERT ми створюємо
+                    savepoint, який зберігаємо в змінній savepoint. Після другого INSERT ми закінчуємо транзакцію за
+                    допомогою методу commit().</p>
+                <p>У випадку, якщо транзакція викликає SQLException, ми відновлюємо транзакцію в попередньому стані за
+                    допомогою методу rollback() з передачею параметру savepoint, якщо savepoint не є null, інакше ми
+                    відновлюємо всю транзакцію.</p>
+            </div>
+            <div class="4.3">
+                <h3>4.3 Робота з багатомісними транзакціями та використання блокувань для уникнення конфліктів доступу
+                    до даних</h3>
+                <p>У багатокористувацьких системах часто виникає необхідність виконувати багато транзакцій одночасно. У
+                    таких випадках важливо забезпечити безпеку взаємодії між транзакціями та уникнути конфліктів, що
+                    можуть призвести до втрати даних або неконсистентності.</p>
+                <p>Для роботи з багатомісними транзакціями та уникнення конфліктів доступу до даних в JDBC існує
+                    можливість використовувати блокування. Блокування дозволяє забезпечити, що дві або більше транзакції
+                    не зможуть змінювати один і той же рядок даних одночасно, тим самим запобігаючи конфліктам та
+                    зберігаючи консистентність даних.</p>
+                <p>Одним із видів блокування є блокування на рівні таблиці (table-level locking). При використанні
+                    блокування на рівні таблиці, вся таблиця блокується для запису та зчитування. Це може призвести до
+                    зменшення продуктивності та збільшення часу очікування, особливо в тих випадках, коли таблиця
+                    містить багато рядків даних. Тому в JDBC частіше використовується блокування на рівні рядка
+                    (row-level locking).</p>
+                <p>Блокування на рівні рядка дозволяє блокувати окремі рядки даних, що зменшує ризик конфліктів та
+                    зберігає консистентність даних. Для використання блокування на рівні рядка, можна використовувати
+                    метод setTransactionIsolation() класу Connection, який дозволяє встановлювати рівень ізоляції
+                    транзакцій.</p>
+                <p>У JDBC існує п'ять рівнів ізоляції транзакцій, які можна використовувати для уникнення конфліктів
+                    доступу до даних. Найнижчим рівнем є READ_UNCOMMITTED, який дозволяє транзакціям читати
+                    незафіксовані дані інших транзакцій. Це може призвести до "брудного читання" (dirty read), коли одна
+                    транзакція читає дані, які пізніше будуть скасовані іншою транзакцією.</p>
+                <p>Рівень READ_COMMITTED дозволяє читати тільки зафіксовані дані, що унеможливлює брудне читання. Однак,
+                    це може призвести до конфлікту доступу до даних, якщо дві транзакції намагаються змінити один і той
+                    же запис.</p>
+                <p>Рівень REPEATABLE_READ дозволяє уникнути конфліктів доступу до даних за допомогою блокування
+                    (locking), яке забезпечує те, що жодна транзакція не може змінити дані, які використовує інша
+                    транзакція, доки та не закінчить свою роботу. Цей рівень також унеможливлює "неповторювані читання"
+                    (non-repeatable read), коли в той же рядок можна записати різні значення між читанням і записом.</p>
+                <p>Рівень SERIALIZABLE є найбільш обмеженим, оскільки він застосовує повну блокування бази даних. Це
+                    означає, що жодна транзакція не може змінити будь-яких даних, поки інша транзакція не закінчить свою
+                    роботу. Це унеможливлює неповторювані читання та інші конфлікти доступу до даних, але це може
+                    призвести до затримок під час виконання запитів.</p>
+                <p>П'ятим рівнем ізоляції транзакцій в JDBC є SNAPSHOT, який забезпечує максимальний рівень ізоляції,
+                    але може бути дорогим для виконання в деяких сценаріях.</p>
+                <p>У режимі SNAPSHOT, база даних створює знімок даних на початку транзакції і використовує його для всіх
+                    підзапитів, що відбуваються в транзакції. Це означає, що кожен запит в транзакції використовує один
+                    і той же набір даних, незалежно від того, що інші транзакції можуть змінити ці дані.</p>
+                <p>Крім того, якщо під час транзакції змінюється будь-який запис, він не з'явиться в результаті
+                    будь-якого підзапиту, виконаного в рамках тієї ж транзакції, але може з'явитися в інших транзакціях.
+                    Це дозволяє забезпечувати максимальний рівень ізоляції, оскільки записи, змінені в інших
+                    транзакціях, не впливають на результати поточної транзакції.</p>
+                <p>Однак, режим SNAPSHOT може бути дорогим для виконання в деяких сценаріях, оскільки потребує
+                    додаткової пам'яті для зберігання знімку даних на початку транзакції. Крім того, цей режим не
+                    підтримується всіма СУБД, тому переконайтеся, що вона підтримує цей рівень ізоляції, перш ніж
+                    використовувати його.</p>
+                <p>Вибір рівня ізоляції транзакцій залежить від потреб вашої додатку та характеристик вашої бази даних.
+                    Для більшості додатків, достатнім є рівень READ_COMMITTED, оскільки він гарантує достатньо високий
+                    рівень ізоляції, щоб запобігти конфліктам доступу до даних, та зазвичай не приводить до затримок,
+                    пов'язаних з блокуванням даних.</p>
+                <p>Однак, якщо ваш додаток потребує більш високого рівня ізоляції, ви можете вибрати один з більш
+                    високих рівнів, таких як REPEATABLE_READ або SERIALIZABLE. Важливо пам'ятати, що використання більш
+                    високого рівня ізоляції може призвести до збільшення часу виконання запитів та зниження
+                    продуктивності додатка, тому необхідно уважно зважити на обрання рівня ізоляції.</p>
+                <p>Також, важливо враховувати взаємодію рівнів ізоляції з іншими параметрами бази даних, такими як
+                    конфігурація блокування та наявність індексів, оскільки ці параметри можуть впливати на
+                    продуктивність та стійкість додатка.</p>
+                <p>У будь-якому випадку, підтримка рівнів ізоляції транзакцій є важливою функцією багатьох СУБД, в тому
+                    числі JDBC, і дозволяє розробникам додатків ефективно керувати доступом до даних та забезпечити
+                    стабільну та безпечну роботу з базою даних.</p>
+                <p>Приклад. Заблокувати транзакцію на рівні READ_COMMITTED можна за допомогою функції SELECT ... FOR
+                    UPDATE. Ця функція заблокує запис на читання до того моменту, поки транзакція не буде завершена.</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-java">
+    public void transferFunds(int fromAccount, int toAccount, double amount) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt1 = null;
+        PreparedStatement pstmt2 = null;
+        ResultSet rs = null;
+
+        try {
+            conn = dataSource.getConnection();
+            conn.setAutoCommit(false);
+            pstmt1 = conn.prepareStatement("SELECT balance FROM accounts WHERE id = ? FOR UPDATE");
+            pstmt1.setInt(1, fromAccount);
+            rs = pstmt1.executeQuery();
+            rs.next();
+            double fromBalance = rs.getDouble("balance");
+            rs.close();
+
+            if (fromBalance < amount) {
+                throw new SQLException("Insufficient funds");
+            }
+
+            pstmt2 = conn.prepareStatement("UPDATE accounts SET balance = balance - ? WHERE id = ?");
+            pstmt2.setDouble(1, amount);
+            pstmt2.setInt(2, fromAccount);
+            pstmt2.executeUpdate();
+
+            pstmt2 = conn.prepareStatement("UPDATE accounts SET balance = balance + ? WHERE id = ?");
+            pstmt2.setDouble(1, amount);
+            pstmt2.setInt(2, toAccount);
+            pstmt2.executeUpdate();
+
+            conn.commit();
+        } catch (SQLException e) {
+            if (conn != null) {
+                conn.rollback();
+            }
+            throw e;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (pstmt1 != null) {
+                pstmt1.close();
+            }
+            if (pstmt2 != null) {
+                pstmt2.close();
+            }
+            if (conn != null) {
+                conn.setAutoCommit(true);
+                conn.close();
+            }
+        }
+    }
+                        </code>
+                    </pre>
+                </div>
+                <p>У цьому прикладі ми використовуємо блокування для того, щоб забезпечити, що транзакція буде читати
+                    актуальні значення балансу перед тим, як зменшувати баланс для переказу коштів. Після цього ми
+                    виконуємо два оновлення, які міняють баланси на рахунках. Використовуючи блокування, ми
+                    забезпечуємо, що тільки одна транзакція може змінювати баланс рахунку в один момент часу.</p>
+            </div>
+        </div>
+
+        <div class="5">
+            <h2>5. Рекомендації з використання JDBC</h2>
+            <div class="5.1">
+                <h3>5.1 Використовуйте підготовлені запити для зменшення ризику SQL-ін'єкцій</h3>
+                <p>SQL-ін'єкції є одним із найпоширеніших типів атак на веб-додатки. Це техніка, при якій зловмисник
+                    використовує недолік в коді додатка для виконання зловмисного SQL-запиту. Якщо додаток не перевіряє
+                    коректність введених даних, то зловмисник може ввести SQL-запит, який буде виконаний на базі
+                    даних.</p>
+                <p>Один зі способів запобігти SQL-ін'єкціям - використання підготовлених запитів в JDBC. Підготовлений
+                    запит - це SQL-запит, який компілюється базою даних та зберігається для подальшого використання. Під
+                    час виконання запиту, введені дані підставляються в підготовлений запит як параметри.</p>
+                <p>Припустимо, що ви маєте веб-сайт, який приймає дані від користувача для авторизації і перевіряє їх у
+                    базі даних:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-java">
+    String username = request.getParameter("username");
+    String password = request.getParameter("password");
+
+    String query = "SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "'";
+                        </code>
+                    </pre>
+                </div>
+                <p>Якщо хакер введе наступний рядок як ім'я користувача:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-sql">
+    ' OR '1'='1
+                        </code>
+                    </pre>
+                </div>
+                <p>то рядок запиту буде наступним:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-sql">
+    SELECT * FROM users WHERE username='' OR '1'='1' AND password=''
+                        </code>
+                    </pre>
+                </div>
+                <p>Оскільки '1'='1' завжди повертає true, це дозволить хакерові отримати доступ до всіх записів в
+                    таблиці users, незалежно від того, який був введений пароль.</p>
+                <p>Це є прикладом того, як SQL-ін'єкція може бути використана для отримання незаконного доступу до даних
+                    в базі даних.</p>
+            </div>
+            <div class="5.2">
+                <h3>5.2 Використовуйте пакетне виконання запитів, коли це можливо, для поліпшення продуктивності</h3>
+                <p>Виконання окремих запитів до бази даних може бути дуже дорогим з точки зору продуктивності, особливо
+                    якщо вони виконуються великою кількістю разів. У таких випадках використання пакетного виконання
+                    запитів може значно покращити продуктивність.</p>
+                <p>Пакетне виконання запитів - це механізм, який дозволяє виконувати багато запитів до бази даних за
+                    один раз. Замість виконання кожного запиту окремо, пакетні запити можуть бути зібрані разом і
+                    відправлені до бази даних в одному блоку. Це дозволяє зменшити накладні витрати на передачу даних
+                    між додатком та базою даних, а також зменшити кількість запитів, що виконуються на стороні бази
+                    даних.</p>
+                <p>Використання пакетного виконання запитів може бути особливо корисним, якщо ви працюєте з даними
+                    великого обсягу, таких як багато записів у базі даних, або якщо ви виконуєте багато запитів
+                    одночасно.</p>
+                <p>Щоб виконати пакетний запит, спочатку потрібно підготувати запит до бази даних, як і в звичайному
+                    випадку. Однак замість виконання запиту зразу ж після підготовки, ви можете додати його до пакету.
+                    Коли всі запити додані до пакету, пакет може бути виконаний в одному блоку, використовуючи
+                    відповідний метод в JDBC.</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-java">
+    String sql = "INSERT INTO employees (name, age, salary) VALUES (?, ?, ?)";
+    try (Connection conn = DriverManager.getConnection(url, user, password)) {
+        PreparedStatement statement = conn.prepareStatement(sql);
+        for (int i = 1; i <= 1000; i++) {
+            statement.setString(1, "Employee " + i);
+            statement.setInt(2, 25);
+            statement.setDouble(3, 50000.0);
+            statement.addBatch(); // додаємо запит до пакету
+        }
+        int[] counts = statement.executeBatch(); // виконуємо пакет запитів
+        System.out.println("Inserted " + counts.length + " rows.");
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+                        </code>
+                    </pre>
+                </div>
+                <p>У цьому прикладі ми створюємо SQL-запит, який додає записи до таблиці employees. Замість того, щоб
+                    виконувати запит 1000 разів поодинці, ми використовуємо пакетне виконання запитів. Ми створюємо
+                    підготовлений запит за допомогою методу conn.prepareStatement(), після чого в циклі додаємо його до
+                    пакету методом addBatch(). У кінці ми викликаємо метод executeBatch() для виконання всього пакету
+                    запитів одночасно. Кількість доданих записів повертається у вигляді масиву цілих чисел, який ми
+                    можемо використовувати для перевірки кількості вставлених рядків.</p>
+                <p>Це дуже корисний спосіб поліпшити продуктивність вашої програми при роботі з базою даних.</p>
+            </div>
+            <div class="5.3">
+                <h3>5.3 Використовуйте з'єднання з пулом з'єднань, щоб уникнути перевантаження бази даних</h3>
+                <p>Кожен запит до бази даних вимагає встановлення нового з'єднання. Це може призвести до перевантаження
+                    бази даних та зменшення продуктивності. Один зі способів уникнення цього - використання з'єднань з
+                    пулом з'єднань.</p>
+                <p>З'єднання з пулом з'єднань - це механізм, який дозволяє підтримувати пул доступних з'єднань до бази
+                    даних. Коли додаток потребує з'єднання, він отримує з'єднання з пулу. Після використання з'єднання
+                    додаток повертає його назад до пулу замість закриття з'єднання. Це дозволяє уникнути витрат на
+                    встановлення нових з'єднань та підтримку доступних з'єднань до бази даних.</p>
+                <p>У Java є декілька реалізацій пулу з'єднань, включаючи Apache Commons DBCP, HikariCP та c3p0. Ось
+                    приклад використання пулу з'єднань з HikariCP:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-java">
+    import java.sql.Connection;
+    import java.sql.SQLException;
+    import java.util.Properties;
+    import com.zaxxer.hikari.HikariConfig;
+    import com.zaxxer.hikari.HikariDataSource;
+
+    public class ConnectionPool {
+        private static HikariConfig config = new HikariConfig();
+        private static HikariDataSource ds;
+
+        static {
+            config.setJdbcUrl("jdbc:mysql://localhost/testdb");
+            config.setUsername("username");
+            config.setPassword("password");
+            config.setMaximumPoolSize(10);
+            config.setAutoCommit(false);
+            ds = new HikariDataSource(config);
+        }
+
+        public static Connection getConnection() throws SQLException {
+            return ds.getConnection();
+        }
+
+        public static void closePool() {
+            if (ds != null) {
+                ds.close();
+            }
+        }
+    }
+                        </code>
+                    </pre>
+                </div>
+                <p>У цьому прикладі ми створюємо пул з'єднань з максимальною кількістю з'єднань рівною 10. Крім того, ми
+                    вимикаємо автоматичне здійснення комітів, щоб дозволити використовувати транзакції та контролювати
+                    їхнє здійснення вручну. При зміні даних виконуються транзакції, і з'єднання з пулом з'єднань
+                    дозволяє перевикористовувати з'єднання замість створення нового з'єднання для кожного запиту. Це
+                    допомагає зменшити навантаження на базу даних і збільшити продуктивність додатку.</p>
+                <p>Ось приклад використання пула з'єднань в JDBC:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-java">
+    // створення об'єкту пула з'єднань
+    DataSource dataSource = new BasicDataSource();
+    ((BasicDataSource) dataSource).setDriverClassName("com.mysql.jdbc.Driver");
+    ((BasicDataSource) dataSource).setUrl("jdbc:mysql://localhost/mydatabase");
+    ((BasicDataSource) dataSource).setUsername("myuser");
+    ((BasicDataSource) dataSource).setPassword("mypassword");
+
+    // отримання з'єднання з пула
+    Connection conn = dataSource.getConnection();
+
+    // створення SQL-запиту та підготовка до виконання
+    String query = "SELECT * FROM mytable WHERE column1 = ? AND column2 = ?";
+    PreparedStatement stmt = conn.prepareStatement(query);
+
+    // встановлення параметрів запиту
+    stmt.setString(1, "value1");
+    stmt.setString(2, "value2");
+
+    // виконання запиту та отримання результатів
+    ResultSet rs = stmt.executeQuery();
+
+    // обробка результатів
+
+    // закриття з'єднання та інших ресурсів
+    rs.close();
+    stmt.close();
+    conn.close();
+                        </code>
+                    </pre>
+                </div>
+                <p>У цьому прикладі використовується об'єкт DataSource, що відповідає за зберігання та керування пулом
+                    з'єднань. При отриманні з'єднання з пула, ми можемо виконати декілька запитів без повторного
+                    створення з'єднання.</p>
+                <p>Якщо використовувати пул з'єднань, не забувайте закривати з'єднання та інші ресурси, щоб уникнути
+                    витоку пам'яті та перевантаження бази даних.</p>
+            </div>
+            <div class="5.4">
+                <h3>5.4 Перевіряйте статус підключення перед виконанням операцій з базою даних</h3>
+                <p>Перевірка стану підключення до бази даних є важливою частиною роботи з базою даних. Перевірка стану
+                    підключення може виявити проблеми з мережею або базою даних, які можуть призвести до помилок при
+                    виконанні операцій з базою даних.</p>
+                <p>У JDBC для перевірки стану підключення можна використовувати метод isValid, який перевіряє, чи дійсне
+                    підключення до бази даних. Цей метод поверне значення true, якщо підключення є дійсним, і false,
+                    якщо підключення втрачено або відсутнє.</p>
+                <p>Наприклад, перед виконанням операцій з базою даних можна перевірити стан підключення до бази даних,
+                    використовуючи наступний код:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-java">
+    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test", "username", "password");
+
+    if (conn.isValid(5)) {
+        // Виконуємо операції з базою даних
+    } else {
+        // Виводимо повідомлення про помилку
+    }
+                        </code>
+                    </pre>
+                </div>
+                <p>У прикладі вище метод isValid перевіряє стан підключення до бази даних. Параметр 5 вказує на час
+                    очікування в секундах. Якщо час очікування закінчився і підключення не дійсне, метод поверне
+                    false.</p>
+                <p>Перевірка стану підключення є важливою частиною роботи з базою даних, оскільки це дозволяє виявляти
+                    проблеми з підключенням до бази даних та забезпечує більш стійку роботу з базою даних.</p>
+            </div>
+            <div class="5.5">
+                <h3>5.5 Використовуйте іменовані параметри для зрозумілості та безпеки</h3>
+                <p>Іменовані параметри - це параметри запиту, які ідентифікуються за допомогою імені, а не порядкового
+                    номера. Використання іменованих параметрів в запитах дозволяє зрозуміти, який параметр який, та
+                    робить код більш безпечним, оскільки виключає можливість SQL-ін'єкцій.</p>
+                <p>Ось приклад використання іменованих параметрів в запиті:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-java">
+    String sql = "SELECT * FROM users WHERE name = :name AND age = :age";
+    PreparedStatement statement = connection.prepareStatement(sql);
+    statement.setString("name", "John");
+    statement.setInt("age", 30);
+    ResultSet resultSet = statement.executeQuery();
+                        </code>
+                    </pre>
+                </div>
+                <p>У цьому прикладі ми використовуємо іменовані параметри :name та :age замість звичайних ?. Потім ми
+                    встановлюємо значення для цих параметрів за допомогою методів setString та setInt.</p>
+                <p>Крім того, використання іменованих параметрів робить код більш зрозумілим, оскільки ім'я параметра
+                    описує, що саме він представляє. Наприклад, якщо ми маємо запит, який шукає користувачів за ім'ям та
+                    поштовою адресою, ми можемо використовувати імена параметрів :name та :email:</p>
+                <div class="code-block">
+                    <pre>
+                        <code class="language-java">
+    String sql = "SELECT * FROM users WHERE name = :name AND email = :email";
+    PreparedStatement statement = connection.prepareStatement(sql);
+    statement.setString("name", "John");
+    statement.setString("email", "john@example.com");
+    ResultSet resultSet = statement.executeQuery();
+                        </code>
+                    </pre>
+                </div>
+                <p>Звісно, при використанні іменованих параметрів потрібно впевнитись, що всі параметри правильно
+                    ідентифіковані, а також, що імена параметрів співпадають з тими, що використовуються в запиті.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
