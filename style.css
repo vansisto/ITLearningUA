@@ -1,14 +1,182 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #eee;
+* {
     margin: 0;
     padding: 0;
-    color: #444;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Jura', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.7;
+    color: #e2e8f0;
+    background: #0a1b0a;
+    min-height: 100vh;
+    font-size: 1rem;
+}
+
+/* Default link styling for content */
+a {
+    color: #10b981;
+    text-decoration: underline;
+    text-decoration-color: rgba(16, 185, 129, 0.3);
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: #34d399;
+    text-decoration-color: #34d399;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header {
+    background: #1a2e1a;
+    border-bottom: 1px solid #2d4a2d;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #10b981;
+    text-decoration: none;
+    letter-spacing: -0.02em;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #cbd5e1;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.nav-links a:hover {
+    color: #10b981;
+    background: #2d4a2d;
+    border-color: #3a5a3a;
+}
+
+.hero {
+    padding: 4rem 0;
+    background: #1a2e1a;
+    border-bottom: 1px solid #2d4a2d;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #f8fafc;
+    text-align: center;
+    letter-spacing: -0.02em;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: #94a3b8;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    text-align: center;
+}
+
+main {
+    padding: 3rem 0;
+}
+
+.categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.category-card {
+    background: #1a2e1a;
+    padding: 2rem;
+    border-radius: 8px;
+    color: #e2e8f0;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1px solid #2d4a2d;
+    position: relative;
+    display: block;
+}
+
+.category-card:hover {
+    background: #2d4a2d;
+    border-color: #3a5a3a;
+    transform: translateY(-2px);
+}
+
+.category-card:nth-child(1) { border-left: 4px solid #ef4444; }
+.category-card:nth-child(2) { border-left: 4px solid #f59e0b; }
+.category-card:nth-child(3) { border-left: 4px solid #10b981; }
+.category-card:nth-child(4) { border-left: 4px solid #3b82f6; }
+
+.category-card h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #f8fafc;
+}
+
+.category-card p {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #f8fafc;
+    letter-spacing: -0.02em;
 }
 
 h1, h2 {
     text-align: center;
     margin: 20px 0;
+    color: #f8fafc;
+}
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #f8fafc;
+    margin: 2.5rem 0 1rem;
+    border-left: 4px solid #60a5fa;
+    padding-left: 1rem;
+}
+
+h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #f8fafc;
+    margin: 2rem 0 1rem;
 }
 
 ol {
@@ -17,45 +185,356 @@ ol {
     list-style-type: decimal;
     font-size: 18px;
     line-height: 1.5;
+    color: #cbd5e1;
+}
+
+ul {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+    color: #cbd5e1;
 }
 
 li {
     margin: 5px 0;
+    color: #cbd5e1;
 }
 
 .wrapper {
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%
-}
-
-@media (max-width: 1100px) {
-    .wrapper {
-        width: 95%;
-    }
-}
-
-@media (min-width: 1101px) and (max-width: 1700px){
-    .wrapper {
-        width: 70%;
-    }
-}
-
-@media (min-width: 1701px){
-    .wrapper {
-        width: 50%;
-    }
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 p {
     font-size: 18px;
+    margin-bottom: 1.5rem;
+    color: #cbd5e1;
+}
+
+code {
+    background: #374151;
+    color: #d1d5db;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: inherit;
 }
 
 .code-block {
-    background-color: #f8f8f8;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 16px;
-    line-height: 1.5;
+    background: #1a2e1a !important;
+    border: 1px solid #2d4a2d;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
     overflow-x: auto;
+    font-family: 'Jura', sans-serif !important;
+    font-optical-sizing: auto !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+}
+
+/* Scroll to top button */
+.scroll-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: #2d4a2d;
+    color: #94a3b8;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.scroll-to-top:hover {
+    background: #10b981;
+    color: #0f172a;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
+.code-block pre {
+    background: transparent !important;
+    margin: 0;
+    padding: 0;
+    font-family: 'Jura', sans-serif !important;
+    font-optical-sizing: auto !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+}
+
+.code-block code {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-family: 'Jura', sans-serif !important;
+    font-optical-sizing: auto !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+}
+
+/* Override Prism.js font styles */
+.code-block pre[class*="language-"],
+.code-block code[class*="language-"],
+pre[class*="language-"],
+code[class*="language-"] {
+    font-family: 'Jura', sans-serif !important;
+    font-optical-sizing: auto !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+}
+
+.breadcrumb {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+.breadcrumb a {
+    color: #10b981;
+    text-decoration: none;
+}
+
+.article-header {
+    padding: 3rem 0 2rem;
+    border-bottom: 1px solid #2d4a2d;
+}
+
+.article-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.article-meta {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.article-tag {
+    background: #374151;
+    color: #d1d5db;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.article-description {
+    font-size: 1.1rem;
+    color: #cbd5e1;
+    line-height: 1.6;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 3rem;
+    padding: 3rem 0;
+}
+
+.table-of-contents {
+    position: sticky;
+    top: 120px;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    background: #1a2e1a;
+    border: 1px solid #2d4a2d;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.toc-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f8fafc;
+    margin-bottom: 1rem;
+}
+
+.toc-list {
+    list-style: none;
+    padding: 0;
+}
+
+.toc-list li {
+    margin-bottom: 0.3rem;
+}
+
+.toc-list a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.85rem;
+    display: block;
+    padding: 0.2rem 0;
+    line-height: 1.3;
+    transition: color 0.2s ease;
+}
+
+.toc-list a:hover,
+.toc-list a.active {
+    color: #10b981;
+}
+
+/* Hierarchical TOC styles */
+.toc-list .toc-section {
+    margin-bottom: 1rem;
+}
+
+.toc-list .toc-section:last-child {
+    margin-bottom: 0;
+}
+
+.toc-list .toc-h2 {
+    font-weight: 600;
+    color: #cbd5e1;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    display: block;
+}
+
+.toc-list .toc-h3 {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.toc-list .toc-h4 {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-bottom: 0.15rem;
+    display: block;
+    padding-left: 0.5rem;
+}
+
+/* Fourth level nesting */
+.toc-list ul ul ul {
+    margin-left: 1.5rem;
+}
+
+.toc-list .toc-subsection ul {
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+}
+
+/* Nested lists styling */
+.toc-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.3rem 0 0 1rem;
+}
+
+.toc-list ul ul {
+    margin-left: 1rem;
+}
+
+.toc-list .toc-subsection {
+    margin-bottom: 0.5rem;
+}
+
+.toc-list .toc-subsection ul {
+    margin-top: 0.2rem;
+}
+
+.article-content {
+    min-width: 0;
+}
+
+.content-table ol {
+    background: #1a2e1a;
+    border: 1px solid #2d4a2d;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.info-box {
+    background: #1a2e1a;
+    border: 1px solid #2d4a2d;
+    border-left: 4px solid #60a5fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.info-box.warning {
+    border-left-color: #f59e0b;
+}
+
+.info-box-title {
+    font-weight: 600;
+    color: #f8fafc;
+    margin-bottom: 0.5rem;
+}
+
+footer {
+    background: #1a2e1a;
+    color: #94a3b8;
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 4rem;
+    border-top: 1px solid #334155;
+}
+
+@media (max-width: 1024px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .table-of-contents {
+        position: static;
+        order: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    
+    .categories {
+        grid-template-columns: 1fr;
+    }
+    
+    .article-title {
+        font-size: 2rem;
+    }
+    
+    .wrapper {
+        width: 95%;
+    }
 }
