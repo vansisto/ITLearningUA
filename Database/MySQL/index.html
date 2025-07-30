@@ -123,10 +123,46 @@
                         <a href="#5" class="toc-h2">5. Розширені функції</a>
                         <ul>
                             <li><a href="#5.1" class="toc-h3">5.1 Процедури</a></li>
-                            <li><a href="#5.2" class="toc-h3">5.2 View</a></li>
-                            <li><a href="#5.3" class="toc-h3">5.3 Тригери</a></li>
-                            <li><a href="#5.4" class="toc-h3">5.4 Привілеї GRANT, REVOKE</a></li>
-                            <li><a href="#5.5" class="toc-h3">5.5 Нормалізація</a></li>
+                            <li class="toc-section">
+                                <a href="#5.2" class="toc-h3">5.2 View</a>
+                                <ul>
+                                    <li><a href="#5.2.1" class="toc-h4">5.2.1 Що таке View та їх призначення</a></li>
+                                    <li><a href="#5.2.2" class="toc-h4">5.2.2 Створення та видалення View</a></li>
+                                    <li><a href="#5.2.3" class="toc-h4">5.2.3 Оновлення View (ALTER VIEW)</a></li>
+                                    <li><a href="#5.2.4" class="toc-h4">5.2.4 Оновлювані та не оновлювані View</a></li>
+                                    <li><a href="#5.2.5" class="toc-h4">5.2.5 Практичні приклади використання</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-section">
+                                <a href="#5.3" class="toc-h3">5.3 Тригери</a>
+                                <ul>
+                                    <li><a href="#5.3.1" class="toc-h4">5.3.1 Основи тригерів та їх типи</a></li>
+                                    <li><a href="#5.3.2" class="toc-h4">5.3.2 Створення тригерів (BEFORE, AFTER)</a></li>
+                                    <li><a href="#5.3.3" class="toc-h4">5.3.3 NEW та OLD в тригерах</a></li>
+                                    <li><a href="#5.3.4" class="toc-h4">5.3.4 Видалення та зміна тригерів</a></li>
+                                    <li><a href="#5.3.5" class="toc-h4">5.3.5 Практичні приклади тригерів</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-section">
+                                <a href="#5.4" class="toc-h3">5.4 Привілеї. GRANT, REVOKE</a>
+                                <ul>
+                                    <li><a href="#5.4.1" class="toc-h4">5.4.1 Система привілеїв MySQL</a></li>
+                                    <li><a href="#5.4.2" class="toc-h4">5.4.2 Типи привілеїв та рівні доступу</a></li>
+                                    <li><a href="#5.4.3" class="toc-h4">5.4.3 Команда GRANT для надання прав</a></li>
+                                    <li><a href="#5.4.4" class="toc-h4">5.4.4 Команда REVOKE для відкликання прав</a></li>
+                                    <li><a href="#5.4.5" class="toc-h4">5.4.5 Управління користувачами та ролями</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-section">
+                                <a href="#5.5" class="toc-h3">5.5 Нормалізація</a>
+                                <ul>
+                                    <li><a href="#5.5.1" class="toc-h4">5.5.1 Поняття нормалізації та її важливість</a></li>
+                                    <li><a href="#5.5.2" class="toc-h4">5.5.2 Перша нормальна форма (1NF)</a></li>
+                                    <li><a href="#5.5.3" class="toc-h4">5.5.3 Друга нормальна форма (2NF)</a></li>
+                                    <li><a href="#5.5.4" class="toc-h4">5.5.4 Третя нормальна форма (3NF)</a></li>
+                                    <li><a href="#5.5.5" class="toc-h4">5.5.5 Вищі нормальні форми та денормалізація</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                         </ul>
@@ -1650,75 +1686,4023 @@
                             </div>
                             <div id="5.1.1.3">
                                 <h5>5.1.1.3 Виклик процедур за допомогою команди CALL</h5>
-                                <p></p>
-                                <p></p>
+                                <p>
+                                    Після створення збереженої процедури її можна викликати за допомогою команди CALL. 
+                                    Це основний спосіб виконання процедур у MySQL.
+                                </p>
+                                <h6>Базовий синтаксис</h6>
+                                <p>Загальний синтаксис команди CALL:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">CALL procedure_name([parameter1, parameter2, ...]);</code></pre>
+                                </div>
+                                <p>
+                                    Якщо процедура не має параметрів, дужки все одно потрібно вказувати:
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">CALL procedure_name();</code></pre>
+                                </div>
+                                <h6>Приклади виклику процедур</h6>
+                                <p>Виклик процедури з IN параметрами:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">CALL GetUserById(123);
+CALL UpdateUserEmail(456, 'new@email.com');</code></pre>
+                                </div>
+                                <p>Виклик процедури з OUT параметрами:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">CALL GetUserCount(@total_users);
+SELECT @total_users;</code></pre>
+                                </div>
+                                <p>Виклик процедури з INOUT параметрами:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">SET @value = 10;
+CALL DoubleValue(@value);
+SELECT @value; -- Результат: 20</code></pre>
+                                </div>
+                                <h6>Робота з результатами</h6>
+                                <p>
+                                    Процедури можуть повертати результати через SELECT статементи або OUT параметри. 
+                                    Для отримання значень OUT параметрів використовуються змінні користувача (@змінна).
+                                </p>
                             </div>
                             <div id="5.1.1.4">
                                 <h5>5.1.1.4 Приклад коду для створення та виклику процедури</h5>
-                                <p></p>
-                                <p></p>
+                                <p>
+                                    Розглянемо повний приклад створення та використання збереженої процедури для управління 
+                                    інформацією про співробітників.
+                                </p>
+                                <h6>Створення таблиці</h6>
+                                <p>Спочатку створимо таблицю для зберігання даних про співробітників:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">CREATE TABLE employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    department VARCHAR(50),
+    salary DECIMAL(10,2),
+    hire_date DATE
+);</code></pre>
+                                </div>
+                                <h6>Створення процедури з різними типами параметрів</h6>
+                                <p>Створимо процедуру, яка демонструє використання IN, OUT та INOUT параметрів:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DELIMITER //
+
+CREATE PROCEDURE ManageEmployee(
+    IN emp_name VARCHAR(100),
+    IN emp_email VARCHAR(100),
+    IN emp_department VARCHAR(50),
+    IN emp_salary DECIMAL(10,2),
+    OUT new_employee_id INT,
+    INOUT message VARCHAR(255)
+)
+BEGIN
+    DECLARE emp_count INT DEFAULT 0;
+    
+    -- Перевіряємо чи існує співробітник з таким email
+    SELECT COUNT(*) INTO emp_count 
+    FROM employees 
+    WHERE email = emp_email;
+    
+    IF emp_count > 0 THEN
+        SET message = CONCAT('Помилка: Співробітник з email ', emp_email, ' вже існує');
+        SET new_employee_id = -1;
+    ELSE
+        -- Додаємо нового співробітника
+        INSERT INTO employees (name, email, department, salary, hire_date)
+        VALUES (emp_name, emp_email, emp_department, emp_salary, CURDATE());
+        
+        -- Отримуємо ID нового співробітника
+        SET new_employee_id = LAST_INSERT_ID();
+        SET message = CONCAT('Успішно додано співробітника з ID: ', new_employee_id);
+    END IF;
+END //
+
+DELIMITER ;</code></pre>
+                                </div>
+                                <h6>Виклик процедури</h6>
+                                <p>Тепер викличемо нашу процедуру з різними параметрами:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">-- Ініціалізуємо змінні
+SET @employee_id = 0;
+SET @result_message = 'Початкове повідомлення';
+
+-- Викликаємо процедуру
+CALL ManageEmployee(
+    'Іван Петренко',
+    'ivan.petrenko@company.com',
+    'IT',
+    50000.00,
+    @employee_id,
+    @result_message
+);
+
+-- Переглядаємо результати
+SELECT @employee_id AS 'ID нового співробітника', @result_message AS 'Повідомлення';</code></pre>
+                                </div>
+                                <h6>Створення простої процедури для отримання даних</h6>
+                                <p>Приклад процедури, яка повертає результати запиту:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DELIMITER //
+
+CREATE PROCEDURE GetEmployeesByDepartment(IN dept_name VARCHAR(50))
+BEGIN
+    SELECT id, name, email, salary, hire_date
+    FROM employees
+    WHERE department = dept_name
+    ORDER BY salary DESC;
+END //
+
+DELIMITER ;
+
+-- Виклик процедури
+CALL GetEmployeesByDepartment('IT');</code></pre>
+                                </div>
+                                <p>
+                                    Ці приклади демонструють основні принципи роботи зі збереженими процедурами: 
+                                    створення, передачу параметрів, обробку логіки та повернення результатів.
+                                </p>
                             </div>
                         </div>
                         <div id="5.1.2">
                             <h4>5.1.2 Контроль потоку в процедурах</h4>
+                            <p>
+                                Збережені процедури в MySQL підтримують різноманітні конструкції для контролю потоку виконання, 
+                                що дозволяє створювати складну бізнес-логіку безпосередньо в базі даних. Ці конструкції включають 
+                                умовні оператори, цикли та інші елементи керування потоком.
+                            </p>
+                            <p>
+                                Контроль потоку особливо корисний для:
+                            </p>
+                            <ul>
+                                <li>Виконання різних дій залежно від умов</li>
+                                <li>Обробки великих обсягів даних в циклах</li>
+                                <li>Реалізації складних алгоритмів та бізнес-правил</li>
+                                <li>Валідації даних перед їх обробкою</li>
+                                <li>Автоматизації рутинних операцій</li>
+                            </ul>
+                            <p>
+                                MySQL надає наступні основні конструкції контролю потоку:
+                            </p>
+                            <ul>
+                                <li><strong>IF...THEN...ELSE</strong> - умовні розгалуження</li>
+                                <li><strong>CASE</strong> - множинний вибір серед варіантів</li>
+                                <li><strong>LOOP</strong> - нескінченний цикл з можливістю виходу</li>
+                                <li><strong>WHILE</strong> - цикл з передумовою</li>
+                                <li><strong>REPEAT</strong> - цикл з післяумовою</li>
+                            </ul>
+                            <p>
+                                Всі ці конструкції можуть бути вкладеними одна в одну, що дозволяє створювати 
+                                складні алгоритми для вирішення різноманітних завдань.
+                            </p>
                             <div id="5.1.2.1">
                                 <h5>5.1.2.1 Використання IF, CASE, LOOP, WHILE та REPEAT конструкцій</h5>
-                                <p></p>
-                                <p></p>
+                                <p>
+                                    Розглянемо детально кожну з конструкцій контролю потоку, їх призначення та особливості використання.
+                                </p>
+                                
+                                <h6>IF...THEN...ELSE конструкція</h6>
+                                <p>
+                                    Використовується для умовного виконання блоків коду. Дозволяє виконувати різні дії 
+                                    залежно від результату перевірки умови.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">IF умова THEN
+    -- дії, якщо умова істинна
+ELSEIF інша_умова THEN
+    -- дії для альтернативної умови
+ELSE
+    -- дії, якщо всі умови хибні
+END IF;</code></pre>
+                                </div>
+                                <p>
+                                    Приклад використання в процедурі для визначення рівня зарплати:
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">IF salary > 80000 THEN
+    SET level = 'Високий';
+ELSEIF salary > 50000 THEN
+    SET level = 'Середній';
+ELSE
+    SET level = 'Початковий';
+END IF;</code></pre>
+                                </div>
+
+                                <h6>CASE конструкція</h6>
+                                <p>
+                                    Ефективна для множинного вибору серед кількох варіантів. Існують два види: простий CASE та CASE з умовами.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">-- Простий CASE
+CASE змінна
+    WHEN значення1 THEN дія1;
+    WHEN значення2 THEN дія2;
+    ELSE дія_за_замовчуванням;
+END CASE;
+
+-- CASE з умовами
+CASE
+    WHEN умова1 THEN дія1;
+    WHEN умова2 THEN дія2;
+    ELSE дія_за_замовчуванням;
+END CASE;</code></pre>
+                                </div>
+
+                                <h6>LOOP конструкція</h6>
+                                <p>
+                                    Створює нескінченний цикл, який триває до явного виходу за допомогою LEAVE. 
+                                    Корисний, коли кількість ітерацій заздалегідь невідома.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">label_name: LOOP
+    -- тіло циклу
+    IF умова_виходу THEN
+        LEAVE label_name;
+    END IF;
+END LOOP;</code></pre>
+                                </div>
+
+                                <h6>WHILE конструкція</h6>
+                                <p>
+                                    Цикл з передумовою - виконується доки умова істинна. Перевірка умови відбувається 
+                                    перед кожною ітерацією.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">WHILE умова DO
+    -- тіло циклу
+END WHILE;</code></pre>
+                                </div>
+                                <p>Приклад підрахунку факторіала:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">SET counter = 1;
+SET result = 1;
+WHILE counter <= n DO
+    SET result = result * counter;
+    SET counter = counter + 1;
+END WHILE;</code></pre>
+                                </div>
+
+                                <h6>REPEAT конструкція</h6>
+                                <p>
+                                    Цикл з післяумовою - виконується принаймні один раз, потім перевіряє умову виходу. 
+                                    Відрізняється від WHILE тим, що умова перевіряється після виконання тіла циклу.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">REPEAT
+    -- тіло циклу
+UNTIL умова_виходу END REPEAT;</code></pre>
+                                </div>
+
+                                <h6>ITERATE та LEAVE</h6>
+                                <p>
+                                    Додаткові оператори для керування циклами:
+                                </p>
+                                <ul>
+                                    <li><strong>LEAVE</strong> - вихід з циклу (аналог break)</li>
+                                    <li><strong>ITERATE</strong> - перехід до наступної ітерації (аналог continue)</li>
+                                </ul>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">loop_label: LOOP
+    SET counter = counter + 1;
+    
+    IF counter = 5 THEN
+        ITERATE loop_label; -- пропустити решту коду і почати нову ітерацію
+    END IF;
+    
+    IF counter > 10 THEN
+        LEAVE loop_label; -- вийти з циclу
+    END IF;
+    
+    -- інший код циклу
+END LOOP;</code></pre>
+                                </div>
                             </div>
                             <div id="5.1.2.2">
                                 <h5>5.1.2.2 Синтаксис та приклади коду для кожної конструкції</h5>
-                                <p></p>
-                                <p></p>
+                                <p>
+                                    Розглянемо детальні приклади використання кожної конструкції контролю потоку в реальних процедурах.
+                                </p>
+
+                                <h6>Приклад з IF...THEN...ELSE</h6>
+                                <p>Процедура для оцінки продуктивності співробітника:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DELIMITER //
+
+CREATE PROCEDURE EvaluateEmployee(
+    IN employee_id INT,
+    IN sales_amount DECIMAL(10,2),
+    OUT performance_rating VARCHAR(20),
+    OUT bonus_amount DECIMAL(8,2)
+)
+BEGIN
+    DECLARE base_salary DECIMAL(10,2);
+    
+    -- Отримуємо базову зарплату
+    SELECT salary INTO base_salary 
+    FROM employees 
+    WHERE id = employee_id;
+    
+    -- Оцінюємо продуктивність та розраховуємо бонус
+    IF sales_amount >= 100000 THEN
+        SET performance_rating = 'Відмінно';
+        SET bonus_amount = base_salary * 0.20;
+    ELSEIF sales_amount >= 50000 THEN
+        SET performance_rating = 'Добре';
+        SET bonus_amount = base_salary * 0.10;
+    ELSEIF sales_amount >= 25000 THEN
+        SET performance_rating = 'Задовільно';
+        SET bonus_amount = base_salary * 0.05;
+    ELSE
+        SET performance_rating = 'Потребує покращення';
+        SET bonus_amount = 0;
+    END IF;
+END //
+
+DELIMITER ;</code></pre>
+                                </div>
+
+                                <h6>Приклад з CASE</h6>
+                                <p>Процедура для визначення знижки залежно від категорії клієнта:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DELIMITER //
+
+CREATE PROCEDURE CalculateDiscount(
+    IN customer_id INT,
+    IN order_amount DECIMAL(10,2),
+    OUT discount_percent INT,
+    OUT final_amount DECIMAL(10,2)
+)
+BEGIN
+    DECLARE customer_type VARCHAR(20);
+    DECLARE years_with_us INT;
+    
+    -- Отримуємо інформацію про клієнта
+    SELECT type, YEAR(CURDATE()) - YEAR(registration_date) 
+    INTO customer_type, years_with_us
+    FROM customers 
+    WHERE id = customer_id;
+    
+    -- Простий CASE для базової знижки
+    CASE customer_type
+        WHEN 'VIP' THEN SET discount_percent = 15;
+        WHEN 'Premium' THEN SET discount_percent = 10;
+        WHEN 'Regular' THEN SET discount_percent = 5;
+        ELSE SET discount_percent = 0;
+    END CASE;
+    
+    -- CASE з умовами для додаткових знижок
+    CASE
+        WHEN years_with_us >= 10 THEN 
+            SET discount_percent = discount_percent + 5;
+        WHEN years_with_us >= 5 THEN 
+            SET discount_percent = discount_percent + 3;
+        WHEN order_amount > 1000 THEN 
+            SET discount_percent = discount_percent + 2;
+        ELSE 
+            SET discount_percent = discount_percent;
+    END CASE;
+    
+    -- Максимальна знижка не може перевищувати 25%
+    IF discount_percent > 25 THEN
+        SET discount_percent = 25;
+    END IF;
+    
+    SET final_amount = order_amount * (1 - discount_percent / 100);
+END //
+
+DELIMITER ;</code></pre>
+                                </div>
+
+                                <h6>Приклад з WHILE</h6>
+                                <p>Процедура для генерації звіту по місяцях:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DELIMITER //
+
+CREATE PROCEDURE GenerateMonthlyReport(IN year_param INT)
+BEGIN
+    DECLARE month_counter INT DEFAULT 1;
+    DECLARE monthly_sales DECIMAL(12,2);
+    DECLARE month_name VARCHAR(20);
+    
+    -- Створюємо тимчасову таблицю для звіту
+    CREATE TEMPORARY TABLE monthly_report (
+        month_num INT,
+        month_name VARCHAR(20),
+        total_sales DECIMAL(12,2)
+    );
+    
+    WHILE month_counter <= 12 DO
+        -- Отримуємо назву місяця
+        SET month_name = CASE month_counter
+            WHEN 1 THEN 'Січень'
+            WHEN 2 THEN 'Лютий'
+            WHEN 3 THEN 'Березень'
+            WHEN 4 THEN 'Квітень'
+            WHEN 5 THEN 'Травень'
+            WHEN 6 THEN 'Червень'
+            WHEN 7 THEN 'Липень'
+            WHEN 8 THEN 'Серпень'
+            WHEN 9 THEN 'Вересень'
+            WHEN 10 THEN 'Жовтень'
+            WHEN 11 THEN 'Листопад'
+            WHEN 12 THEN 'Грудень'
+        END CASE;
+        
+        -- Підраховуємо продажі за місяць
+        SELECT COALESCE(SUM(amount), 0) INTO monthly_sales
+        FROM orders
+        WHERE YEAR(order_date) = year_param 
+        AND MONTH(order_date) = month_counter;
+        
+        -- Додаємо запис до звіту
+        INSERT INTO monthly_report VALUES (month_counter, month_name, monthly_sales);
+        
+        SET month_counter = month_counter + 1;
+    END WHILE;
+    
+    -- Виводимо результат
+    SELECT * FROM monthly_report ORDER BY month_num;
+END //
+
+DELIMITER ;</code></pre>
+                                </div>
+
+                                <h6>Приклад з REPEAT</h6>
+                                <p>Процедура для пошуку наступного доступного ID:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DELIMITER //
+
+CREATE PROCEDURE FindNextAvailableId(
+    IN table_name VARCHAR(64),
+    OUT next_id INT
+)
+BEGIN
+    DECLARE id_exists INT DEFAULT 1;
+    DECLARE test_id INT DEFAULT 1;
+    
+    REPEAT
+        -- Перевіряємо чи існує ID
+        SET @sql = CONCAT('SELECT COUNT(*) INTO @count FROM ', table_name, ' WHERE id = ', test_id);
+        PREPARE stmt FROM @sql;
+        EXECUTE stmt;
+        DEALLOCATE PREPARE stmt;
+        
+        SET id_exists = @count;
+        
+        IF id_exists = 0 THEN
+            SET next_id = test_id;
+        ELSE
+            SET test_id = test_id + 1;
+        END IF;
+        
+    UNTIL id_exists = 0 END REPEAT;
+END //
+
+DELIMITER ;</code></pre>
+                                </div>
+
+                                <h6>Приклад з LOOP та ITERATE/LEAVE</h6>
+                                <p>Процедура для обробки замовлень з пропуском помилкових записів:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DELIMITER //
+
+CREATE PROCEDURE ProcessPendingOrders()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE order_id INT;
+    DECLARE order_status VARCHAR(20);
+    DECLARE customer_id INT;
+    DECLARE order_amount DECIMAL(10,2);
+    
+    -- Курсор для вибірки замовлень
+    DECLARE order_cursor CURSOR FOR 
+        SELECT id, status, customer_id, amount 
+        FROM orders 
+        WHERE status = 'pending';
+    
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    
+    OPEN order_cursor;
+    
+    process_loop: LOOP
+        FETCH order_cursor INTO order_id, order_status, customer_id, order_amount;
+        
+        IF done THEN
+            LEAVE process_loop;
+        END IF;
+        
+        -- Пропускаємо замовлення з нульовою сумою
+        IF order_amount <= 0 THEN
+            ITERATE process_loop;
+        END IF;
+        
+        -- Пропускаємо замовлення неіснуючих клієнтів
+        IF NOT EXISTS(SELECT 1 FROM customers WHERE id = customer_id) THEN
+            UPDATE orders SET status = 'error', error_message = 'Customer not found' 
+            WHERE id = order_id;
+            ITERATE process_loop;
+        END IF;
+        
+        -- Обробляємо валідне замовлення
+        IF order_amount > 10000 THEN
+            -- Великі замовлення потребують підтвердження
+            UPDATE orders SET status = 'requires_approval' WHERE id = order_id;
+        ELSE
+            -- Звичайні замовлення автоматично підтверджуються
+            UPDATE orders SET status = 'approved', approved_date = NOW() WHERE id = order_id;
+        END IF;
+        
+    END LOOP process_loop;
+    
+    CLOSE order_cursor;
+END //
+
+DELIMITER ;</code></pre>
+                                </div>
+                                
+                                <p>
+                                    Ці приклади демонструють практичне використання всіх конструкцій контролю потоку 
+                                    в реальних сценаріях роботи з базою даних.
+                                </p>
                             </div>
                         </div>
                         <div id="5.1.3">
                             <h4>5.1.3 Обробка помилок та ексепшнів в процедурах</h4>
+                            <p>
+                                Правильна обробка помилок є критично важливою частиною розробки надійних збережених процедур. 
+                                MySQL надає потужні механізми для перехоплення, обробки та генерації помилок, що дозволяє 
+                                створювати стійкі до збоїв процедури.
+                            </p>
+                            <p>
+                                Без належної обробки помилок процедура може:
+                            </p>
+                            <ul>
+                                <li>Несподівано завершитися, залишивши дані в неконсистентному стані</li>
+                                <li>Приховати важливі помилки від клієнтського додатку</li>
+                                <li>Не надати достатньо інформації для діагностики проблем</li>
+                                <li>Порушити цілісність транзакцій</li>
+                            </ul>
+                            <p>
+                                MySQL пропонує наступні інструменти для обробки помилок:
+                            </p>
+                            <ul>
+                                <li><strong>DECLARE HANDLER</strong> - оголошення обробників для перехоплення помилок</li>
+                                <li><strong>SIGNAL</strong> - генерація власних помилок</li>
+                                <li><strong>RESIGNAL</strong> - перегенерація або модифікація існуючих помилок</li>
+                                <li><strong>GET DIAGNOSTICS</strong> - отримання детальної інформації про помилки</li>
+                            </ul>
                             <div id="5.1.3.1">
                                 <h5>5.1.3.1 Оголошення та використання обробників помилок (DECLARE HANDLER)</h5>
-                                <p></p>
-                                <p></p>
+                                <p>
+                                    DECLARE HANDLER дозволяє оголосити спеціальний блок коду, який буде виконано при виникненні 
+                                    певних помилок або умов. Це основний механізм обробки винятків у MySQL процедурах.
+                                </p>
+                                
+                                <h6>Синтаксис DECLARE HANDLER</h6>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DECLARE handler_action HANDLER
+FOR condition_value [, condition_value] ...
+    statement</code></pre>
+                                </div>
+                                
+                                <p>Де:</p>
+                                <ul>
+                                    <li><strong>handler_action</strong> - дія обробника (CONTINUE, EXIT, UNDO)</li>
+                                    <li><strong>condition_value</strong> - умова активації обробника</li>
+                                    <li><strong>statement</strong> - код, що виконується при активації</li>
+                                </ul>
+
+                                <h6>Типи умов (condition_value)</h6>
+                                <p>Обробник може реагувати на різні типи умов:</p>
+                                <ul>
+                                    <li><strong>MySQL error code</strong> - конкретний код помилки (наприклад, 1062)</li>
+                                    <li><strong>SQLSTATE value</strong> - стандартний SQLSTATE код</li>
+                                    <li><strong>Іменовані умови</strong> - попередньо визначені імена</li>
+                                    <li><strong>SQLWARNING</strong> - будь-яке попередження</li>
+                                    <li><strong>NOT FOUND</strong> - умова "не знайдено"</li>
+                                    <li><strong>SQLEXCEPTION</strong> - будь-яка помилка</li>
+                                </ul>
+
+                                <h6>Приклади базового використання</h6>
+                                <p>Обробка конкретного коду помилки:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DECLARE CONTINUE HANDLER FOR 1062
+BEGIN
+    SET @error_message = 'Дублікат ключа виявлено';
+    SET @error_occurred = TRUE;
+END;</code></pre>
+                                </div>
+
+                                <p>Обробка SQLSTATE:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DECLARE EXIT HANDLER FOR SQLSTATE '23000'
+BEGIN
+    ROLLBACK;
+    RESIGNAL SET MESSAGE_TEXT = 'Порушення обмеження цілісності';
+END;</code></pre>
+                                </div>
+
+                                <p>Обробка NOT FOUND для курсорів:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DECLARE done INT DEFAULT FALSE;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;</code></pre>
+                                </div>
+
+                                <h6>Оголошення іменованих умов</h6>
+                                <p>Для покращення читабельності коду можна оголошувати іменовані умови:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DECLARE duplicate_key CONDITION FOR 1062;
+DECLARE foreign_key_error CONDITION FOR 1452;
+
+DECLARE CONTINUE HANDLER FOR duplicate_key
+BEGIN
+    SET @duplicate_detected = TRUE;
+END;
+
+DECLARE EXIT HANDLER FOR foreign_key_error
+BEGIN
+    ROLLBACK;
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Помилка зовнішнього ключа';
+END;</code></pre>
+                                </div>
+
+                                <p>
+                                    Обробники оголошуються на початку блоку BEGIN...END і діють в межах цього блоку та 
+                                    всіх вкладених блоків.
+                                </p>
                             </div>
                             <div id="5.1.3.2">
                                 <h5>5.1.3.2 Типи обробників: CONTINUE, EXIT та UNDO</h5>
-                                <p></p>
-                                <p></p>
+                                <p>
+                                    Тип обробника визначає, що відбувається після виконання коду обробника. MySQL підтримує 
+                                    три типи дій обробників, кожен з яких має різну поведінку.
+                                </p>
+
+                                <h6>CONTINUE Handler</h6>
+                                <p>
+                                    Після виконання коду обробника виконання процедури продовжується з наступного оператора 
+                                    після того, що викликав помилку.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+BEGIN
+    SET @error_count = @error_count + 1;
+    SET @last_error = 'Помилка перехоплена та оброблена';
+END;
+
+-- Процедура продовжить виконання після помилки</code></pre>
+                                </div>
+                                <p>
+                                    <strong>Використання:</strong> Коли потрібно логувати помилку, але продовжити виконання процедури. 
+                                    Корисно для пакетної обробки даних, де окремі помилки не повинні зупиняти весь процес.
+                                </p>
+
+                                <h6>EXIT Handler</h6>
+                                <p>
+                                    Після виконання коду обробника виконання поточного блоку BEGIN...END завершується, 
+                                    і управління передається наступному оператору після блоку.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SET @procedure_status = 'FAILED';
+    END;
+    
+    -- Якщо тут виникне помилка, блок завершиться
+    INSERT INTO users VALUES (1, 'test@email.com');
+    INSERT INTO orders VALUES (1, 1, 100.00);
+    
+    SET @procedure_status = 'SUCCESS';
+END;
+
+-- Виконання продовжиться тут після EXIT handler</code></pre>
+                                </div>
+                                <p>
+                                    <strong>Використання:</strong> Для "м'якого" завершення блоку при помилці. Дозволяє виконати 
+                                    cleanup операції (ROLLBACK, логування) перед виходом з блоку.
+                                </p>
+
+                                <h6>UNDO Handler (застарілий)</h6>
+                                <p>
+                                    <strong>Увага:</strong> UNDO handler застарілий і не підтримується в сучасних версіях MySQL. 
+                                    Раніше він використовувався для автоматичного відкату транзакції та завершення процедури.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">-- НЕ ВИКОРИСТОВУЙТЕ - застарілий синтаксис
+DECLARE UNDO HANDLER FOR SQLEXCEPTION
+BEGIN
+    -- Автоматичний ROLLBACK та EXIT
+END;</code></pre>
+                                </div>
+                                <p>
+                                    <strong>Альтернатива:</strong> Використовуйте EXIT handler з явним ROLLBACK:
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    ROLLBACK;
+    RESIGNAL;
+END;</code></pre>
+                                </div>
+
+                                <h6>Порівняння типів обробників</h6>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DELIMITER //
+
+CREATE PROCEDURE DemonstrateHandlers()
+BEGIN
+    DECLARE @demo_step VARCHAR(50);
+    
+    -- Демонстрація CONTINUE
+    BEGIN
+        DECLARE CONTINUE HANDLER FOR 1062 
+            SET @demo_step = 'CONTINUE: помилка оброблена, продовжуємо';
+        
+        INSERT INTO users VALUES (1, 'duplicate@email.com'); -- може викликати 1062
+        SET @demo_step = 'CONTINUE: після INSERT'; -- виконається навіть при помилці
+    END;
+    
+    -- Демонстрація EXIT
+    BEGIN
+        DECLARE EXIT HANDLER FOR 1062 
+            SET @demo_step = 'EXIT: помилка оброблена, виходимо з блоку';
+        
+        INSERT INTO users VALUES (1, 'duplicate@email.com'); -- може викликати 1062
+        SET @demo_step = 'EXIT: після INSERT'; -- НЕ виконається при помилці
+    END;
+    
+    SET @demo_step = 'Процедура завершена'; -- виконається в обох випадках
+END //
+
+DELIMITER ;</code></pre>
+                                </div>
+
+                                <h6>Вибір типу обробника</h6>
+                                <ul>
+                                    <li><strong>CONTINUE</strong> - для логування помилок без зупинки процесу</li>
+                                    <li><strong>EXIT</strong> - для контрольованого завершення блоку з cleanup</li>
+                                    <li><strong>Комбінація</strong> - різні обробники для різних типів помилок</li>
+                                </ul>
                             </div>
                             <div id="5.1.3.3">
                                 <h5>5.1.3.3 Використання SIGNAL та RESIGNAL для генерації та пропагації помилок</h5>
-                                <p></p>
-                                <p></p>
+                                <p>
+                                    SIGNAL та RESIGNAL - це оператори для явної генерації та модифікації помилок у MySQL процедурах. 
+                                    Вони дозволяють створювати власні помилки та контролювати їх поширення.
+                                </p>
+
+                                <h6>SIGNAL - генерація власних помилок</h6>
+                                <p>
+                                    SIGNAL дозволяє генерувати власну помилку з кастомним повідомленням та кодом стану.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">SIGNAL SQLSTATE 'value'
+    [SET signal_information_item = value [, signal_information_item = value] ...]</code></pre>
+                                </div>
+
+                                <p>Основні параметри SIGNAL:</p>
+                                <ul>
+                                    <li><strong>SQLSTATE</strong> - 5-символьний код стану (обов'язковий)</li>
+                                    <li><strong>MESSAGE_TEXT</strong> - текст повідомлення про помилку</li>
+                                    <li><strong>MYSQL_ERRNO</strong> - MySQL код помилки</li>
+                                    <li><strong>CONSTRAINT_CATALOG, CONSTRAINT_SCHEMA, CONSTRAINT_NAME</strong> - інформація про обмеження</li>
+                                </ul>
+
+                                <h6>Приклади використання SIGNAL</h6>
+                                <p>Базовий приклад генерації помилки:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">IF age < 0 OR age > 150 THEN
+    SIGNAL SQLSTATE '45000' 
+    SET MESSAGE_TEXT = 'Недопустимий вік: значення повинно бути між 0 та 150';
+END IF;</code></pre>
+                                </div>
+
+                                <p>Детальна помилка з додатковою інформацією:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">SIGNAL SQLSTATE '45000'
+SET MESSAGE_TEXT = 'Помилка валідації користувача',
+    MYSQL_ERRNO = 3001,
+    CONSTRAINT_NAME = 'check_user_age';</code></pre>
+                                </div>
+
+                                <p>Використання в процедурі валідації:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DELIMITER //
+
+CREATE PROCEDURE ValidateAndCreateUser(
+    IN user_name VARCHAR(100),
+    IN user_email VARCHAR(100),
+    IN user_age INT
+)
+BEGIN
+    -- Валідація імені
+    IF user_name IS NULL OR LENGTH(TRIM(user_name)) = 0 THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Ім\'я користувача не може бути порожнім';
+    END IF;
+    
+    -- Валідація email
+    IF user_email NOT REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$' THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Неправильний формат email адреси';
+    END IF;
+    
+    -- Валідація віку
+    IF user_age < 16 OR user_age > 100 THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = CONCAT('Недопустимий вік: ', user_age, '. Вік повинен бути між 16 та 100 роками');
+    END IF;
+    
+    -- Якщо всі перевірки пройшли, створюємо користувача
+    INSERT INTO users (name, email, age) VALUES (user_name, user_email, user_age);
+END //
+
+DELIMITER ;</code></pre>
+                                </div>
+
+                                <h6>RESIGNAL - модифікація існуючих помилок</h6>
+                                <p>
+                                    RESIGNAL дозволяє перегенерувати поточну помилку з можливістю модифікації її атрибутів. 
+                                    Використовується всередині обробників помилок.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">RESIGNAL [SQLSTATE 'value'] 
+    [SET signal_information_item = value [, signal_information_item = value] ...]</code></pre>
+                                </div>
+
+                                <h6>Приклади використання RESIGNAL</h6>
+                                <p>Перегенерація помилки з додатковою інформацією:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    GET DIAGNOSTICS CONDITION 1
+        @original_message = MESSAGE_TEXT,
+        @error_code = MYSQL_ERRNO;
+        
+    RESIGNAL SET MESSAGE_TEXT = CONCAT('Процедура CreateUser завершилась з помилкою: ', @original_message);
+END;</code></pre>
+                                </div>
+
+                                <p>Зміна SQLSTATE при RESIGNAL:</p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DECLARE EXIT HANDLER FOR 1062  -- Duplicate key
+BEGIN
+    RESIGNAL SQLSTATE '45000' 
+    SET MESSAGE_TEXT = 'Користувач з таким email вже існує в системі';
+END;</code></pre>
+                                </div>
+
+                                <h6>GET DIAGNOSTICS - отримання інформації про помилки</h6>
+                                <p>
+                                    GET DIAGNOSTICS дозволяє отримати детальну інформацію про останню помилку або попередження.
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DELIMITER //
+
+CREATE PROCEDURE HandleErrorsWithDiagnostics()
+BEGIN
+    DECLARE error_count INT;
+    DECLARE error_msg TEXT;
+    DECLARE error_state VARCHAR(5);
+    DECLARE error_num INT;
+    
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        -- Отримуємо загальну інформацію
+        GET DIAGNOSTICS error_count = NUMBER;
+        
+        -- Отримуємо інформацію про першу помилку
+        GET DIAGNOSTICS CONDITION 1
+            error_state = RETURNED_SQLSTATE,
+            error_num = MYSQL_ERRNO,
+            error_msg = MESSAGE_TEXT;
+            
+        -- Логуємо помилку
+        INSERT INTO error_log (error_time, sqlstate, errno, message)
+        VALUES (NOW(), error_state, error_num, error_msg);
+        
+        -- Перегенеруємо з додатковою інформацією
+        RESIGNAL SET MESSAGE_TEXT = CONCAT(
+            'Процедура завершилась з помилкою. ',
+            'SQLSTATE: ', error_state, ', ',
+            'Error: ', error_num, ', ',
+            'Message: ', error_msg
+        );
+    END;
+    
+    -- Основна логіка процедури
+    INSERT INTO users VALUES (1, 'test@example.com');
+END //
+
+DELIMITER ;</code></pre>
+                                </div>
+
+                                <h6>Рекомендовані SQLSTATE коди</h6>
+                                <p>Для власних помилок рекомендується використовувати:</p>
+                                <ul>
+                                    <li><strong>'45000'</strong> - загальна помилка додатку</li>
+                                    <li><strong>'45001' - '45999'</strong> - специфічні помилки додатку</li>
+                                    <li><strong>'01000'</strong> - попередження</li>
+                                </ul>
+
+                                <div class="code-block">
+                                    <pre><code class="language-sql">-- Приклади різних типів помилок
+SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = 'Помилка валідації даних';
+SIGNAL SQLSTATE '45002' SET MESSAGE_TEXT = 'Помилка бізнес-логіки';
+SIGNAL SQLSTATE '45003' SET MESSAGE_TEXT = 'Помилка авторизації';
+SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Попередження: дані можуть бути неточними';</code></pre>
+                                </div>
                             </div>
                             <div id="5.1.3.4">
                                 <h5>5.1.3.4 Приклади коду для обробки помилок та ексепшнів</h5>
-                                <p></p>
-                                <p></p>
+                                <p>
+                                    Розглянемо практичні приклади комплексної обробки помилок в реальних сценаріях.
+                                </p>
+
+                                <h6>Приклад 1: Банківський переказ з транзакційною безпекою</h6>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DELIMITER //
+
+CREATE PROCEDURE BankTransfer(
+    IN from_account_id INT,
+    IN to_account_id INT,
+    IN transfer_amount DECIMAL(10,2),
+    OUT transaction_status VARCHAR(20),
+    OUT error_message TEXT
+)
+BEGIN
+    DECLARE from_balance DECIMAL(10,2);
+    DECLARE account_exists INT;
+    DECLARE transaction_completed BOOLEAN DEFAULT FALSE;
+    
+    -- Оголошуємо обробники помилок
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        GET DIAGNOSTICS CONDITION 1
+            @sqlstate = RETURNED_SQLSTATE,
+            @errno = MYSQL_ERRNO,
+            @text = MESSAGE_TEXT;
+            
+        SET transaction_status = 'FAILED';
+        SET error_message = CONCAT('Помилка переказу: ', @text, ' (', @errno, ')');
+    END;
+    
+    DECLARE EXIT HANDLER FOR 1062  -- Duplicate key
+    BEGIN
+        ROLLBACK;
+        SET transaction_status = 'FAILED';
+        SET error_message = 'Конфлікт транзакції: спробуйте ще раз';
+    END;
+    
+    -- Валідація вхідних параметрів
+    IF transfer_amount <= 0 THEN
+        SIGNAL SQLSTATE '45001' 
+        SET MESSAGE_TEXT = 'Сума переказу повинна бути більше нуля';
+    END IF;
+    
+    IF from_account_id = to_account_id THEN
+        SIGNAL SQLSTATE '45002' 
+        SET MESSAGE_TEXT = 'Неможливо перевести кошти на той самий рахунок';
+    END IF;
+    
+    START TRANSACTION;
+    
+    -- Перевіряємо існування рахунку відправника
+    SELECT COUNT(*), COALESCE(balance, 0) 
+    INTO account_exists, from_balance
+    FROM accounts 
+    WHERE account_id = from_account_id FOR UPDATE;
+    
+    IF account_exists = 0 THEN
+        SIGNAL SQLSTATE '45003' 
+        SET MESSAGE_TEXT = 'Рахунок відправника не існує';
+    END IF;
+    
+    -- Перевіряємо достатність коштів
+    IF from_balance < transfer_amount THEN
+        SIGNAL SQLSTATE '45004' 
+        SET MESSAGE_TEXT = CONCAT('Недостатньо коштів. Доступно: ', from_balance);
+    END IF;
+    
+    -- Перевіряємо існування рахунку отримувача
+    SELECT COUNT(*) INTO account_exists
+    FROM accounts 
+    WHERE account_id = to_account_id FOR UPDATE;
+    
+    IF account_exists = 0 THEN
+        SIGNAL SQLSTATE '45005' 
+        SET MESSAGE_TEXT = 'Рахунок отримувача не існує';
+    END IF;
+    
+    -- Виконуємо переказ
+    UPDATE accounts 
+    SET balance = balance - transfer_amount,
+        last_transaction = NOW()
+    WHERE account_id = from_account_id;
+    
+    UPDATE accounts 
+    SET balance = balance + transfer_amount,
+        last_transaction = NOW()
+    WHERE account_id = to_account_id;
+    
+    -- Записуємо історію транзакцій
+    INSERT INTO transaction_history (from_account, to_account, amount, transaction_date)
+    VALUES (from_account_id, to_account_id, transfer_amount, NOW());
+    
+    COMMIT;
+    SET transaction_status = 'SUCCESS';
+    SET error_message = 'Переказ успішно виконано';
+    SET transaction_completed = TRUE;
+END //
+
+DELIMITER ;</code></pre>
+                                </div>
+
+                                <h6>Приклад 2: Пакетна обробка даних з логуванням помилок</h6>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DELIMITER //
+
+CREATE PROCEDURE BatchProcessOrders()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE order_id INT;
+    DECLARE customer_id INT;
+    DECLARE order_amount DECIMAL(10,2);
+    DECLARE processed_count INT DEFAULT 0;
+    DECLARE error_count INT DEFAULT 0;
+    
+    -- Курсор для обробки замовлень
+    DECLARE order_cursor CURSOR FOR 
+        SELECT id, customer_id, amount 
+        FROM orders 
+        WHERE status = 'pending';
+    
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    
+    -- Обробник для всіх помилок з логуванням
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+    BEGIN
+        DECLARE error_msg TEXT;
+        DECLARE error_code INT;
+        
+        GET DIAGNOSTICS CONDITION 1
+            error_code = MYSQL_ERRNO,
+            error_msg = MESSAGE_TEXT;
+            
+        -- Логуємо помилку
+        INSERT INTO processing_errors (order_id, error_code, error_message, error_time)
+        VALUES (order_id, error_code, error_msg, NOW());
+        
+        SET error_count = error_count + 1;
+    END;
+    
+    -- Обробник для специфічних помилок
+    DECLARE CONTINUE HANDLER FOR 1452  -- Foreign key constraint
+    BEGIN
+        UPDATE orders 
+        SET status = 'invalid_customer', 
+            error_message = 'Клієнт не знайдений в системі'
+        WHERE id = order_id;
+        
+        SET error_count = error_count + 1;
+    END;
+    
+    OPEN order_cursor;
+    
+    process_loop: LOOP
+        FETCH order_cursor INTO order_id, customer_id, order_amount;
+        
+        IF done THEN
+            LEAVE process_loop;
+        END IF;
+        
+        -- Початок обробки окремого замовлення
+        BEGIN
+            DECLARE customer_discount DECIMAL(5,2) DEFAULT 0;
+            DECLARE final_amount DECIMAL(10,2);
+            
+            -- Отримуємо знижку клієнта
+            SELECT discount_percent INTO customer_discount
+            FROM customers 
+            WHERE id = customer_id;
+            
+            -- Розраховуємо фінальну суму
+            SET final_amount = order_amount * (1 - customer_discount / 100);
+            
+            -- Валідація суми
+            IF final_amount <= 0 THEN
+                SIGNAL SQLSTATE '45010' 
+                SET MESSAGE_TEXT = 'Неправильна сума замовлення після застосування знижки';
+            END IF;
+            
+            -- Оновлюємо замовлення
+            UPDATE orders 
+            SET status = 'processed',
+                final_amount = final_amount,
+                processed_date = NOW()
+            WHERE id = order_id;
+            
+            SET processed_count = processed_count + 1;
+        END;
+        
+    END LOOP process_loop;
+    
+    CLOSE order_cursor;
+    
+    -- Створюємо звіт про обробку
+    INSERT INTO batch_processing_log (
+        processing_date, 
+        total_processed, 
+        total_errors, 
+        success_rate
+    ) VALUES (
+        NOW(), 
+        processed_count, 
+        error_count,
+        CASE WHEN (processed_count + error_count) > 0 
+             THEN (processed_count * 100.0) / (processed_count + error_count)
+             ELSE 0 
+        END
+    );
+    
+    SELECT CONCAT('Оброблено: ', processed_count, ', Помилок: ', error_count) AS result;
+END //
+
+DELIMITER ;</code></pre>
+                                </div>
+
+                                <h6>Приклад 3: Каскадне видалення з обробкою залежностей</h6>
+                                <div class="code-block">
+                                    <pre><code class="language-sql">DELIMITER //
+
+CREATE PROCEDURE SafeDeleteUser(
+    IN user_id_param INT,
+    IN force_delete BOOLEAN DEFAULT FALSE,
+    OUT deletion_status VARCHAR(20),
+    OUT affected_records TEXT
+)
+BEGIN
+    DECLARE user_exists INT DEFAULT 0;
+    DECLARE order_count INT DEFAULT 0;
+    DECLARE comment_count INT DEFAULT 0;
+    DECLARE review_count INT DEFAULT 0;
+    DECLARE records_info TEXT DEFAULT '';
+    
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        GET DIAGNOSTICS CONDITION 1 @error_text = MESSAGE_TEXT;
+        SET deletion_status = 'FAILED';
+        SET affected_records = CONCAT('Помилка видалення: ', @error_text);
+    END;
+    
+    -- Перевіряємо існування користувача
+    SELECT COUNT(*) INTO user_exists 
+    FROM users 
+    WHERE id = user_id_param;
+    
+    IF user_exists = 0 THEN
+        SIGNAL SQLSTATE '45020' 
+        SET MESSAGE_TEXT = 'Користувач з таким ID не існує';
+    END IF;
+    
+    START TRANSACTION;
+    
+    -- Підраховуємо пов'язані записи
+    SELECT COUNT(*) INTO order_count 
+    FROM orders 
+    WHERE customer_id = user_id_param;
+    
+    SELECT COUNT(*) INTO comment_count 
+    FROM comments 
+    WHERE user_id = user_id_param;
+    
+    SELECT COUNT(*) INTO review_count 
+    FROM reviews 
+    WHERE user_id = user_id_param;
+    
+    -- Формуємо інформацію про записи
+    SET records_info = CONCAT(
+        'Замовлень: ', order_count, ', ',
+        'Коментарів: ', comment_count, ', ',
+        'Відгуків: ', review_count
+    );
+    
+    -- Перевіряємо чи можна видаляти
+    IF (order_count > 0 OR comment_count > 0 OR review_count > 0) AND force_delete = FALSE THEN
+        SIGNAL SQLSTATE '45021' 
+        SET MESSAGE_TEXT = CONCAT(
+            'Користувач має пов\'язані записи (', records_info, '). ',
+            'Використайте force_delete = TRUE для примусового видалення'
+        );
+    END IF;
+    
+    -- Каскадне видалення
+    IF force_delete = TRUE THEN
+        -- Видаляємо пов'язані записи
+        DELETE FROM order_items WHERE order_id IN (
+            SELECT id FROM orders WHERE customer_id = user_id_param
+        );
+        
+        DELETE FROM orders WHERE customer_id = user_id_param;
+        DELETE FROM comments WHERE user_id = user_id_param;
+        DELETE FROM reviews WHERE user_id = user_id_param;
+        DELETE FROM user_preferences WHERE user_id = user_id_param;
+        
+        -- Логуємо каскадне видалення
+        INSERT INTO deletion_log (
+            deleted_user_id, 
+            deletion_date, 
+            cascade_info,
+            deleted_by_force
+        ) VALUES (
+            user_id_param, 
+            NOW(), 
+            records_info,
+            TRUE
+        );
+    END IF;
+    
+    -- Видаляємо самого користувача
+    DELETE FROM users WHERE id = user_id_param;
+    
+    COMMIT;
+    
+    SET deletion_status = 'SUCCESS';
+    SET affected_records = CASE 
+        WHEN force_delete = TRUE 
+        THEN CONCAT('Видалено користувача та пов\'язані записи: ', records_info)
+        ELSE 'Видалено користувача (без пов\'язаних записів)'
+    END;
+END //
+
+DELIMITER ;</code></pre>
+                                </div>
+
+                                <p>
+                                    Ці приклади демонструють комплексний підхід до обробки помилок, включаючи валідацію, 
+                                    транзакційну безпеку, логування та різні стратегії відновлення після помилок.
+                                </p>
                             </div>
                         </div>
                     </div>
                     <div id="5.2">
                         <h3>5.2 View</h3>
-                        <p></p>
-                        <p></p>
-                        <p></p>
+                        <p>
+                            View (представлення) - це віртуальна таблиця, яка створюється на основі результату SQL-запиту. 
+                            View не зберігає дані фізично, а формує їх динамічно при кожному зверненні, 
+                            виконуючи лежачий в його основі SELECT-запит.
+                        </p>
+                        <p>
+                            View забезпечують абстракцію даних, дозволяючи спростити складні запити, 
+                            покращити безпеку та організувати логічну структуру даних для користувачів.
+                        </p>
+                        
+                        <div id="5.2.1">
+                            <h4>5.2.1 Що таке View та їх призначення</h4>
+                            <p>
+                                View (представлення) виконують кілька важливих функцій у системі управління базами даних:
+                            </p>
+                            
+                            <h5>Основні переваги View</h5>
+                            <ul>
+                                <li><strong>Спрощення складних запитів</strong> - перетворення складних JOIN та підзапитів у прості SELECT</li>
+                                <li><strong>Безпека даних</strong> - приховування конфіденційних стовпців та обмеження доступу</li>
+                                <li><strong>Абстракція даних</strong> - надання логічного уявлення даних незалежно від фізичної структури</li>
+                                <li><strong>Сумісність</strong> - збереження інтерфейсу при зміні структури таблиць</li>
+                                <li><strong>Повторне використання</strong> - централізація часто використовуваної логіки</li>
+                            </ul>
+                            
+                            <h5>Типи View</h5>
+                            <p>MySQL підтримує два основні типи представлень:</p>
+                            <ul>
+                                <li><strong>Прості View</strong> - базуються на одній таблиці без агрегатних функцій</li>
+                                <li><strong>Складні View</strong> - використовують JOIN, підзапити, агрегатні функції</li>
+                            </ul>
+                            
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Простий View
+CREATE VIEW active_users AS
+SELECT id, name, email, registration_date
+FROM users
+WHERE status = 'active';
+
+-- Складний View з JOIN
+CREATE VIEW user_order_summary AS
+SELECT 
+    u.name,
+    u.email,
+    COUNT(o.id) as total_orders,
+    SUM(o.amount) as total_spent
+FROM users u
+LEFT JOIN orders o ON u.id = o.customer_id
+GROUP BY u.id, u.name, u.email;</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div id="5.2.2">
+                            <h4>5.2.2 Створення та видалення View</h4>
+                            <p>
+                                MySQL надає команди CREATE VIEW та DROP VIEW для створення та видалення представлень.
+                            </p>
+                            
+                            <h5>Синтаксис CREATE VIEW</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">CREATE [OR REPLACE] [ALGORITHM = {UNDEFINED | MERGE | TEMPTABLE}]
+    [DEFINER = user]
+    [SQL SECURITY { DEFINER | INVOKER }]
+    VIEW view_name [(column_list)]
+    AS select_statement
+    [WITH [CASCADED | LOCAL] CHECK OPTION]</code></pre>
+                            </div>
+                            
+                            <h5>Приклади створення View</h5>
+                            <p>Базовий приклад:</p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">CREATE VIEW high_value_customers AS
+SELECT 
+    customer_id,
+    name,
+    email,
+    SUM(amount) as total_spent
+FROM customers c
+JOIN orders o ON c.id = o.customer_id
+GROUP BY customer_id, name, email
+HAVING SUM(amount) > 10000;</code></pre>
+                            </div>
+                            
+                            <p>View з перейменуванням стовпців:</p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">CREATE VIEW product_summary (
+    product_name,
+    category_name,
+    current_price,
+    units_sold,
+    revenue
+) AS
+SELECT 
+    p.name,
+    c.name,
+    p.price,
+    COUNT(oi.id),
+    SUM(oi.quantity * oi.price)
+FROM products p
+JOIN categories c ON p.category_id = c.id
+JOIN order_items oi ON p.id = oi.product_id
+GROUP BY p.id, p.name, c.name, p.price;</code></pre>
+                            </div>
+                            
+                            <h5>Видалення View</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Видалення одного View
+DROP VIEW view_name;
+
+-- Видалення кількох View
+DROP VIEW view1, view2, view3;
+
+-- Видалення з перевіркою існування
+DROP VIEW IF EXISTS view_name;</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div id="5.2.3">
+                            <h4>5.2.3 Оновлення View (ALTER VIEW)</h4>
+                            <p>
+                                ALTER VIEW дозволяє змінити визначення існуючого представлення без його видалення та повторного створення.
+                            </p>
+                            
+                            <h5>Синтаксис ALTER VIEW</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">ALTER [ALGORITHM = {UNDEFINED | MERGE | TEMPTABLE}]
+    [DEFINER = user]
+    [SQL SECURITY { DEFINER | INVOKER }]
+    VIEW view_name [(column_list)]
+    AS select_statement
+    [WITH [CASCADED | LOCAL] CHECK OPTION]</code></pre>
+                            </div>
+                            
+                            <h5>Приклади зміни View</h5>
+                            <p>Додавання додаткового стовпця до існуючого View:</p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Початковий View
+CREATE VIEW user_stats AS
+SELECT 
+    id,
+    name,
+    email,
+    registration_date
+FROM users
+WHERE status = 'active';
+
+-- Зміна View - додаємо інформацію про останній вхід
+ALTER VIEW user_stats AS
+SELECT 
+    id,
+    name,
+    email,
+    registration_date,
+    last_login,
+    DATEDIFF(NOW(), last_login) as days_since_login
+FROM users
+WHERE status = 'active';</code></pre>
+                            </div>
+                            
+                            <p>Зміна умов фільтрації:</p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Розширюємо критерії активних користувачів
+ALTER VIEW active_users AS
+SELECT id, name, email, registration_date, last_login
+FROM users
+WHERE status IN ('active', 'premium')
+  AND last_login >= DATE_SUB(NOW(), INTERVAL 30 DAY);</code></pre>
+                            </div>
+                            
+                            <h5>CREATE OR REPLACE VIEW</h5>
+                            <p>Альтернативний спосіб оновлення View:</p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">CREATE OR REPLACE VIEW monthly_sales AS
+SELECT 
+    YEAR(order_date) as year,
+    MONTH(order_date) as month,
+    COUNT(*) as total_orders,
+    SUM(amount) as total_revenue,
+    AVG(amount) as average_order_value
+FROM orders
+WHERE order_date >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
+GROUP BY YEAR(order_date), MONTH(order_date)
+ORDER BY year DESC, month DESC;</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div id="5.2.4">
+                            <h4>5.2.4 Оновлювані та не оновлювані View</h4>
+                            <p>
+                                View можуть бути оновлюваними (updatable) або лише для читання. 
+                                Оновлювані View дозволяють виконувати INSERT, UPDATE та DELETE операції.
+                            </p>
+                            
+                            <h5>Умови для оновлюваних View</h5>
+                            <p>View є оновлюваним, якщо:</p>
+                            <ul>
+                                <li>Базується на одній таблиці</li>
+                                <li>Не містить DISTINCT, GROUP BY, HAVING</li>
+                                <li>Не використовує агрегатні функції</li>
+                                <li>Не містить підзапитів в SELECT</li>
+                                <li>Не використовує UNION</li>
+                                <li>FROM містить лише таблиці (не інші View)</li>
+                            </ul>
+                            
+                            <h5>Приклад оновлюваного View</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Створюємо оновлюваний View
+CREATE VIEW editable_products AS
+SELECT id, name, price, category_id, description
+FROM products
+WHERE status = 'active';
+
+-- Можемо виконувати операції зміни даних
+INSERT INTO editable_products (name, price, category_id, description)
+VALUES ('Новий продукт', 99.99, 1, 'Опис нового продукту');
+
+UPDATE editable_products 
+SET price = 89.99 
+WHERE name = 'Новий продукт';
+
+DELETE FROM editable_products 
+WHERE id = 123;</code></pre>
+                            </div>
+                            
+                            <h5>WITH CHECK OPTION</h5>
+                            <p>Забезпечує, що всі зміни через View відповідають умовам WHERE:</p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">CREATE VIEW active_expensive_products AS
+SELECT id, name, price, category_id
+FROM products
+WHERE status = 'active' AND price > 100
+WITH CHECK OPTION;
+
+-- Ця операція буде відхилена, оскільки price <= 100
+INSERT INTO active_expensive_products (name, price, category_id)
+VALUES ('Дешевий продукт', 50, 1);  -- ERROR!</code></pre>
+                            </div>
+                            
+                            <h5>Не оновлювані View</h5>
+                            <p>Приклад View, який не можна оновлювати:</p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Цей View не оновлюваний через GROUP BY та агрегатні функції
+CREATE VIEW category_statistics AS
+SELECT 
+    c.name as category_name,
+    COUNT(p.id) as product_count,
+    AVG(p.price) as average_price,
+    MAX(p.price) as max_price,
+    MIN(p.price) as min_price
+FROM categories c
+LEFT JOIN products p ON c.id = p.category_id
+GROUP BY c.id, c.name;
+
+-- Спроба оновлення призведе до помилки
+-- UPDATE category_statistics SET average_price = 100; -- ERROR!</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div id="5.2.5">
+                            <h4>5.2.5 Практичні приклади використання</h4>
+                            <p>
+                                Розглянемо реальні сценарії використання View у виробничих системах.
+                            </p>
+                            
+                            <h5>Приклад 1: Система звітності</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- View для щоденних звітів про продажі
+CREATE VIEW daily_sales_report AS
+SELECT 
+    DATE(o.order_date) as sale_date,
+    COUNT(DISTINCT o.id) as total_orders,
+    COUNT(DISTINCT o.customer_id) as unique_customers,
+    SUM(oi.quantity * oi.price) as total_revenue,
+    AVG(oi.quantity * oi.price) as average_order_value,
+    SUM(oi.quantity) as total_items_sold
+FROM orders o
+JOIN order_items oi ON o.id = oi.order_id
+WHERE o.status = 'completed'
+GROUP BY DATE(o.order_date)
+ORDER BY sale_date DESC;
+
+-- View для топ-продуктів за місяць
+CREATE VIEW monthly_top_products AS
+SELECT 
+    p.name as product_name,
+    c.name as category_name,
+    SUM(oi.quantity) as units_sold,
+    SUM(oi.quantity * oi.price) as revenue,
+    COUNT(DISTINCT oi.order_id) as orders_count
+FROM products p
+JOIN categories c ON p.category_id = c.id
+JOIN order_items oi ON p.id = oi.product_id
+JOIN orders o ON oi.order_id = o.id
+WHERE o.order_date >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
+  AND o.status = 'completed'
+GROUP BY p.id, p.name, c.name
+ORDER BY revenue DESC
+LIMIT 20;</code></pre>
+                            </div>
+                            
+                            <h5>Приклад 2: Безпека та контроль доступу</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- View для HR відділу (приховує зарплату)
+CREATE VIEW hr_employees AS
+SELECT 
+    id,
+    first_name,
+    last_name,
+    email,
+    phone,
+    department,
+    position,
+    hire_date,
+    status
+FROM employees
+WHERE status IN ('active', 'on_leave');
+
+-- View для менеджерів (з обмеженими даними про зарплату)
+CREATE VIEW manager_team_view AS
+SELECT 
+    e.id,
+    e.first_name,
+    e.last_name,
+    e.department,
+    e.position,
+    CASE 
+        WHEN e.salary < 50000 THEN 'Junior'
+        WHEN e.salary < 80000 THEN 'Middle'
+        ELSE 'Senior'
+    END as salary_level
+FROM employees e
+WHERE e.manager_id = USER_ID() -- функція поточного користувача
+  AND e.status = 'active';</code></pre>
+                            </div>
+                            
+                            <h5>Приклад 3: Спрощення складних запитів</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Базовий View для клієнтської інформації
+CREATE VIEW customer_profile AS
+SELECT 
+    c.id,
+    c.name,
+    c.email,
+    c.registration_date,
+    COUNT(DISTINCT o.id) as total_orders,
+    COALESCE(SUM(o.amount), 0) as total_spent,
+    MAX(o.order_date) as last_order_date,
+    CASE 
+        WHEN SUM(o.amount) > 10000 THEN 'VIP'
+        WHEN SUM(o.amount) > 5000 THEN 'Premium'
+        WHEN SUM(o.amount) > 1000 THEN 'Regular'
+        ELSE 'New'
+    END as customer_tier
+FROM customers c
+LEFT JOIN orders o ON c.id = o.customer_id AND o.status = 'completed'
+GROUP BY c.id, c.name, c.email, c.registration_date;
+
+-- Використання View у додатковому запиті
+SELECT 
+    customer_tier,
+    COUNT(*) as customer_count,
+    AVG(total_spent) as avg_spent_per_tier
+FROM customer_profile
+GROUP BY customer_tier
+ORDER BY avg_spent_per_tier DESC;</code></pre>
+                            </div>
+                            
+                            <h5>Приклад 4: Versioning та міграції</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- View для підтримки старого API після зміни структури таблиці
+-- Припустимо, ми розділили таблицю users на users та user_profiles
+
+CREATE VIEW legacy_users AS
+SELECT 
+    u.id,
+    u.email,
+    u.created_at as registration_date,
+    up.first_name,
+    up.last_name,
+    up.phone,
+    up.address,
+    up.birth_date
+FROM users u
+LEFT JOIN user_profiles up ON u.id = up.user_id;
+
+-- Тепер старий код може продовжувати працювати:
+-- SELECT * FROM legacy_users WHERE id = 123;</code></pre>
+                            </div>
+                            
+                            <p>
+                                View є потужним інструментом для організації даних, забезпечення безпеки 
+                                та спрощення роботи з складними запитами в MySQL.
+                            </p>
+                        </div>
                     </div>
                     <div id="5.3">
                         <h3>5.3 Тригери</h3>
-                        <p></p>
-                        <p></p>
-                        <p></p>
+                        <p>
+                            Тригери (Triggers) - це спеціальні збережені процедури, які автоматично виконуються 
+                            у відповідь на певні події в базі даних. Вони запускаються автоматично при виконанні 
+                            операцій INSERT, UPDATE або DELETE на певній таблиці.
+                        </p>
+                        <p>
+                            Тригери дозволяють реалізувати бізнес-логіку на рівні бази даних, забезпечити 
+                            аудит змін, валідацію даних та автоматичне оновлення пов'язаних таблиць.
+                        </p>
+                        
+                        <div id="5.3.1">
+                            <h4>5.3.1 Основи тригерів та їх типи</h4>
+                            <p>
+                                MySQL підтримує різні типи тригерів залежно від події та часу виконання.
+                            </p>
+                            
+                            <h5>Типи тригерів за подією</h5>
+                            <ul>
+                                <li><strong>INSERT тригери</strong> - виконуються при додаванні нових записів</li>
+                                <li><strong>UPDATE тригери</strong> - виконуються при зміні існуючих записів</li>
+                                <li><strong>DELETE тригери</strong> - виконуються при видаленні записів</li>
+                            </ul>
+                            
+                            <h5>Типи тригерів за часом виконання</h5>
+                            <ul>
+                                <li><strong>BEFORE тригери</strong> - виконуються перед основною операцією</li>
+                                <li><strong>AFTER тригери</strong> - виконуються після основної операції</li>
+                            </ul>
+                            
+                            <h5>Можливі комбінації тригерів</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Всі можливі типи тригерів:
+BEFORE INSERT
+AFTER INSERT
+BEFORE UPDATE  
+AFTER UPDATE
+BEFORE DELETE
+AFTER DELETE</code></pre>
+                            </div>
+                            
+                            <h5>Особливості тригерів</h5>
+                            <ul>
+                                <li>Автоматичне виконання (не можна викликати вручну)</li>
+                                <li>Виконуються в межах тієї самої транзакції</li>
+                                <li>Мають доступ до OLD та NEW значень</li>
+                                <li>Можуть змінювати дані (лише BEFORE тригери)</li>
+                                <li>Не повертають результати</li>
+                                <li>На одну подію може бути лише один тригер кожного типу</li>
+                            </ul>
+                            
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Базовий приклад тригера
+DELIMITER //
+
+CREATE TRIGGER update_timestamp
+    BEFORE UPDATE ON users
+    FOR EACH ROW
+BEGIN
+    SET NEW.updated_at = NOW();
+END //
+
+DELIMITER ;</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div id="5.3.2">
+                            <h4>5.3.2 Створення тригерів (BEFORE, AFTER)</h4>
+                            <p>
+                                Синтаксис створення тригерів в MySQL та приклади для різних типів операцій.
+                            </p>
+                            
+                            <h5>Синтаксис CREATE TRIGGER</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">CREATE [DEFINER = user] TRIGGER trigger_name
+    {BEFORE | AFTER} {INSERT | UPDATE | DELETE} 
+    ON table_name FOR EACH ROW
+    [FOLLOWS | PRECEDES other_trigger_name]
+BEGIN
+    trigger_body
+END</code></pre>
+                            </div>
+                            
+                            <h5>BEFORE тригери</h5>
+                            <p>Виконуються перед основною операцією та можуть змінювати дані:</p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">DELIMITER //
+
+-- BEFORE INSERT - валідація та обробка даних перед вставкою
+CREATE TRIGGER validate_user_before_insert
+    BEFORE INSERT ON users
+    FOR EACH ROW
+BEGIN
+    -- Валідація email
+    IF NEW.email NOT REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Неправильний формат email';
+    END IF;
+    
+    -- Автоматичне встановлення значень
+    SET NEW.created_at = NOW();
+    SET NEW.updated_at = NOW();
+    
+    -- Нормалізація даних
+    SET NEW.email = LOWER(TRIM(NEW.email));
+    SET NEW.name = TRIM(NEW.name);
+END //
+
+-- BEFORE UPDATE - контроль змін
+CREATE TRIGGER log_changes_before_update
+    BEFORE UPDATE ON products
+    FOR EACH ROW
+BEGIN
+    -- Перевірка зміни ціни
+    IF NEW.price <> OLD.price THEN
+        INSERT INTO price_history (product_id, old_price, new_price, changed_at)
+        VALUES (NEW.id, OLD.price, NEW.price, NOW());
+    END IF;
+    
+    -- Автоматичне оновлення timestamp
+    SET NEW.updated_at = NOW();
+    
+    -- Перевірка бізнес-правил
+    IF NEW.price < 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Ціна не може бути від\'ємною';
+    END IF;
+END //
+
+-- BEFORE DELETE - перевірка перед видаленням
+CREATE TRIGGER check_before_delete
+    BEFORE DELETE ON customers
+    FOR EACH ROW
+BEGIN
+    DECLARE order_count INT;
+    
+    -- Перевіряємо чи є замовлення у клієнта
+    SELECT COUNT(*) INTO order_count 
+    FROM orders 
+    WHERE customer_id = OLD.id;
+    
+    IF order_count > 0 THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Неможливо видалити клієнта з існуючими замовленнями';
+    END IF;
+END //
+
+DELIMITER ;</code></pre>
+                            </div>
+                            
+                            <h5>AFTER тригери</h5>
+                            <p>Виконуються після основної операції, використовуються для логування та сповіщень:</p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">DELIMITER //
+
+-- AFTER INSERT - логування та сповіщення
+CREATE TRIGGER log_new_user
+    AFTER INSERT ON users
+    FOR EACH ROW
+BEGIN
+    -- Логування реєстрації
+    INSERT INTO user_activity_log (user_id, action, details, created_at)
+    VALUES (NEW.id, 'REGISTERED', CONCAT('New user: ', NEW.name), NOW());
+    
+    -- Створення профілю користувача за замовчуванням
+    INSERT INTO user_profiles (user_id, notification_email, theme)
+    VALUES (NEW.id, NEW.email, 'default');
+END //
+
+-- AFTER UPDATE - аудит змін
+CREATE TRIGGER audit_user_changes
+    AFTER UPDATE ON users
+    FOR EACH ROW
+BEGIN
+    -- Логування всіх змін
+    INSERT INTO audit_log (
+        table_name, 
+        record_id, 
+        action, 
+        old_values, 
+        new_values, 
+        changed_by, 
+        changed_at
+    ) VALUES (
+        'users',
+        NEW.id,
+        'UPDATE',
+        JSON_OBJECT('name', OLD.name, 'email', OLD.email, 'status', OLD.status),
+        JSON_OBJECT('name', NEW.name, 'email', NEW.email, 'status', NEW.status),
+        USER(),
+        NOW()
+    );
+END //
+
+-- AFTER DELETE - архівування
+CREATE TRIGGER archive_deleted_order
+    AFTER DELETE ON orders
+    FOR EACH ROW
+BEGIN
+    -- Архівуємо видалене замовлення
+    INSERT INTO deleted_orders_archive (
+        original_id,
+        customer_id,
+        amount,
+        order_date,
+        deleted_at,
+        deleted_by
+    ) VALUES (
+        OLD.id,
+        OLD.customer_id,
+        OLD.amount,
+        OLD.order_date,
+        NOW(),
+        USER()
+    );
+END //
+
+DELIMITER ;</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div id="5.3.3">
+                            <h4>5.3.3 NEW та OLD в тригерах</h4>
+                            <p>
+                                NEW та OLD - це спеціальні ключові слова в тригерах, які надають доступ до 
+                                значень записів до та після зміни.
+                            </p>
+                            
+                            <h5>Доступність NEW та OLD</h5>
+                            <table style="border: 1px solid #2d4a2d; border-collapse: collapse; width: 100%; margin: 1rem 0;">
+                                <thead>
+                                    <tr style="background: #1a2e1a;">
+                                        <th style="border: 1px solid #2d4a2d; padding: 0.5rem;">Тип тригера</th>
+                                        <th style="border: 1px solid #2d4a2d; padding: 0.5rem;">OLD доступно</th>
+                                        <th style="border: 1px solid #2d4a2d; padding: 0.5rem;">NEW доступно</th>
+                                        <th style="border: 1px solid #2d4a2d; padding: 0.5rem;">NEW можна змінювати</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">BEFORE INSERT</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">❌</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">✅</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">✅</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">AFTER INSERT</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">❌</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">✅</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">❌</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">BEFORE UPDATE</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">✅</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">✅</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">✅</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">AFTER UPDATE</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">✅</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">✅</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">❌</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">BEFORE DELETE</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">✅</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">❌</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">❌</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">AFTER DELETE</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">✅</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">❌</td>
+                                        <td style="border: 1px solid #2d4a2d; padding: 0.5rem;">❌</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h5>Практичні приклади використання NEW та OLD</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">DELIMITER //
+
+-- Приклад 1: Автоматичне обчислення та валідація
+CREATE TRIGGER calculate_order_total
+    BEFORE INSERT ON order_items
+    FOR EACH ROW
+BEGIN
+    DECLARE product_price DECIMAL(10,2);
+    
+    -- Отримуємо ціну продукту
+    SELECT price INTO product_price 
+    FROM products 
+    WHERE id = NEW.product_id;
+    
+    -- Встановлюємо ціну та загальну суму
+    SET NEW.price = product_price;
+    SET NEW.total = NEW.quantity * NEW.price;
+    
+    -- Застосовуємо знижку
+    IF NEW.discount_percent > 0 THEN
+        SET NEW.total = NEW.total * (1 - NEW.discount_percent / 100);
+    END IF;
+END //
+
+-- Приклад 2: Відслідковування змін конкретних полів
+CREATE TRIGGER track_salary_changes
+    BEFORE UPDATE ON employees
+    FOR EACH ROW
+BEGIN
+    -- Перевіряємо чи змінилася зарплата
+    IF OLD.salary <> NEW.salary THEN
+        -- Валідація збільшення зарплати
+        IF NEW.salary < OLD.salary THEN
+            SIGNAL SQLSTATE '45000' 
+            SET MESSAGE_TEXT = 'Зарплата не може бути зменшена без особливого дозволу';
+        END IF;
+        
+        -- Логування зміни зарплати
+        INSERT INTO salary_changes (
+            employee_id,
+            old_salary,
+            new_salary,
+            change_percent,
+            changed_at,
+            changed_by
+        ) VALUES (
+            NEW.id,
+            OLD.salary,
+            NEW.salary,
+            ((NEW.salary - OLD.salary) / OLD.salary) * 100,
+            NOW(),
+            USER()
+        );
+    END IF;
+END //
+
+-- Приклад 3: Автоматичне оновлення залежних даних
+CREATE TRIGGER update_customer_stats
+    AFTER INSERT ON orders
+    FOR EACH ROW
+BEGIN
+    -- Оновлюємо статистику клієнта
+    UPDATE customer_statistics 
+    SET 
+        total_orders = total_orders + 1,
+        total_spent = total_spent + NEW.amount,
+        last_order_date = NEW.order_date,
+        average_order_value = total_spent / total_orders
+    WHERE customer_id = NEW.customer_id;
+    
+    -- Якщо запису немає, створюємо новий
+    INSERT INTO customer_statistics (
+        customer_id, 
+        total_orders, 
+        total_spent, 
+        first_order_date, 
+        last_order_date,
+        average_order_value
+    ) 
+    SELECT 
+        NEW.customer_id, 
+        1, 
+        NEW.amount, 
+        NEW.order_date, 
+        NEW.order_date,
+        NEW.amount
+    WHERE NOT EXISTS (
+        SELECT 1 FROM customer_statistics 
+        WHERE customer_id = NEW.customer_id
+    );
+END //
+
+-- Приклад 4: Складні умови на основі OLD та NEW
+CREATE TRIGGER manage_inventory
+    AFTER UPDATE ON order_items
+    FOR EACH ROW
+BEGIN
+    DECLARE quantity_diff INT;
+    
+    -- Обчислюємо різницю в кількості
+    SET quantity_diff = NEW.quantity - OLD.quantity;
+    
+    -- Якщо кількість змінилась, оновлюємо інвентар
+    IF quantity_diff <> 0 THEN
+        UPDATE inventory 
+        SET 
+            available_quantity = available_quantity - quantity_diff,
+            reserved_quantity = reserved_quantity + quantity_diff,
+            last_updated = NOW()
+        WHERE product_id = NEW.product_id;
+        
+        -- Перевірка наявності товару
+        IF (SELECT available_quantity FROM inventory WHERE product_id = NEW.product_id) < 0 THEN
+            SIGNAL SQLSTATE '45000' 
+            SET MESSAGE_TEXT = 'Недостатньо товару на складі';
+        END IF;
+    END IF;
+END //
+
+DELIMITER ;</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div id="5.3.4">
+                            <h4>5.3.4 Видалення та зміна тригерів</h4>
+                            <p>
+                                MySQL надає команди для управління існуючими тригерами: їх перегляду, видалення та зміни.
+                            </p>
+                            
+                            <h5>Перегляд тригерів</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Показати всі тригери в поточній базі даних
+SHOW TRIGGERS;
+
+-- Показати тригери конкретної таблиці
+SHOW TRIGGERS WHERE `Table` = 'users';
+
+-- Отримати детальну інформацію про тригер
+SELECT * FROM INFORMATION_SCHEMA.TRIGGERS 
+WHERE TRIGGER_NAME = 'update_timestamp';
+
+-- Показати тригери з фільтрацією
+SELECT 
+    TRIGGER_NAME,
+    EVENT_MANIPULATION,
+    ACTION_TIMING,
+    TABLE_NAME
+FROM INFORMATION_SCHEMA.TRIGGERS 
+WHERE TABLE_SCHEMA = DATABASE()
+ORDER BY TABLE_NAME, ACTION_TIMING, EVENT_MANIPULATION;</code></pre>
+                            </div>
+                            
+                            <h5>Видалення тригерів</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Видалення тригера
+DROP TRIGGER trigger_name;
+
+-- Видалення з перевіркою існування
+DROP TRIGGER IF EXISTS trigger_name;
+
+-- Видалення тригера з конкретної бази даних
+DROP TRIGGER database_name.trigger_name;</code></pre>
+                            </div>
+                            
+                            <h5>Зміна тригерів</h5>
+                            <p>
+                                MySQL не підтримує команду ALTER TRIGGER. Для зміни тригера потрібно його видалити та створити заново:
+                            </p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Процес зміни тригера
+-- 1. Видаляємо старий тригер
+DROP TRIGGER IF EXISTS old_trigger_name;
+
+-- 2. Створюємо новий з оновленою логікою
+DELIMITER //
+
+CREATE TRIGGER new_improved_trigger
+    BEFORE UPDATE ON users
+    FOR EACH ROW
+BEGIN
+    -- Нова покращена логіка
+    SET NEW.updated_at = NOW();
+    SET NEW.version = OLD.version + 1;
+    
+    -- Додаткова валідація
+    IF NEW.email <> OLD.email THEN
+        SET NEW.email_verified = FALSE;
+        SET NEW.email_verification_token = UUID();
+    END IF;
+END //
+
+DELIMITER ;</code></pre>
+                            </div>
+                            
+                            <h5>Приклад рефакторингу тригера</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Старий тригер (простий)
+DROP TRIGGER IF EXISTS simple_audit;
+
+DELIMITER //
+
+CREATE TRIGGER simple_audit
+    AFTER UPDATE ON products
+    FOR EACH ROW
+BEGIN
+    INSERT INTO audit_log (table_name, record_id, action, timestamp)
+    VALUES ('products', NEW.id, 'UPDATE', NOW());
+END //
+
+DELIMITER ;
+
+-- Новий покращений тригер
+DROP TRIGGER IF EXISTS simple_audit;
+
+DELIMITER //
+
+CREATE TRIGGER detailed_product_audit
+    AFTER UPDATE ON products
+    FOR EACH ROW
+BEGIN
+    DECLARE changes_json JSON;
+    DECLARE has_changes BOOLEAN DEFAULT FALSE;
+    
+    -- Створюємо JSON з усіма змінами
+    SET changes_json = JSON_OBJECT();
+    
+    -- Перевіряємо кожне поле на зміни
+    IF OLD.name <> NEW.name THEN
+        SET changes_json = JSON_SET(changes_json, '$.name', 
+            JSON_OBJECT('old', OLD.name, 'new', NEW.name));
+        SET has_changes = TRUE;
+    END IF;
+    
+    IF OLD.price <> NEW.price THEN
+        SET changes_json = JSON_SET(changes_json, '$.price', 
+            JSON_OBJECT('old', OLD.price, 'new', NEW.price));
+        SET has_changes = TRUE;
+    END IF;
+    
+    IF OLD.category_id <> NEW.category_id THEN
+        SET changes_json = JSON_SET(changes_json, '$.category_id', 
+            JSON_OBJECT('old', OLD.category_id, 'new', NEW.category_id));
+        SET has_changes = TRUE;
+    END IF;
+    
+    -- Записуємо лише якщо були зміни
+    IF has_changes THEN
+        INSERT INTO detailed_audit_log (
+            table_name,
+            record_id,
+            action,
+            changes,
+            user_id,
+            ip_address,
+            timestamp
+        ) VALUES (
+            'products',
+            NEW.id,
+            'UPDATE',
+            changes_json,
+            COALESCE(@current_user_id, 0),
+            COALESCE(@current_user_ip, 'unknown'),
+            NOW()
+        );
+    END IF;
+END //
+
+DELIMITER ;</code></pre>
+                            </div>
+                            
+                            <h5>Масове управління тригерами</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Генерація команд для видалення всіх тригерів
+SELECT CONCAT('DROP TRIGGER IF EXISTS ', TRIGGER_NAME, ';') as drop_command
+FROM INFORMATION_SCHEMA.TRIGGERS 
+WHERE TABLE_SCHEMA = DATABASE();
+
+-- Створення бекапу тригерів
+SELECT CONCAT(
+    'DELIMITER //', CHAR(10),
+    'CREATE TRIGGER ', TRIGGER_NAME, CHAR(10),
+    '    ', ACTION_TIMING, ' ', EVENT_MANIPULATION, ' ON ', TABLE_NAME, CHAR(10),
+    '    FOR EACH ROW', CHAR(10),
+    'BEGIN', CHAR(10),
+    '    -- Backup of trigger: ', TRIGGER_NAME, CHAR(10),
+    '    -- Original definition needs to be manually copied', CHAR(10),
+    'END //', CHAR(10),
+    'DELIMITER ;', CHAR(10)
+) as backup_trigger
+FROM INFORMATION_SCHEMA.TRIGGERS 
+WHERE TABLE_SCHEMA = DATABASE();</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div id="5.3.5">
+                            <h4>5.3.5 Практичні приклади тригерів</h4>
+                            <p>
+                                Комплексні приклади використання тригерів у реальних бізнес-сценаріях.
+                            </p>
+                            
+                            <h5>Приклад 1: Система нарахування бонусів</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">DELIMITER //
+
+-- Тригер для автоматичного нарахування бонусів
+CREATE TRIGGER calculate_loyalty_points
+    AFTER INSERT ON orders
+    FOR EACH ROW
+BEGIN
+    DECLARE customer_tier VARCHAR(20);
+    DECLARE points_multiplier DECIMAL(3,2);
+    DECLARE bonus_points INT;
+    
+    -- Отримуємо рівень клієнта
+    SELECT tier INTO customer_tier 
+    FROM customers 
+    WHERE id = NEW.customer_id;
+    
+    -- Встановлюємо множник залежно від рівня
+    CASE customer_tier
+        WHEN 'VIP' THEN SET points_multiplier = 2.0;
+        WHEN 'Premium' THEN SET points_multiplier = 1.5;
+        WHEN 'Gold' THEN SET points_multiplier = 1.2;
+        ELSE SET points_multiplier = 1.0;
+    END CASE;
+    
+    -- Обчислюємо бонусні бали (1 бал за кожну гривню)
+    SET bonus_points = FLOOR(NEW.amount * points_multiplier);
+    
+    -- Додаємо бали до рахунку клієнта
+    UPDATE customers 
+    SET loyalty_points = loyalty_points + bonus_points
+    WHERE id = NEW.customer_id;
+    
+    -- Записуємо історію нарахування балів
+    INSERT INTO loyalty_transactions (
+        customer_id,
+        order_id,
+        points_earned,
+        multiplier_used,
+        transaction_date
+    ) VALUES (
+        NEW.customer_id,
+        NEW.id,
+        bonus_points,
+        points_multiplier,
+        NOW()
+    );
+    
+    -- Перевіряємо підвищення рівня клієнта
+    CALL check_customer_tier_upgrade(NEW.customer_id);
+END //
+
+DELIMITER ;</code></pre>
+                            </div>
+                            
+                            <h5>Приклад 2: Автоматичне управління інвентарем</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">DELIMITER //
+
+-- Тригер для управління складськими залишками
+CREATE TRIGGER manage_product_inventory
+    AFTER INSERT ON order_items
+    FOR EACH ROW
+BEGIN
+    DECLARE current_stock INT;
+    DECLARE min_stock_level INT;
+    DECLARE supplier_id INT;
+    
+    -- Зменшуємо кількість на складі
+    UPDATE inventory 
+    SET 
+        quantity_available = quantity_available - NEW.quantity,
+        quantity_reserved = quantity_reserved + NEW.quantity,
+        last_updated = NOW()
+    WHERE product_id = NEW.product_id;
+    
+    -- Перевіряємо поточний стан складу
+    SELECT 
+        quantity_available, 
+        minimum_stock_level,
+        default_supplier_id
+    INTO current_stock, min_stock_level, supplier_id
+    FROM inventory 
+    WHERE product_id = NEW.product_id;
+    
+    -- Якщо залишок нижче мінімального - створюємо заявку на поповнення
+    IF current_stock <= min_stock_level THEN
+        INSERT INTO reorder_requests (
+            product_id,
+            supplier_id,
+            requested_quantity,
+            current_stock,
+            minimum_stock,
+            request_date,
+            priority,
+            status
+        ) VALUES (
+            NEW.product_id,
+            supplier_id,
+            min_stock_level * 2, -- замовляємо подвійну мінімальну кількість
+            current_stock,
+            min_stock_level,
+            NOW(),
+            CASE 
+                WHEN current_stock = 0 THEN 'URGENT'
+                WHEN current_stock <= min_stock_level * 0.5 THEN 'HIGH'
+                ELSE 'NORMAL'
+            END,
+            'PENDING'
+        );
+        
+        -- Сповіщаємо менеджера складу
+        INSERT INTO notifications (
+            recipient_role,
+            title,
+            message,
+            priority,
+            created_at
+        ) VALUES (
+            'warehouse_manager',
+            'Низький рівень запасів',
+            CONCAT('Товар ID ', NEW.product_id, ' потребує поповнення. Поточний залишок: ', current_stock),
+            CASE WHEN current_stock = 0 THEN 'HIGH' ELSE 'MEDIUM' END,
+            NOW()
+        );
+    END IF;
+END //
+
+-- Тригер для скасування резервування при скасуванні замовлення
+CREATE TRIGGER release_inventory_on_cancel
+    AFTER UPDATE ON orders
+    FOR EACH ROW
+BEGIN
+    -- Якщо замовлення скасовано
+    IF OLD.status <> 'cancelled' AND NEW.status = 'cancelled' THEN
+        -- Повертаємо товари до доступних запасів
+        UPDATE inventory i
+        JOIN order_items oi ON i.product_id = oi.product_id
+        SET 
+            i.quantity_available = i.quantity_available + oi.quantity,
+            i.quantity_reserved = i.quantity_reserved - oi.quantity,
+            i.last_updated = NOW()
+        WHERE oi.order_id = NEW.id;
+        
+        -- Логуємо операцію
+        INSERT INTO inventory_movements (
+            order_id,
+            movement_type,
+            description,
+            moved_at
+        ) VALUES (
+            NEW.id,
+            'RELEASE_RESERVATION',
+            'Inventory released due to order cancellation',
+            NOW()
+        );
+    END IF;
+END //
+
+DELIMITER ;</code></pre>
+                            </div>
+                            
+                            <h5>Приклад 3: Комплексний аудит та безпека</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">DELIMITER //
+
+-- Універсальний тригер аудиту для таблиці користувачів
+CREATE TRIGGER comprehensive_user_audit
+    AFTER UPDATE ON users
+    FOR EACH ROW
+BEGIN
+    DECLARE field_changes JSON DEFAULT JSON_OBJECT();
+    DECLARE sensitive_changed BOOLEAN DEFAULT FALSE;
+    DECLARE change_count INT DEFAULT 0;
+    
+    -- Перевіряємо зміни в кожному полі
+    IF OLD.email <> NEW.email THEN
+        SET field_changes = JSON_SET(field_changes, '$.email', 
+            JSON_OBJECT('old', OLD.email, 'new', NEW.email));
+        SET sensitive_changed = TRUE;
+        SET change_count = change_count + 1;
+    END IF;
+    
+    IF OLD.password_hash <> NEW.password_hash THEN
+        SET field_changes = JSON_SET(field_changes, '$.password', 
+            JSON_OBJECT('old', 'HIDDEN', 'new', 'CHANGED'));
+        SET sensitive_changed = TRUE;
+        SET change_count = change_count + 1;
+    END IF;
+    
+    IF OLD.role <> NEW.role THEN
+        SET field_changes = JSON_SET(field_changes, '$.role', 
+            JSON_OBJECT('old', OLD.role, 'new', NEW.role));
+        SET sensitive_changed = TRUE;
+        SET change_count = change_count + 1;
+    END IF;
+    
+    IF OLD.status <> NEW.status THEN
+        SET field_changes = JSON_SET(field_changes, '$.status', 
+            JSON_OBJECT('old', OLD.status, 'new', NEW.status));
+        SET change_count = change_count + 1;
+    END IF;
+    
+    IF OLD.phone <> NEW.phone THEN
+        SET field_changes = JSON_SET(field_changes, '$.phone', 
+            JSON_OBJECT('old', OLD.phone, 'new', NEW.phone));
+        SET change_count = change_count + 1;
+    END IF;
+    
+    -- Записуємо аудит лише якщо були зміни
+    IF change_count > 0 THEN
+        INSERT INTO security_audit_log (
+            table_name,
+            record_id,
+            action,
+            field_changes,
+            sensitive_data_changed,
+            change_count,
+            user_agent,
+            ip_address,
+            session_id,
+            changed_by,
+            changed_at
+        ) VALUES (
+            'users',
+            NEW.id,
+            'UPDATE',
+            field_changes,
+            sensitive_changed,
+            change_count,
+            COALESCE(@current_user_agent, 'unknown'),
+            COALESCE(@current_ip_address, 'unknown'),
+            COALESCE(@current_session_id, 'unknown'),
+            USER(),
+            NOW()
+        );
+        
+        -- Додаткове сповіщення для чутливих змін
+        IF sensitive_changed THEN
+            INSERT INTO security_alerts (
+                alert_type,
+                severity,
+                user_id,
+                description,
+                details,
+                created_at
+            ) VALUES (
+                'SENSITIVE_DATA_CHANGE',
+                CASE 
+                    WHEN JSON_EXTRACT(field_changes, '$.role') IS NOT NULL THEN 'HIGH'
+                    WHEN JSON_EXTRACT(field_changes, '$.email') IS NOT NULL THEN 'MEDIUM'
+                    ELSE 'LOW'
+                END,
+                NEW.id,
+                'Sensitive user data was modified',
+                field_changes,
+                NOW()
+            );
+        END IF;
+    END IF;
+END //
+
+DELIMITER ;</code></pre>
+                            </div>
+                            
+                            <p>
+                                Тригери є потужним інструментом для автоматизації бізнес-логіки на рівні бази даних, 
+                                але їх слід використовувати обережно, щоб не ускладнити логіку додатку та не знизити продуктивність.
+                            </p>
+                        </div>
                     </div>
                     <div id="5.4">
                         <h3>5.4 Привілеї. GRANT, REVOKE</h3>
-                        <p></p>
-                        <p></p>
-                        <p></p>
+                        <p>
+                            Система привілеїв MySQL забезпечує контроль доступу до баз даних та їх об'єктів. 
+                            Вона дозволяє визначити, які користувачі можуть виконувати конкретні операції 
+                            з певними базами даних, таблицями або навіть окремими стовпцями.
+                        </p>
+                        <p>
+                            Правильне налаштування привілеїв є критично важливим для безпеки бази даних, 
+                            оскільки дозволяє реалізувати принцип найменших привілеїв та захистити дані від несанкціонованого доступу.
+                        </p>
+                        
+                        <div id="5.4.1">
+                            <h4>5.4.1 Система привілеїв MySQL</h4>
+                            <p>
+                                MySQL використовує багаторівневу систему привілеїв, яка дозволяє гнучко контролювати доступ 
+                                на різних рівнях деталізації.
+                            </p>
+                            
+                            <h5>Рівні привілеїв</h5>
+                            <ul>
+                                <li><strong>Глобальні привілеї</strong> - застосовуються до всіх баз даних на сервері</li>
+                                <li><strong>Привілеї бази даних</strong> - застосовуються до конкретної бази даних</li>
+                                <li><strong>Привілеї таблиці</strong> - застосовуються до конкретної таблиці</li>
+                                <li><strong>Привілеї стовпця</strong> - застосовуються до конкретних стовпців таблиці</li>
+                                <li><strong>Привілеї процедур</strong> - застосовуються до збережених процедур та функцій</li>
+                            </ul>
+                            
+                            <h5>Системні таблиці привілеїв</h5>
+                            <p>MySQL зберігає інформацію про привілеї в системній базі даних `mysql`:</p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Основні таблиці привілеїв
+mysql.user          -- Глобальні привілеї користувачів
+mysql.db            -- Привілеї на рівні бази даних
+mysql.tables_priv   -- Привілеї на рівні таблиці
+mysql.columns_priv  -- Привілеї на рівні стовпця
+mysql.procs_priv    -- Привілеї для процедур та функцій
+mysql.proxies_priv  -- Привілеї проксі
+
+-- Перегляд поточних привілеїв
+SELECT * FROM mysql.user WHERE User = 'username';
+SELECT * FROM mysql.db WHERE User = 'username';</code></pre>
+                            </div>
+                            
+                            <h5>Принцип роботи системи привілеїв</h5>
+                            <ol>
+                                <li><strong>Автентифікація</strong> - перевірка імені користувача та паролю</li>
+                                <li><strong>Авторизація</strong> - перевірка привілеїв для конкретної операції</li>
+                                <li><strong>Ієрархія привілеїв</strong> - від найбільш специфічних до найбільш загальних</li>
+                                <li><strong>Кешування</strong> - привілеї кешуються для підвищення продуктивності</li>
+                            </ol>
+                            
+                            <h5>Формат облікових записів</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Формат: 'username'@'hostname'
+'john'@'localhost'        -- доступ лише з локального сервера
+'jane'@'%.example.com'    -- доступ з будь-якого хоста в домені example.com
+'admin'@'192.168.1.%'     -- доступ з підмережі 192.168.1.x
+'app'@'%'                 -- доступ з будь-якого хоста (небезпечно!)
+
+-- Спеціальні користувачі
+''@'localhost'            -- анонімний користувач (не рекомендується)
+'root'@'localhost'        -- адміністратор сервера</code></pre>
+                            </div>
+                            
+                            <h5>Команди для перегляду привілеїв</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Показати привілеї поточного користувача
+SHOW GRANTS;
+
+-- Показати привілеї конкретного користувача
+SHOW GRANTS FOR 'username'@'hostname';
+
+-- Показати всіх користувачів
+SELECT User, Host FROM mysql.user;
+
+-- Детальна інформація про користувача
+SELECT * FROM mysql.user WHERE User = 'username' AND Host = 'hostname';</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div id="5.4.2">
+                            <h4>5.4.2 Типи привілеїв та рівні доступу</h4>
+                            <p>
+                                MySQL підтримує широкий спектр привілеїв для різних типів операцій.
+                            </p>
+                            
+                            <h5>Привілеї для роботи з даними</h5>
+                            <ul>
+                                <li><strong>SELECT</strong> - читання даних з таблиць</li>
+                                <li><strong>INSERT</strong> - додавання нових записів</li>
+                                <li><strong>UPDATE</strong> - зміна існуючих записів</li>
+                                <li><strong>DELETE</strong> - видалення записів</li>
+                            </ul>
+                            
+                            <h5>Привілеї для роботи зі структурою</h5>
+                            <ul>
+                                <li><strong>CREATE</strong> - створення баз даних та таблиць</li>
+                                <li><strong>ALTER</strong> - зміна структури таблиць</li>
+                                <li><strong>DROP</strong> - видалення баз даних та таблиць</li>
+                                <li><strong>INDEX</strong> - створення та видалення індексів</li>
+                                <li><strong>REFERENCES</strong> - створення зовнішніх ключів</li>
+                            </ul>
+                            
+                            <h5>Адміністративні привілеї</h5>
+                            <ul>
+                                <li><strong>GRANT OPTION</strong> - надання привілеїв іншим користувачам</li>
+                                <li><strong>RELOAD</strong> - перезавантаження конфігурації</li>
+                                <li><strong>SHUTDOWN</strong> - зупинка сервера</li>
+                                <li><strong>PROCESS</strong> - перегляд процесів</li>
+                                <li><strong>FILE</strong> - робота з файлами на сервері</li>
+                                <li><strong>SUPER</strong> - суперпривілеї адміністратора</li>
+                            </ul>
+                            
+                            <h5>Привілеї для процедур</h5>
+                            <ul>
+                                <li><strong>CREATE ROUTINE</strong> - створення процедур та функцій</li>
+                                <li><strong>ALTER ROUTINE</strong> - зміна процедур та функцій</li>
+                                <li><strong>EXECUTE</strong> - виконання процедур та функцій</li>
+                            </ul>
+                            
+                            <h5>Приклади використання різних привілеїв</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Базові права для читання
+GRANT SELECT ON company_db.employees TO 'hr_user'@'%';
+
+-- Права для модифікації даних
+GRANT SELECT, INSERT, UPDATE ON company_db.products TO 'sales_user'@'%';
+
+-- Права на рівні стовпця (приховування зарплати)
+GRANT SELECT (id, name, department, position) ON company_db.employees TO 'manager'@'%';
+
+-- Права на створення таблиць
+GRANT CREATE, ALTER, DROP ON company_db.* TO 'developer'@'localhost';
+
+-- Адміністративні права
+GRANT RELOAD, PROCESS ON *.* TO 'admin'@'localhost';
+
+-- Права на процедури
+GRANT EXECUTE ON PROCEDURE company_db.get_employee_info TO 'app_user'@'%';</code></pre>
+                            </div>
+                            
+                            <h5>Комбіновані привілеї</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Повні права на базу даних
+GRANT ALL PRIVILEGES ON company_db.* TO 'db_admin'@'localhost';
+
+-- Права для веб-додатку
+GRANT SELECT, INSERT, UPDATE, DELETE ON webapp_db.* TO 'webapp'@'%';
+
+-- Права для резервного копіювання
+GRANT SELECT, LOCK TABLES, SHOW VIEW, EVENT, TRIGGER ON *.* TO 'backup_user'@'localhost';
+
+-- Права для репликації
+GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'repl_user'@'%';</code></pre>
+                            </div>
+                            
+                            <h5>Обмеження ресурсів</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Встановлення лімітів для користувача
+ALTER USER 'limited_user'@'%' WITH
+    MAX_QUERIES_PER_HOUR 1000
+    MAX_UPDATES_PER_HOUR 500
+    MAX_CONNECTIONS_PER_HOUR 10
+    MAX_USER_CONNECTIONS 5;</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div id="5.4.3">
+                            <h4>5.4.3 Команда GRANT для надання прав</h4>
+                            <p>
+                                Команда GRANT використовується для надання привілеїв користувачам та ролям.
+                            </p>
+                            
+                            <h5>Синтаксис команди GRANT</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">GRANT privilege_list 
+ON object_type privilege_level 
+TO user_specification [, user_specification]...
+[WITH GRANT OPTION]
+[AS user [WITH ROLE role [, role]...]]</code></pre>
+                            </div>
+                            
+                            <h5>Основні варіанти використання</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Створення користувача з правами
+CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'secure_password';
+GRANT SELECT, INSERT ON company_db.* TO 'newuser'@'localhost';
+
+-- Надання прав існуючому користувачу
+GRANT UPDATE, DELETE ON company_db.employees TO 'existing_user'@'%';
+
+-- Права на всі таблиці в базі даних
+GRANT ALL PRIVILEGES ON shop_db.* TO 'shop_admin'@'localhost';
+
+-- Глобальні права
+GRANT CREATE, DROP ON *.* TO 'db_developer'@'%';
+
+-- Права на конкретну таблицю
+GRANT SELECT (name, email), UPDATE (email) ON users.customers TO 'support'@'%';</code></pre>
+                            </div>
+                            
+                            <h5>Надання прав з можливістю передачі</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- WITH GRANT OPTION дозволяє користувачу надавати права іншим
+GRANT SELECT, INSERT ON company_db.* TO 'team_lead'@'%' WITH GRANT OPTION;
+
+-- Тепер team_lead може надавати ці права іншим користувачам
+-- (виконується від імені team_lead)
+GRANT SELECT ON company_db.* TO 'junior_dev'@'%';</code></pre>
+                            </div>
+                            
+                            <h5>Права на процедури та функції</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Права на виконання процедури
+GRANT EXECUTE ON PROCEDURE company_db.calculate_salary TO 'hr_system'@'%';
+
+-- Права на виконання функції
+GRANT EXECUTE ON FUNCTION company_db.get_discount TO 'sales_app'@'%';
+
+-- Права на створення процедур
+GRANT CREATE ROUTINE ON company_db.* TO 'developer'@'localhost';
+
+-- Права на зміну процедур
+GRANT ALTER ROUTINE ON PROCEDURE company_db.update_inventory TO 'admin'@'localhost';</code></pre>
+                            </div>
+                            
+                            <h5>Комплексні приклади надання прав</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Створення та налаштування користувача для веб-додатку
+CREATE USER 'webapp'@'%' IDENTIFIED BY 'strong_webapp_password';
+
+-- Основні права для роботи з даними
+GRANT SELECT, INSERT, UPDATE, DELETE ON ecommerce_db.products TO 'webapp'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ecommerce_db.orders TO 'webapp'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ecommerce_db.customers TO 'webapp'@'%';
+
+-- Права лише на читання для деяких таблиць
+GRANT SELECT ON ecommerce_db.categories TO 'webapp'@'%';
+GRANT SELECT ON ecommerce_db.suppliers TO 'webapp'@'%';
+
+-- Права на процедури
+GRANT EXECUTE ON PROCEDURE ecommerce_db.process_order TO 'webapp'@'%';
+GRANT EXECUTE ON PROCEDURE ecommerce_db.calculate_shipping TO 'webapp'@'%';
+
+-- Обмеження ресурсів
+ALTER USER 'webapp'@'%' WITH 
+    MAX_QUERIES_PER_HOUR 10000
+    MAX_UPDATES_PER_HOUR 1000
+    MAX_CONNECTIONS_PER_HOUR 100;</code></pre>
+                            </div>
+                            
+                            <h5>Надання прав для різних ролей</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Аналітик (лише читання)
+CREATE USER 'analyst'@'%' IDENTIFIED BY 'analyst_password';
+GRANT SELECT ON reporting_db.* TO 'analyst'@'%';
+GRANT SELECT ON logs_db.access_logs TO 'analyst'@'%';
+
+-- Менеджер контенту
+CREATE USER 'content_manager'@'%' IDENTIFIED BY 'content_password';
+GRANT SELECT, INSERT, UPDATE ON cms_db.articles TO 'content_manager'@'%';
+GRANT SELECT, INSERT, UPDATE ON cms_db.pages TO 'content_manager'@'%';
+GRANT SELECT ON cms_db.users TO 'content_manager'@'%';
+
+-- Резервне копіювання
+CREATE USER 'backup'@'localhost' IDENTIFIED BY 'backup_password';
+GRANT SELECT, LOCK TABLES, SHOW VIEW, EVENT, TRIGGER ON *.* TO 'backup'@'localhost';
+GRANT RELOAD, PROCESS ON *.* TO 'backup'@'localhost';
+
+-- Моніторинг
+CREATE USER 'monitor'@'%' IDENTIFIED BY 'monitor_password';
+GRANT PROCESS, REPLICATION CLIENT ON *.* TO 'monitor'@'%';
+GRANT SELECT ON performance_schema.* TO 'monitor'@'%';
+GRANT SELECT ON information_schema.* TO 'monitor'@'%';</code></pre>
+                            </div>
+                            
+                            <h5>Перевірка наданих прав</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Перевірка прав після надання
+SHOW GRANTS FOR 'webapp'@'%';
+
+-- Перевірка з поясненнями
+SELECT 
+    GRANTEE,
+    TABLE_SCHEMA,
+    TABLE_NAME,
+    PRIVILEGE_TYPE,
+    IS_GRANTABLE
+FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES 
+WHERE GRANTEE = "'webapp'@'%'";
+
+-- Оновлення кешу привілеїв
+FLUSH PRIVILEGES;</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div id="5.4.4">
+                            <h4>5.4.4 Команда REVOKE для відкликання прав</h4>
+                            <p>
+                                Команда REVOKE використовується для відкликання раніше наданих привілеїв.
+                            </p>
+                            
+                            <h5>Синтаксис команди REVOKE</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">REVOKE privilege_list 
+ON object_type privilege_level 
+FROM user_specification [, user_specification]...
+
+REVOKE ALL PRIVILEGES, GRANT OPTION 
+FROM user_specification [, user_specification]...</code></pre>
+                            </div>
+                            
+                            <h5>Основні приклади відкликання прав</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Відкликання конкретних прав
+REVOKE INSERT, UPDATE ON company_db.employees FROM 'temp_user'@'%';
+
+-- Відкликання прав на конкретну таблицю
+REVOKE ALL PRIVILEGES ON company_db.salary_info FROM 'former_hr'@'%';
+
+-- Відкликання глобальних прав
+REVOKE CREATE, DROP ON *.* FROM 'ex_developer'@'%';
+
+-- Відкликання права на передачу привілеїв
+REVOKE GRANT OPTION ON company_db.* FROM 'team_lead'@'%';</code></pre>
+                            </div>
+                            
+                            <h5>Відкликання всіх прав</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Відкликання всіх привілеїв користувача
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'old_user'@'%';
+
+-- Відкликання всіх прав на базу даних
+REVOKE ALL PRIVILEGES ON test_db.* FROM 'test_user'@'localhost';
+
+-- Поетапне відкликання прав
+REVOKE DELETE ON sensitive_data.* FROM 'limited_user'@'%';
+REVOKE UPDATE ON sensitive_data.personal_info FROM 'limited_user'@'%';
+REVOKE INSERT ON sensitive_data.audit_log FROM 'limited_user'@'%';</code></pre>
+                            </div>
+                            
+                            <h5>Відкликання прав на процедури</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Відкликання права на виконання процедури
+REVOKE EXECUTE ON PROCEDURE finance_db.calculate_tax FROM 'app_user'@'%';
+
+-- Відкликання права на зміну процедури
+REVOKE ALTER ROUTINE ON PROCEDURE hr_db.update_salary FROM 'junior_dev'@'%';
+
+-- Відкликання права на створення процедур
+REVOKE CREATE ROUTINE ON company_db.* FROM 'contractor'@'%';</code></pre>
+                            </div>
+                            
+                            <h5>Сценарії відкликання прав</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Сценарій 1: Звільнення співробітника
+-- Спочатку перевіряємо поточні права
+SHOW GRANTS FOR 'fired_employee'@'%';
+
+-- Відкликаємо всі права
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'fired_employee'@'%';
+
+-- Опціонально: видаляємо користувача
+DROP USER 'fired_employee'@'%';
+
+-- Сценарій 2: Зміна ролі співробітника (з адміністратора на звичайного користувача)
+-- Відкликаємо адміністративні права
+REVOKE CREATE, ALTER, DROP, INDEX ON *.* FROM 'demoted_admin'@'%';
+REVOKE GRANT OPTION ON *.* FROM 'demoted_admin'@'%';
+REVOKE SUPER, RELOAD, PROCESS ON *.* FROM 'demoted_admin'@'%';
+
+-- Залишаємо лише базові права
+-- (права на SELECT, INSERT, UPDATE залишаються)</code></pre>
+                            </div>
+                            
+                            <h5>Безпечне відкликання прав</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Перед відкликанням прав завжди перевіряйте поточний стан
+SELECT 
+    GRANTEE,
+    PRIVILEGE_TYPE,
+    TABLE_SCHEMA,
+    TABLE_NAME,
+    IS_GRANTABLE
+FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES 
+WHERE GRANTEE = "'username'@'%'"
+ORDER BY TABLE_SCHEMA, TABLE_NAME, PRIVILEGE_TYPE;
+
+-- Поетапне відкликання з логуванням
+-- 1. Логуємо поточні права
+CREATE TABLE privilege_changes_log (
+    change_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    username VARCHAR(100),
+    hostname VARCHAR(100),
+    action ENUM('GRANT', 'REVOKE'),
+    privilege_type VARCHAR(50),
+    object_type VARCHAR(50),
+    object_name VARCHAR(200),
+    changed_by VARCHAR(100)
+);
+
+-- 2. Відкликаємо права з логуванням
+INSERT INTO privilege_changes_log 
+(username, hostname, action, privilege_type, object_type, object_name, changed_by)
+VALUES ('old_user', '%', 'REVOKE', 'INSERT', 'TABLE', 'company_db.employees', USER());
+
+REVOKE INSERT ON company_db.employees FROM 'old_user'@'%';
+
+-- 3. Оновлюємо кеш привілеїв
+FLUSH PRIVILEGES;</code></pre>
+                            </div>
+                            
+                            <h5>Помилки при відкликанні прав</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Спроба відкликати неіснуючі права призведе до помилки
+-- Щоб уникнути помилок, спочатку перевіряйте існування прав
+
+-- Безпечний спосіб відкликання
+DELIMITER //
+
+CREATE PROCEDURE safe_revoke_privilege(
+    IN p_user VARCHAR(100),
+    IN p_host VARCHAR(100),
+    IN p_privilege VARCHAR(50),
+    IN p_object VARCHAR(200)
+)
+BEGIN
+    DECLARE privilege_exists INT DEFAULT 0;
+    
+    -- Перевіряємо чи існує привілей
+    SELECT COUNT(*) INTO privilege_exists
+    FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES
+    WHERE GRANTEE = CONCAT("'", p_user, "'@'", p_host, "'")
+    AND PRIVILEGE_TYPE = p_privilege
+    AND CONCAT(TABLE_SCHEMA, '.', TABLE_NAME) = p_object;
+    
+    -- Відкликаємо лише якщо привілей існує
+    IF privilege_exists > 0 THEN
+        SET @sql = CONCAT('REVOKE ', p_privilege, ' ON ', p_object, 
+                         ' FROM ''', p_user, '''@''', p_host, '''');
+        PREPARE stmt FROM @sql;
+        EXECUTE stmt;
+        DEALLOCATE PREPARE stmt;
+        
+        SELECT CONCAT('Привілей відкликано: ', p_privilege, ' on ', p_object) as result;
+    ELSE
+        SELECT CONCAT('Привілей не існує: ', p_privilege, ' on ', p_object) as result;
+    END IF;
+END //
+
+DELIMITER ;
+
+-- Використання безпечної процедури
+CALL safe_revoke_privilege('testuser', '%', 'INSERT', 'company_db.employees');</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div id="5.4.5">
+                            <h4>5.4.5 Управління користувачами та ролями</h4>
+                            <p>
+                                Комплексне управління користувачами включає створення, зміну, видалення облікових записів, 
+                                а також роботу з ролями для спрощення управління привілеями.
+                            </p>
+                            
+                            <h5>Створення та управління користувачами</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Створення користувача з паролем
+CREATE USER 'new_user'@'localhost' IDENTIFIED BY 'strong_password';
+
+-- Створення користувача з автоматично згенерованим паролем
+CREATE USER 'random_user'@'%' IDENTIFIED BY RANDOM PASSWORD;
+
+-- Створення користувача з обмеженнями
+CREATE USER 'limited_user'@'%' 
+IDENTIFIED BY 'password'
+WITH MAX_QUERIES_PER_HOUR 1000
+     MAX_UPDATES_PER_HOUR 500
+     MAX_CONNECTIONS_PER_HOUR 10;
+
+-- Створення користувача з плагіном автентифікації
+CREATE USER 'auth_user'@'%' 
+IDENTIFIED WITH mysql_native_password BY 'password';
+
+-- Створення кількох користувачів одночасно
+CREATE USER 
+    'user1'@'localhost' IDENTIFIED BY 'pass1',
+    'user2'@'%' IDENTIFIED BY 'pass2',
+    'user3'@'192.168.1.%' IDENTIFIED BY 'pass3';</code></pre>
+                            </div>
+                            
+                            <h5>Зміна користувачів</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Зміна паролю
+ALTER USER 'existing_user'@'%' IDENTIFIED BY 'new_password';
+
+-- Встановлення терміну дії паролю
+ALTER USER 'temp_user'@'%' PASSWORD EXPIRE INTERVAL 90 DAY;
+
+-- Примусова зміна паролю при наступному вході
+ALTER USER 'must_change'@'%' PASSWORD EXPIRE;
+
+-- Блокування користувача
+ALTER USER 'blocked_user'@'%' ACCOUNT LOCK;
+
+-- Розблокування користувача
+ALTER USER 'blocked_user'@'%' ACCOUNT UNLOCK;
+
+-- Зміна обмежень ресурсів
+ALTER USER 'heavy_user'@'%' WITH
+    MAX_QUERIES_PER_HOUR 5000
+    MAX_UPDATES_PER_HOUR 1000
+    MAX_CONNECTIONS_PER_HOUR 50
+    MAX_USER_CONNECTIONS 10;</code></pre>
+                            </div>
+                            
+                            <h5>Ролі в MySQL 8.0+</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Створення ролей
+CREATE ROLE 'app_read_only', 'app_read_write', 'app_admin';
+
+-- Надання привілеїв ролям
+GRANT SELECT ON company_db.* TO 'app_read_only';
+GRANT SELECT, INSERT, UPDATE, DELETE ON company_db.* TO 'app_read_write';
+GRANT ALL PRIVILEGES ON company_db.* TO 'app_admin' WITH GRANT OPTION;
+
+-- Призначення ролей користувачам
+GRANT 'app_read_only' TO 'analyst'@'%';
+GRANT 'app_read_write' TO 'developer'@'%';
+GRANT 'app_admin' TO 'db_admin'@'localhost';
+
+-- Встановлення ролі за замовчуванням
+ALTER USER 'analyst'@'%' DEFAULT ROLE 'app_read_only';
+
+-- Активація ролі в сесії
+SET ROLE 'app_read_write';
+
+-- Активація всіх ролей
+SET ROLE ALL;
+
+-- Перегляд поточних ролей
+SELECT CURRENT_ROLE();</code></pre>
+                            </div>
+                            
+                            <h5>Комплексний приклад: система управління персоналом</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- 1. Створення ролей для різних департаментів
+CREATE ROLE 'hr_role', 'finance_role', 'it_role', 'manager_role';
+
+-- 2. Налаштування привілеїв для HR
+GRANT SELECT, INSERT, UPDATE ON company_db.employees TO 'hr_role';
+GRANT SELECT ON company_db.departments TO 'hr_role';
+GRANT SELECT ON company_db.positions TO 'hr_role';
+
+-- 3. Налаshtування привілеїв для фінансів
+GRANT SELECT ON company_db.employees TO 'finance_role';
+GRANT SELECT, INSERT, UPDATE ON company_db.salaries TO 'finance_role';
+GRANT SELECT, INSERT, UPDATE ON company_db.expenses TO 'finance_role';
+
+-- 4. Налаshtування привілеїв для IT
+GRANT ALL PRIVILEGES ON company_db.* TO 'it_role';
+GRANT SELECT ON mysql.user TO 'it_role';
+
+-- 5. Налаштування привілеїв для менеджерів
+GRANT SELECT ON company_db.employees TO 'manager_role';
+GRANT SELECT ON company_db.projects TO 'manager_role';
+GRANT SELECT, INSERT, UPDATE ON company_db.tasks TO 'manager_role';
+
+-- 6. Створення користувачів та призначення ролей
+CREATE USER 'anna_hr'@'%' IDENTIFIED BY 'hr_password';
+CREATE USER 'bob_finance'@'%' IDENTIFIED BY 'finance_password';
+CREATE USER 'charlie_it'@'%' IDENTIFIED BY 'it_password';
+CREATE USER 'diana_manager'@'%' IDENTIFIED BY 'manager_password';
+
+-- 7. Призначення ролей
+GRANT 'hr_role' TO 'anna_hr'@'%';
+GRANT 'finance_role' TO 'bob_finance'@'%';
+GRANT 'it_role' TO 'charlie_it'@'%';
+GRANT 'manager_role' TO 'diana_manager'@'%';
+
+-- 8. Встановлення ролей за замовчуванням
+ALTER USER 'anna_hr'@'%' DEFAULT ROLE 'hr_role';
+ALTER USER 'bob_finance'@'%' DEFAULT ROLE 'finance_role';
+ALTER USER 'charlie_it'@'%' DEFAULT ROLE 'it_role';
+ALTER USER 'diana_manager'@'%' DEFAULT ROLE 'manager_role';</code></pre>
+                            </div>
+                            
+                            <h5>Моніторинг та аудит користувачів</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Перегляд всіх користувачів та їх статусу
+SELECT 
+    User,
+    Host,
+    account_locked,
+    password_expired,
+    password_last_changed,
+    password_lifetime
+FROM mysql.user;
+
+-- Перегляд активних з'єднань
+SELECT 
+    USER,
+    HOST,
+    DB,
+    COMMAND,
+    TIME,
+    STATE,
+    INFO
+FROM INFORMATION_SCHEMA.PROCESSLIST;
+
+-- Аудит привілеїв користувача
+SELECT 
+    GRANTEE,
+    PRIVILEGE_TYPE,
+    TABLE_SCHEMA,
+    TABLE_NAME,
+    IS_GRANTABLE
+FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES 
+WHERE GRANTEE = "'username'@'%'"
+UNION ALL
+SELECT 
+    GRANTEE,
+    PRIVILEGE_TYPE,
+    SCHEMA_NAME as TABLE_SCHEMA,
+    NULL as TABLE_NAME,
+    IS_GRANTABLE
+FROM INFORMATION_SCHEMA.SCHEMA_PRIVILEGES 
+WHERE GRANTEE = "'username'@'%'"
+ORDER BY TABLE_SCHEMA, TABLE_NAME, PRIVILEGE_TYPE;
+
+-- Створення звіту про користувачів
+CREATE VIEW user_privileges_report AS
+SELECT 
+    u.User,
+    u.Host,
+    u.account_locked,
+    u.password_expired,
+    GROUP_CONCAT(DISTINCT tp.PRIVILEGE_TYPE) as table_privileges,
+    GROUP_CONCAT(DISTINCT sp.PRIVILEGE_TYPE) as schema_privileges
+FROM mysql.user u
+LEFT JOIN INFORMATION_SCHEMA.TABLE_PRIVILEGES tp ON 
+    CONCAT("'", u.User, "'@'", u.Host, "'") = tp.GRANTEE
+LEFT JOIN INFORMATION_SCHEMA.SCHEMA_PRIVILEGES sp ON 
+    CONCAT("'", u.User, "'@'", u.Host, "'") = sp.GRANTEE
+GROUP BY u.User, u.Host, u.account_locked, u.password_expired;</code></pre>
+                            </div>
+                            
+                            <h5>Видалення користувачів та очищення</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Безпечне видалення користувача
+-- 1. Спочатку перевіряємо поточні з'єднання
+SELECT * FROM INFORMATION_SCHEMA.PROCESSLIST WHERE USER = 'user_to_delete';
+
+-- 2. Завершуємо активні з'єднання (якщо необхідно)
+KILL CONNECTION process_id;
+
+-- 3. Відкликаємо всі права
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'user_to_delete'@'%';
+
+-- 4. Видаляємо користувача
+DROP USER 'user_to_delete'@'%';
+
+-- Видалення кількох користувачів
+DROP USER 
+    'old_user1'@'%',
+    'old_user2'@'localhost',
+    'temp_user'@'192.168.1.%';
+
+-- Видалення ролі
+DROP ROLE 'obsolete_role';
+
+-- Оновлення кешу привілеїв
+FLUSH PRIVILEGES;</code></pre>
+                            </div>
+                            
+                            <p>
+                                Правильне управління користувачами та привілеями є основою безпеки бази даних. 
+                                Регулярно аудитуйте права доступу, використовуйте принцип найменших привілеїв 
+                                та видаляйте непотрібні облікові записи.
+                            </p>
+                        </div>
                     </div>
                     <div id="5.5">
                         <h3>5.5 Нормалізація</h3>
-                        <p></p>
-                        <p></p>
-                        <p></p>
+                        <p>
+                            Нормалізація - це процес організації даних в реляційній базі даних для зменшення надмірності 
+                            та покращення цілісності даних. Цей процес включає розбиття таблиць на менші, пов'язані таблиці 
+                            та визначення зв'язків між ними.
+                        </p>
+                        <p>
+                            Правильна нормалізація допомагає уникнути аномалій при вставці, оновленні та видаленні даних, 
+                            а також забезпечує ефективне використання дискового простору та підтримку цілісності даних.
+                        </p>
+                        
+                        <div id="5.5.1">
+                            <h4>5.5.1 Поняття нормалізації та її важливість</h4>
+                            <p>
+                                Нормалізація базується на математичній теорії реляційних баз даних та визначає правила 
+                                для організації даних у нормальних формах.
+                            </p>
+                            
+                            <h5>Цілі нормалізації</h5>
+                            <ul>
+                                <li><strong>Елімінація надмірності</strong> - видалення дублювання даних</li>
+                                <li><strong>Забезпечення цілісності</strong> - запобігання неконсистентним даним</li>
+                                <li><strong>Покращення підтримки</strong> - спрощення змін в структурі даних</li>
+                                <li><strong>Оптимізація простору</strong> - зменшення розміру бази даних</li>
+                                <li><strong>Запобігання аномаліям</strong> - уникнення проблем при модифікації даних</li>
+                            </ul>
+                            
+                            <h5>Типи аномалій без нормалізації</h5>
+                            <p>Розглянемо приклад ненормалізованої таблиці студентів:</p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Ненормалізована таблиця
+CREATE TABLE students_courses (
+    student_id INT,
+    student_name VARCHAR(100),
+    student_email VARCHAR(100),
+    course_id INT,
+    course_name VARCHAR(100),
+    instructor_name VARCHAR(100),
+    instructor_office VARCHAR(50),
+    grade CHAR(2)
+);</code></pre>
+                            </div>
+                            
+                            <h6>1. Аномалія вставки</h6>
+                            <p>Неможливо додати інформацію про новий курс без реєстрації студента:</p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Проблема: не можемо додати курс без студента
+INSERT INTO students_courses (course_id, course_name, instructor_name, instructor_office)
+VALUES (101, 'Database Design', 'Dr. Smith', 'Room 205');
+-- ERROR: student_id не може бути NULL</code></pre>
+                            </div>
+                            
+                            <h6>2. Аномалія оновлення</h6>
+                            <p>Зміна інформації про викладача потребує оновлення в декількох місцях:</p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Проблема: потрібно оновити всі записи з Dr. Smith
+UPDATE students_courses 
+SET instructor_office = 'Room 210' 
+WHERE instructor_name = 'Dr. Smith';
+-- Якщо пропустимо якийсь запис - виникне неконсистентність</code></pre>
+                            </div>
+                            
+                            <h6>3. Аномалія видалення</h6>
+                            <p>Видалення останнього студента може призвести до втрати інформації про курс:</p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Проблема: видаляючи студента, втрачаємо інформацію про курс
+DELETE FROM students_courses 
+WHERE student_id = 123 AND course_id = 101;
+-- Якщо це був останній студент на курсі - втрачаємо дані про курс</code></pre>
+                            </div>
+                            
+                            <h5>Переваги нормалізації</h5>
+                            <ul>
+                                <li><strong>Зменшення дублювання</strong> - кожен факт зберігається лише один раз</li>
+                                <li><strong>Легкість підтримки</strong> - зміни вносяться в одному місці</li>
+                                <li><strong>Цілісність даних</strong> - зменшення ризику неконсистентності</li>
+                                <li><strong>Гнучкість</strong> - легше додавати нові типи даних</li>
+                                <li><strong>Безпека</strong> - можливість надавати різні права доступу до різних таблиць</li>
+                            </ul>
+                            
+                            <h5>Недоліки надмірної нормалізації</h5>
+                            <ul>
+                                <li><strong>Складність запитів</strong> - потреба в багатьох JOIN операціях</li>
+                                <li><strong>Продуктивність</strong> - можливе зниження швидкості виконання запитів</li>
+                                <li><strong>Складність розуміння</strong> - більша кількість таблиць для вивчення</li>
+                            </ul>
+                            
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Приклад нормалізованої структури (попередній погляд)
+CREATE TABLE students (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(100),
+    student_email VARCHAR(100)
+);
+
+CREATE TABLE instructors (
+    instructor_id INT PRIMARY KEY,
+    instructor_name VARCHAR(100),
+    office VARCHAR(50)
+);
+
+CREATE TABLE courses (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(100),
+    instructor_id INT,
+    FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id)
+);
+
+CREATE TABLE enrollments (
+    student_id INT,
+    course_id INT,
+    grade CHAR(2),
+    PRIMARY KEY (student_id, course_id),
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+);</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div id="5.5.2">
+                            <h4>5.5.2 Перша нормальна форма (1NF)</h4>
+                            <p>
+                                Перша нормальна форма (1NF) є базовою вимогою для реляційних таблиць. 
+                                Таблиця знаходиться в 1NF, якщо всі її атрибути містять лише атомарні (неподільні) значення.
+                            </p>
+                            
+                            <h5>Правила 1NF</h5>
+                            <ul>
+                                <li>Кожна клітинка таблиці містить лише одне значення</li>
+                                <li>Всі записи в стовпці мають однаковий тип даних</li>
+                                <li>Кожен запис є унікальним</li>
+                                <li>Порядок рядків не має значення</li>
+                            </ul>
+                            
+                            <h5>Приклад порушення 1NF</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- НЕПРАВИЛЬНО: порушує 1NF
+CREATE TABLE employees_bad (
+    emp_id INT,
+    emp_name VARCHAR(100),
+    phone_numbers VARCHAR(255), -- Містить кілька номерів через кому
+    skills VARCHAR(255)          -- Містить кілька навичок
+);
+
+-- Приклад даних що порушують 1NF
+INSERT INTO employees_bad VALUES 
+(1, 'John Doe', '123-456-7890, 098-765-4321', 'Java, Python, SQL'),
+(2, 'Jane Smith', '555-123-4567', 'JavaScript, HTML, CSS, React');</code></pre>
+                            </div>
+                            
+                            <h5>Приведення до 1NF</h5>
+                            <p><strong>Метод 1: Розділення на окремі стовпці</strong></p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- ПРАВИЛЬНО: приведено до 1NF (метод 1)
+CREATE TABLE employees_1nf_v1 (
+    emp_id INT,
+    emp_name VARCHAR(100),
+    phone1 VARCHAR(15),
+    phone2 VARCHAR(15),
+    skill1 VARCHAR(50),
+    skill2 VARCHAR(50),
+    skill3 VARCHAR(50)
+);
+
+-- Недолік: обмежена кількість телефонів та навичок</code></pre>
+                            </div>
+                            
+                            <p><strong>Метод 2: Створення окремих таблиць</strong></p>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- КРАЩЕ: повна 1NF з окремими таблицями
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100)
+);
+
+CREATE TABLE employee_phones (
+    emp_id INT,
+    phone_number VARCHAR(15),
+    phone_type ENUM('mobile', 'home', 'work'),
+    PRIMARY KEY (emp_id, phone_number),
+    FOREIGN KEY (emp_id) REFERENCES employees(emp_id)
+);
+
+CREATE TABLE employee_skills (
+    emp_id INT,
+    skill_name VARCHAR(50),
+    skill_level ENUM('beginner', 'intermediate', 'advanced'),
+    PRIMARY KEY (emp_id, skill_name),
+    FOREIGN KEY (emp_id) REFERENCES employees(emp_id)
+);
+
+-- Вставка даних
+INSERT INTO employees VALUES (1, 'John Doe'), (2, 'Jane Smith');
+
+INSERT INTO employee_phones VALUES 
+(1, '123-456-7890', 'mobile'),
+(1, '098-765-4321', 'home'),
+(2, '555-123-4567', 'mobile');
+
+INSERT INTO employee_skills VALUES 
+(1, 'Java', 'advanced'),
+(1, 'Python', 'intermediate'),
+(1, 'SQL', 'advanced'),
+(2, 'JavaScript', 'advanced'),
+(2, 'HTML', 'expert'),
+(2, 'CSS', 'advanced'),
+(2, 'React', 'intermediate');</code></pre>
+                            </div>
+                            
+                            <h5>Складні випадки 1NF</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Приклад з адресами (складна структура)
+-- НЕПРАВИЛЬНО
+CREATE TABLE customers_bad (
+    customer_id INT,
+    name VARCHAR(100),
+    address TEXT -- "123 Main St, Apt 4B, New York, NY 10001"
+);
+
+-- ПРАВИЛЬНО: розбиваємо адресу на компоненти
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(100)
+);
+
+CREATE TABLE addresses (
+    address_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT,
+    street_number VARCHAR(10),
+    street_name VARCHAR(100),
+    apartment VARCHAR(10),
+    city VARCHAR(50),
+    state VARCHAR(50),
+    zip_code VARCHAR(10),
+    address_type ENUM('billing', 'shipping', 'home'),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);</code></pre>
+                            </div>
+                            
+                            <h5>Переваги та недоліки 1NF</h5>
+                            <p><strong>Переваги:</strong></p>
+                            <ul>
+                                <li>Усунення повторюваних груп</li>
+                                <li>Стандартизація структури даних</li>
+                                <li>Можливість ефективного індексування</li>
+                                <li>Простота запитів для пошуку конкретних значень</li>
+                            </ul>
+                            
+                            <p><strong>Недоліки:</strong></p>
+                            <ul>
+                                <li>Збільшення кількості таблиць</li>
+                                <li>Потреба в JOIN операціях</li>
+                                <li>Можлива надмірність даних</li>
+                            </ul>
+                        </div>
+                        
+                        <div id="5.5.3">
+                            <h4>5.5.3 Друга нормальна форма (2NF)</h4>
+                            <p>
+                                Таблиця знаходиться в другій нормальній формі (2NF), якщо вона знаходиться в 1NF 
+                                і всі неключові атрибути повністю функціонально залежать від первинного ключа.
+                            </p>
+                            
+                            <h5>Концепція функціональної залежності</h5>
+                            <p>
+                                Атрибут B функціонально залежить від атрибута A (A → B), якщо для кожного значення A 
+                                існує рівно одне значення B.
+                            </p>
+                            
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Приклади функціональних залежностей:
+-- student_id → student_name (ID студента визначає ім'я)
+-- course_id → course_name (ID курсу визначає назву курсу)
+-- (student_id, course_id) → grade (комбінація визначає оцінку)</code></pre>
+                            </div>
+                            
+                            <h5>Приклад порушення 2NF</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- НЕПРАВИЛЬНО: порушує 2NF
+CREATE TABLE student_courses_1nf (
+    student_id INT,
+    course_id INT,
+    student_name VARCHAR(100),    -- Залежить лише від student_id
+    student_email VARCHAR(100),   -- Залежить лише від student_id
+    course_name VARCHAR(100),     -- Залежить лише від course_id
+    instructor VARCHAR(100),      -- Залежить лише від course_id
+    grade CHAR(2),               -- Залежить від (student_id, course_id)
+    PRIMARY KEY (student_id, course_id)
+);
+
+-- Проблеми:
+-- 1. student_name повторюється для кожного курсу студента
+-- 2. course_name повторюється для кожного студента курсу
+-- 3. Неможливо додати студента без курсу
+-- 4. Неможливо додати курс без студента</code></pre>
+                            </div>
+                            
+                            <h5>Приведення до 2NF</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- ПРАВИЛЬНО: приведено до 2NF
+-- Таблиця студентів (student_id → student_name, student_email)
+CREATE TABLE students (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(100),
+    student_email VARCHAR(100)
+);
+
+-- Таблиця курсів (course_id → course_name, instructor)
+CREATE TABLE courses (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(100),
+    instructor VARCHAR(100)
+);
+
+-- Таблиця записів ((student_id, course_id) → grade)
+CREATE TABLE enrollments (
+    student_id INT,
+    course_id INT,
+    grade CHAR(2),
+    enrollment_date DATE,
+    PRIMARY KEY (student_id, course_id),
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+);
+
+-- Тепер можемо:
+-- 1. Додавати студентів без курсів
+INSERT INTO students VALUES (1, 'John Doe', 'john@email.com');
+
+-- 2. Додавати курси без студентів
+INSERT INTO courses VALUES (101, 'Database Design', 'Dr. Smith');
+
+-- 3. Записувати студентів на курси
+INSERT INTO enrollments VALUES (1, 101, 'A', '2024-01-15');</code></pre>
+                            </div>
+                            
+                            <h5>Складніший приклад 2NF</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Приклад з замовленнями
+-- НЕПРАВИЛЬНО: порушує 2NF
+CREATE TABLE order_details_bad (
+    order_id INT,
+    product_id INT,
+    customer_name VARCHAR(100),   -- Залежить лише від order_id
+    customer_address TEXT,        -- Залежить лише від order_id
+    product_name VARCHAR(100),    -- Залежить лише від product_id
+    product_price DECIMAL(10,2),  -- Залежить лише від product_id
+    quantity INT,                 -- Залежить від (order_id, product_id)
+    discount DECIMAL(5,2),        -- Залежить від (order_id, product_id)
+    PRIMARY KEY (order_id, product_id)
+);
+
+-- ПРАВИЛЬНО: приведено до 2NF
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(100),
+    customer_address TEXT
+);
+
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(100),
+    product_price DECIMAL(10,2)
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+CREATE TABLE order_items (
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    discount DECIMAL(5,2),
+    PRIMARY KEY (order_id, product_id),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);</code></pre>
+                            </div>
+                            
+                            <h5>Визначення часткових залежностей</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Інструменти для аналізу залежностей
+-- 1. Визначення кандидатських ключів
+-- 2. Ідентифікація функціональних залежностей
+-- 3. Перевірка часткових залежностей
+
+-- Приклад аналізу:
+-- Таблиця: order_details(order_id, product_id, customer_name, product_name, quantity)
+-- Первинний ключ: (order_id, product_id)
+-- Функціональні залежності:
+-- order_id → customer_name (часткова залежність!)
+-- product_id → product_name (часткова залежність!)
+-- (order_id, product_id) → quantity (повна залежність)
+
+-- Рішення: розділити на окремі таблиці</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div id="5.5.4">
+                            <h4>5.5.4 Третя нормальна форма (3NF)</h4>
+                            <p>
+                                Таблиця знаходиться в третій нормальній формі (3NF), якщо вона знаходиться в 2NF 
+                                і не містить транзитивних залежностей неключових атрибутів.
+                            </p>
+                            
+                            <h5>Концепція транзитивної залежності</h5>
+                            <p>
+                                Транзитивна залежність існує, коли A → B і B → C, то A → C. 
+                                У контексті 3NF це означає, що неключовий атрибут залежить від іншого неключового атрибута.
+                            </p>
+                            
+                            <h5>Приклад порушення 3NF</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- НЕПРАВИЛЬНО: порушує 3NF (але відповідає 2NF)
+CREATE TABLE employees_2nf (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    emp_email VARCHAR(100),
+    department_id INT,
+    department_name VARCHAR(100),    -- Транзитивна залежність!
+    department_location VARCHAR(100), -- Транзитивна залежність!
+    salary DECIMAL(10,2)
+);
+
+-- Функціональні залежності:
+-- emp_id → department_id (прямо)
+-- department_id → department_name (прямо)
+-- department_id → department_location (прямо)
+-- emp_id → department_name (транзитивно через department_id)
+-- emp_id → department_location (транзитивно через department_id)
+
+-- Проблеми:
+-- 1. Дублювання назви департаменту для кожного співробітника
+-- 2. При зміні назви департаменту потрібно оновлювати всі записи співробітників
+-- 3. Неможливо зберегти інформацію про департамент без співробітників</code></pre>
+                            </div>
+                            
+                            <h5>Приведення до 3NF</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- ПРАВИЛЬНО: приведено до 3NF
+CREATE TABLE departments (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(100),
+    department_location VARCHAR(100),
+    budget DECIMAL(12,2)
+);
+
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    emp_email VARCHAR(100),
+    department_id INT,
+    salary DECIMAL(10,2),
+    hire_date DATE,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+
+-- Переваги:
+-- 1. Інформація про департамент зберігається один раз
+-- 2. Легко змінити назву департаменту
+-- 3. Можна додавати департаменти без співробітників
+-- 4. Усунено надмірність даних</code></pre>
+                            </div>
+                            
+                            <h5>Складніший приклад: система управління проектами</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- НЕПРАВИЛЬНО: порушує 3NF
+CREATE TABLE project_assignments_bad (
+    assignment_id INT PRIMARY KEY,
+    emp_id INT,
+    emp_name VARCHAR(100),
+    project_id INT,
+    project_name VARCHAR(100),
+    client_id INT,
+    client_name VARCHAR(100),        -- Транзитивна залежність
+    client_address TEXT,             -- Транзитивна залежність
+    role VARCHAR(50),
+    start_date DATE,
+    end_date DATE
+);
+
+-- Транзитивні залежності:
+-- project_id → client_id → client_name
+-- project_id → client_id → client_address
+
+-- ПРАВИЛЬНО: приведено до 3NF
+CREATE TABLE clients (
+    client_id INT PRIMARY KEY,
+    client_name VARCHAR(100),
+    client_address TEXT,
+    contact_person VARCHAR(100),
+    phone VARCHAR(20)
+);
+
+CREATE TABLE projects (
+    project_id INT PRIMARY KEY,
+    project_name VARCHAR(100),
+    client_id INT,
+    start_date DATE,
+    end_date DATE,
+    budget DECIMAL(12,2),
+    FOREIGN KEY (client_id) REFERENCES clients(client_id)
+);
+
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    emp_email VARCHAR(100),
+    department_id INT
+);
+
+CREATE TABLE project_assignments (
+    assignment_id INT PRIMARY KEY,
+    emp_id INT,
+    project_id INT,
+    role VARCHAR(50),
+    assigned_date DATE,
+    hours_allocated INT,
+    FOREIGN KEY (emp_id) REFERENCES employees(emp_id),
+    FOREIGN KEY (project_id) REFERENCES projects(project_id)
+);</code></pre>
+                            </div>
+                            
+                            <h5>Приклад з адресами (поглиблений)</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Розглянемо складний випадок з адресами
+-- НЕПРАВИЛЬНО: містить транзитивні залежності
+CREATE TABLE customers_addresses_bad (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(100),
+    zip_code VARCHAR(10),
+    city VARCHAR(50),               -- Транзитивна залежність
+    state VARCHAR(50),              -- Транзитивна залежність
+    country VARCHAR(50),            -- Транзитивна залежність
+    street VARCHAR(100)
+);
+
+-- zip_code → city, state, country (транзитивні залежності)
+
+-- ПРАВИЛЬНО: приведено до 3NF
+CREATE TABLE countries (
+    country_id INT PRIMARY KEY,
+    country_name VARCHAR(50),
+    country_code CHAR(2)
+);
+
+CREATE TABLE states (
+    state_id INT PRIMARY KEY,
+    state_name VARCHAR(50),
+    state_code CHAR(2),
+    country_id INT,
+    FOREIGN KEY (country_id) REFERENCES countries(country_id)
+);
+
+CREATE TABLE cities (
+    city_id INT PRIMARY KEY,
+    city_name VARCHAR(50),
+    state_id INT,
+    FOREIGN KEY (state_id) REFERENCES states(state_id)
+);
+
+CREATE TABLE zip_codes (
+    zip_code VARCHAR(10) PRIMARY KEY,
+    city_id INT,
+    FOREIGN KEY (city_id) REFERENCES cities(city_id)
+);
+
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(100),
+    street VARCHAR(100),
+    zip_code VARCHAR(10),
+    FOREIGN KEY (zip_code) REFERENCES zip_codes(zip_code)
+);</code></pre>
+                            </div>
+                            
+                            <h5>Переваги 3NF</h5>
+                            <ul>
+                                <li>Повне усунення транзитивних залежностей</li>
+                                <li>Мінімізація надмірності даних</li>
+                                <li>Покращення цілісності даних</li>
+                                <li>Легкість підтримки довідкових даних</li>
+                                <li>Гнучкість при додаванні нових атрибутів</li>
+                            </ul>
+                        </div>
+                        
+                        <div id="5.5.5">
+                            <h4>5.5.5 Вищі нормальні форми та денормалізація</h4>
+                            <p>
+                                Після 3NF існують вищі нормальні форми (BCNF, 4NF, 5NF), а також практичні техніки 
+                                денормалізації для оптимізації продуктивності.
+                            </p>
+                            
+                            <h5>Нормальна форма Бойса-Кодда (BCNF)</h5>
+                            <p>
+                                Таблиця знаходиться в BCNF, якщо вона знаходиться в 3NF і для кожної функціональної 
+                                залежності A → B, атрибут A є суперключем.
+                            </p>
+                            
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Приклад порушення BCNF (але відповідає 3NF)
+CREATE TABLE course_instructors (
+    course_id INT,
+    instructor_name VARCHAR(100),
+    instructor_office VARCHAR(50),
+    PRIMARY KEY (course_id, instructor_name)
+);
+
+-- Функціональні залежності:
+-- instructor_name → instructor_office (порушує BCNF!)
+-- (course_id, instructor_name) → instructor_office
+
+-- Проблема: instructor_name не є суперключем, але від нього залежить instructor_office
+
+-- Приведення до BCNF:
+CREATE TABLE instructors (
+    instructor_id INT PRIMARY KEY,
+    instructor_name VARCHAR(100) UNIQUE,
+    instructor_office VARCHAR(50)
+);
+
+CREATE TABLE course_instructor_assignments (
+    course_id INT,
+    instructor_id INT,
+    assignment_date DATE,
+    PRIMARY KEY (course_id, instructor_id),
+    FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id)
+);</code></pre>
+                            </div>
+                            
+                            <h5>Четверта нормальна форма (4NF)</h5>
+                            <p>
+                                Таблиця знаходиться в 4NF, якщо вона знаходиться в BCNF і не містить багатозначних залежностей.
+                            </p>
+                            
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Приклад порушення 4NF
+CREATE TABLE student_subjects_hobbies (
+    student_id INT,
+    subject VARCHAR(50),
+    hobby VARCHAR(50),
+    PRIMARY KEY (student_id, subject, hobby)
+);
+
+-- Проблема: незалежні багатозначні залежності
+-- student_id →→ subject (студент може вивчати кілька предметів)
+-- student_id →→ hobby (студент може мати кілька хобі)
+-- Предмети та хобі не пов'язані між собою!
+
+-- Приведення до 4NF:
+CREATE TABLE student_subjects (
+    student_id INT,
+    subject VARCHAR(50),
+    PRIMARY KEY (student_id, subject)
+);
+
+CREATE TABLE student_hobbies (
+    student_id INT,
+    hobby VARCHAR(50),
+    PRIMARY KEY (student_id, hobby)
+);</code></pre>
+                            </div>
+                            
+                            <h5>П'ята нормальна форма (5NF)</h5>
+                            <p>
+                                Таблиця знаходиться в 5NF, якщо вона знаходиться в 4NF і не може бути розкладена 
+                                на менші таблиці без втрати інформації.
+                            </p>
+                            
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Складний приклад для 5NF
+-- Розглянемо відношення: постачальник-деталь-проект
+CREATE TABLE supplier_part_project (
+    supplier_id INT,
+    part_id INT,
+    project_id INT,
+    PRIMARY KEY (supplier_id, part_id, project_id)
+);
+
+-- Якщо існують наступні обмеження:
+-- 1. Постачальник S поставляє деталь P
+-- 2. Деталь P використовується в проекті J  
+-- 3. Постачальник S працює з проектом J
+-- ТО постачальник S може поставляти деталь P для проекту J
+
+-- Для 5NF потрібно розкласти на три бінарні відношення:
+CREATE TABLE supplier_parts (
+    supplier_id INT,
+    part_id INT,
+    PRIMARY KEY (supplier_id, part_id)
+);
+
+CREATE TABLE part_projects (
+    part_id INT,
+    project_id INT,
+    PRIMARY KEY (part_id, project_id)
+);
+
+CREATE TABLE supplier_projects (
+    supplier_id INT,
+    project_id INT,
+    PRIMARY KEY (supplier_id, project_id)
+);</code></pre>
+                            </div>
+                            
+                            <h5>Денормалізація</h5>
+                            <p>
+                                Денормалізація - це навмисне порушення правил нормалізації для покращення продуктивності. 
+                                Застосовується після ретельного аналізу потреб додатку.
+                            </p>
+                            
+                            <h6>Коли застосовувати денормалізацію:</h6>
+                            <ul>
+                                <li>Часті запити потребують багато JOIN операцій</li>
+                                <li>Критична важливість швидкості читання даних</li>
+                                <li>Аналітичні системи (OLAP)</li>
+                                <li>Звітні таблиці</li>
+                                <li>Кешування результатів складних обчислень</li>
+                            </ul>
+                            
+                            <h5>Техніки денормалізації</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- 1. Додавання обчислюваних полів
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    -- Денормалізація: зберігаємо обчислені значення
+    total_amount DECIMAL(10,2),     -- Сума всіх позицій
+    item_count INT,                 -- Кількість позицій
+    discount_amount DECIMAL(10,2)   -- Загальна знижка
+);
+
+-- 2. Дублювання довідкової інформації
+CREATE TABLE order_items (
+    order_item_id INT PRIMARY KEY,
+    order_id INT,
+    product_id INT,
+    -- Денормалізація: дублюємо інформацію про продукт
+    product_name VARCHAR(100),      -- З таблиці products
+    product_price DECIMAL(10,2),    -- З таблиці products
+    quantity INT,
+    line_total DECIMAL(10,2)        -- quantity * product_price
+);
+
+-- 3. Агрегатні таблиці
+CREATE TABLE customer_summary (
+    customer_id INT PRIMARY KEY,
+    total_orders INT,
+    total_spent DECIMAL(12,2),
+    avg_order_value DECIMAL(10,2),
+    last_order_date DATE,
+    favorite_category VARCHAR(50),
+    -- Оновлюється тригерами або batch-процесами
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);</code></pre>
+                            </div>
+                            
+                            <h5>Підтримка денормалізованих даних</h5>
+                            <div class="code-block">
+                                <pre><code class="language-sql">-- Використання тригерів для підтримки консистентності
+DELIMITER //
+
+CREATE TRIGGER update_order_totals
+    AFTER INSERT ON order_items
+    FOR EACH ROW
+BEGIN
+    UPDATE orders 
+    SET 
+        total_amount = (
+            SELECT SUM(line_total) 
+            FROM order_items 
+            WHERE order_id = NEW.order_id
+        ),
+        item_count = (
+            SELECT COUNT(*) 
+            FROM order_items 
+            WHERE order_id = NEW.order_id
+        )
+    WHERE order_id = NEW.order_id;
+END //
+
+-- Процедури для оновлення агрегатних таблиць
+CREATE PROCEDURE refresh_customer_summary(IN p_customer_id INT)
+BEGIN
+    INSERT INTO customer_summary (customer_id, total_orders, total_spent, avg_order_value, last_order_date)
+    SELECT 
+        p_customer_id,
+        COUNT(*),
+        COALESCE(SUM(total_amount), 0),
+        COALESCE(AVG(total_amount), 0),
+        MAX(order_date)
+    FROM orders 
+    WHERE customer_id = p_customer_id
+    ON DUPLICATE KEY UPDATE
+        total_orders = VALUES(total_orders),
+        total_spent = VALUES(total_spent),
+        avg_order_value = VALUES(avg_order_value),
+        last_order_date = VALUES(last_order_date);
+END //
+
+DELIMITER ;</code></pre>
+                            </div>
+                            
+                            <h5>Рекомендації щодо нормалізації</h5>
+                            <ul>
+                                <li><strong>Почніть з 3NF</strong> - це оптимальний баланс для більшості систем</li>
+                                <li><strong>BCNF для критичних даних</strong> - де важлива абсолютна цілісність</li>
+                                <li><strong>Денормалізуйте обережно</strong> - лише після вимірювання продуктивності</li>
+                                <li><strong>Документуйте рішення</strong> - поясніть чому порушили нормалізацію</li>
+                                <li><strong>Підтримуйте консистентність</strong> - використовуйте тригери або процедури</li>
+                                <li><strong>Регулярно переглядайте</strong> - потреби системи змінюються</li>
+                            </ul>
+                            
+                            <p>
+                                Нормалізація є фундаментальним принципом проектування баз даних. Правильне застосування 
+                                нормальних форм забезпечує цілісність, зменшує надмірність та покращує підтримку системи. 
+                                Денормалізація може бути корисною для оптимізації, але повинна застосовуватися обдумано.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </article>
