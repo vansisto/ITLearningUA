@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker - ITLearningUA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&family=VT323&display=swap" rel="stylesheet">
+    <link href="../../style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="../../index.html" class="logo">ITLearningUA</a>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Головна</a></li>
+                <li><a href="../index.html">DevOps</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="article-header">
+        <div class="wrapper">
+            <div class="breadcrumb">
+                <a href="../../index.html">Головна</a> / <a href="../index.html">DevOps</a> / Docker
+            </div>
+            
+            <h1 class="article-title">Docker</h1>
+            <div class="article-meta">
+                <span>DevOps</span>
+                <span>Контейнеризація</span>
+                <span>Docker</span>
+            </div>
+            <div class="article-tag">Повний курс</div>
+            <p class="article-description">
+                Комплексне вивчення Docker - від основ контейнеризації до оркестрації, безпеки та production deployment
+            </p>
+        </div>
+    </section>
+
+    <div class="wrapper">
+        <div class="main-content">
+            <aside class="table-of-contents">
+                <h3 class="toc-title">Зміст</h3>
+                <ul class="toc-list">
+                    <li class="toc-section">
+                        <a href="#1" class="toc-h2">1. Основи контейнеризації</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#1.1" class="toc-h3">1.1 Теорія контейнеризації</a>
+                                <ul>
+                                    <li><a href="#1.1.1" class="toc-h4">1.1.1 Що таке контейнери та їх переваги</a></li>
+                                    <li><a href="#1.1.2" class="toc-h4">1.1.2 Контейнери vs Віртуальні машини</a></li>
+                                    <li><a href="#1.1.3" class="toc-h4">1.1.3 Linux namespaces та cgroups</a></li>
+                                    <li><a href="#1.1.4" class="toc-h4">1.1.4 Історія та еволюція контейнерів</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#1.2" class="toc-h3">1.2 Docker архітектура</a>
+                                <ul>
+                                    <li><a href="#1.2.1" class="toc-h4">1.2.1 Docker Engine та компоненти</a></li>
+                                    <li><a href="#1.2.2" class="toc-h4">1.2.2 Docker daemon та client</a></li>
+                                    <li><a href="#1.2.3" class="toc-h4">1.2.3 Docker Registry та Hub</a></li>
+                                    <li><a href="#1.2.4" class="toc-h4">1.2.4 OCI стандарти</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#1.3" class="toc-h3">1.3 Встановлення та налаштування</a>
+                                <ul>
+                                    <li><a href="#1.3.1" class="toc-h4">1.3.1 Встановлення Docker Desktop</a></li>
+                                    <li><a href="#1.3.2" class="toc-h4">1.3.2 Встановлення на Linux серверах</a></li>
+                                    <li><a href="#1.3.3" class="toc-h4">1.3.3 Конфігурація та оптимізація</a></li>
+                                    <li><a href="#1.3.4" class="toc-h4">1.3.4 Перевірка встановлення</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#2" class="toc-h2">2. Основи роботи з контейнерами</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#2.1" class="toc-h3">2.1 Базові команди Docker</a>
+                                <ul>
+                                    <li><a href="#2.1.1" class="toc-h4">2.1.1 docker run та основні параметри</a></li>
+                                    <li><a href="#2.1.2" class="toc-h4">2.1.2 docker ps, docker stop, docker rm</a></li>
+                                    <li><a href="#2.1.3" class="toc-h4">2.1.3 docker exec та робота з контейнерами</a></li>
+                                    <li><a href="#2.1.4" class="toc-h4">2.1.4 docker logs та дебагінг</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#2.2" class="toc-h3">2.2 Робота з образами</a>
+                                <ul>
+                                    <li><a href="#2.2.1" class="toc-h4">2.2.1 docker pull та docker push</a></li>
+                                    <li><a href="#2.2.2" class="toc-h4">2.2.2 docker images та управління образами</a></li>
+                                    <li><a href="#2.2.3" class="toc-h4">2.2.3 docker inspect та metadata</a></li>
+                                    <li><a href="#2.2.4" class="toc-h4">2.2.4 Теги та версіонування</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#2.3" class="toc-h3">2.3 Порти та мережі</a>
+                                <ul>
+                                    <li><a href="#2.3.1" class="toc-h4">2.3.1 Port mapping (-p флаг)</a></li>
+                                    <li><a href="#2.3.2" class="toc-h4">2.3.2 Expose vs Publish</a></li>
+                                    <li><a href="#2.3.3" class="toc-h4">2.3.3 Базові мережі Docker</a></li>
+                                    <li><a href="#2.3.4" class="toc-h4">2.3.4 Зв'язок між контейнерами</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#2.4" class="toc-h3">2.4 Volumes та дані</a>
+                                <ul>
+                                    <li><a href="#2.4.1" class="toc-h4">2.4.1 Типи storage в Docker</a></li>
+                                    <li><a href="#2.4.2" class="toc-h4">2.4.2 Bind mounts vs Named volumes</a></li>
+                                    <li><a href="#2.4.3" class="toc-h4">2.4.3 docker volume команди</a></li>
+                                    <li><a href="#2.4.4" class="toc-h4">2.4.4 Backup та restore даних</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#3" class="toc-h2">3. Dockerfile та створення образів</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#3.1" class="toc-h3">3.1 Основи Dockerfile</a>
+                                <ul>
+                                    <li><a href="#3.1.1" class="toc-h4">3.1.1 Структура та синтаксис Dockerfile</a></li>
+                                    <li><a href="#3.1.2" class="toc-h4">3.1.2 FROM, RUN, COPY, ADD інструкції</a></li>
+                                    <li><a href="#3.1.3" class="toc-h4">3.1.3 CMD vs ENTRYPOINT</a></li>
+                                    <li><a href="#3.1.4" class="toc-h4">3.1.4 WORKDIR, USER, ENV</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#3.2" class="toc-h3">3.2 Оптимізація образів</a>
+                                <ul>
+                                    <li><a href="#3.2.1" class="toc-h4">3.2.1 Layer caching та порядок інструкцій</a></li>
+                                    <li><a href="#3.2.2" class="toc-h4">3.2.2 Multi-stage builds</a></li>
+                                    <li><a href="#3.2.3" class="toc-h4">3.2.3 .dockerignore файл</a></li>
+                                    <li><a href="#3.2.4" class="toc-h4">3.2.4 Мінімізація розміру образів</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#3.3" class="toc-h3">3.3 Практичні приклади</a>
+                                <ul>
+                                    <li><a href="#3.3.1" class="toc-h4">3.3.1 Java Spring Boot додаток</a></li>
+                                    <li><a href="#3.3.2" class="toc-h4">3.3.2 Node.js веб-сервер</a></li>
+                                    <li><a href="#3.3.3" class="toc-h4">3.3.3 Python Flask API</a></li>
+                                    <li><a href="#3.3.4" class="toc-h4">3.3.4 Статичний веб-сайт (Nginx)</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#3.4" class="toc-h3">3.4 Альтернативні інструменти</a>
+                                <ul>
+                                    <li><a href="#3.4.1" class="toc-h4">3.4.1 Buildah та Podman</a></li>
+                                    <li><a href="#3.4.2" class="toc-h4">3.4.2 BuildKit features</a></li>
+                                    <li><a href="#3.4.3" class="toc-h4">3.4.3 Kaniko для CI/CD</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#4" class="toc-h2">4. Docker Compose</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#4.1" class="toc-h3">4.1 Основи Docker Compose</a>
+                                <ul>
+                                    <li><a href="#4.1.1" class="toc-h4">4.1.1 Що таке Docker Compose</a></li>
+                                    <li><a href="#4.1.2" class="toc-h4">4.1.2 docker-compose.yml структура</a></li>
+                                    <li><a href="#4.1.3" class="toc-h4">4.1.3 Services, Networks, Volumes</a></li>
+                                    <li><a href="#4.1.4" class="toc-h4">4.1.4 Версії Compose file format</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#4.2" class="toc-h3">4.2 Команди Docker Compose</a>
+                                <ul>
+                                    <li><a href="#4.2.1" class="toc-h4">4.2.1 docker-compose up/down</a></li>
+                                    <li><a href="#4.2.2" class="toc-h4">4.2.2 docker-compose build та pull</a></li>
+                                    <li><a href="#4.2.3" class="toc-h4">4.2.3 docker-compose logs та exec</a></li>
+                                    <li><a href="#4.2.4" class="toc-h4">4.2.4 Scaling та restart політики</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#4.3" class="toc-h3">4.3 Конфігурація сервісів</a>
+                                <ul>
+                                    <li><a href="#4.3.1" class="toc-h4">4.3.1 Environment variables</a></li>
+                                    <li><a href="#4.3.2" class="toc-h4">4.3.2 Depends_on та service dependencies</a></li>
+                                    <li><a href="#4.3.3" class="toc-h4">4.3.3 Health checks</a></li>
+                                    <li><a href="#4.3.4" class="toc-h4">4.3.4 Resource limits</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#4.4" class="toc-h3">4.4 Практичні stack'и</a>
+                                <ul>
+                                    <li><a href="#4.4.1" class="toc-h4">4.4.1 LAMP/LEMP stack</a></li>
+                                    <li><a href="#4.4.2" class="toc-h4">4.4.2 Microservices архітектура</a></li>
+                                    <li><a href="#4.4.3" class="toc-h4">4.4.3 ELK Stack (Elasticsearch, Logstash, Kibana)</a></li>
+                                    <li><a href="#4.4.4" class="toc-h4">4.4.4 Monitoring stack (Prometheus, Grafana)</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#5" class="toc-h2">5. Мережі в Docker</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#5.1" class="toc-h3">5.1 Типи мереж Docker</a>
+                                <ul>
+                                    <li><a href="#5.1.1" class="toc-h4">5.1.1 Bridge networks</a></li>
+                                    <li><a href="#5.1.2" class="toc-h4">5.1.2 Host networking</a></li>
+                                    <li><a href="#5.1.3" class="toc-h4">5.1.3 None networking</a></li>
+                                    <li><a href="#5.1.4" class="toc-h4">5.1.4 Overlay networks</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#5.2" class="toc-h3">5.2 Управління мережами</a>
+                                <ul>
+                                    <li><a href="#5.2.1" class="toc-h4">5.2.1 docker network команди</a></li>
+                                    <li><a href="#5.2.2" class="toc-h4">5.2.2 Створення custom networks</a></li>
+                                    <li><a href="#5.2.3" class="toc-h4">5.2.3 Network isolation</a></li>
+                                    <li><a href="#5.2.4" class="toc-h4">5.2.4 DNS в Docker networks</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#5.3" class="toc-h3">5.3 Безпека мереж</a>
+                                <ul>
+                                    <li><a href="#5.3.1" class="toc-h4">5.3.1 Network policies</a></li>
+                                    <li><a href="#5.3.2" class="toc-h4">5.3.2 Firewall та iptables</a></li>
+                                    <li><a href="#5.3.3" class="toc-h4">5.3.3 TLS та шифрування</a></li>
+                                    <li><a href="#5.3.4" class="toc-h4">5.3.4 Network scanning та моніторинг</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#6" class="toc-h2">6. Безпека Docker</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#6.1" class="toc-h3">6.1 Основи безпеки контейнерів</a>
+                                <ul>
+                                    <li><a href="#6.1.1" class="toc-h4">6.1.1 Container security model</a></li>
+                                    <li><a href="#6.1.2" class="toc-h4">6.1.2 Principle of least privilege</a></li>
+                                    <li><a href="#6.1.3" class="toc-h4">6.1.3 Attack surface мінімізація</a></li>
+                                    <li><a href="#6.1.4" class="toc-h4">6.1.4 Runtime vs Build-time безпека</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#6.2" class="toc-h3">6.2 Безпека образів</a>
+                                <ul>
+                                    <li><a href="#6.2.1" class="toc-h4">6.2.1 Base image вибір</a></li>
+                                    <li><a href="#6.2.2" class="toc-h4">6.2.2 Vulnerability scanning</a></li>
+                                    <li><a href="#6.2.3" class="toc-h4">6.2.3 Image signing та trust</a></li>
+                                    <li><a href="#6.2.4" class="toc-h4">6.2.4 Distroless images</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#6.3" class="toc-h3">6.3 Runtime безпека</a>
+                                <ul>
+                                    <li><a href="#6.3.1" class="toc-h4">6.3.1 User namespaces</a></li>
+                                    <li><a href="#6.3.2" class="toc-h4">6.3.2 Capabilities та privileges</a></li>
+                                    <li><a href="#6.3.3" class="toc-h4">6.3.3 Seccomp та AppArmor</a></li>
+                                    <li><a href="#6.3.4" class="toc-h4">6.3.4 Read-only filesystems</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#6.4" class="toc-h3">6.4 Security tools та best practices</a>
+                                <ul>
+                                    <li><a href="#6.4.1" class="toc-h4">6.4.1 Docker Bench Security</a></li>
+                                    <li><a href="#6.4.2" class="toc-h4">6.4.2 Clair та Trivy scanning</a></li>
+                                    <li><a href="#6.4.3" class="toc-h4">6.4.3 Runtime protection (Falco)</a></li>
+                                    <li><a href="#6.4.4" class="toc-h4">6.4.4 Secrets management</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#7" class="toc-h2">7. Моніторинг та логування</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#7.1" class="toc-h3">7.1 Docker stats та метрики</a>
+                                <ul>
+                                    <li><a href="#7.1.1" class="toc-h4">7.1.1 docker stats команда</a></li>
+                                    <li><a href="#7.1.2" class="toc-h4">7.1.2 cAdvisor для збору метрик</a></li>
+                                    <li><a href="#7.1.3" class="toc-h4">7.1.3 Resource usage моніторинг</a></li>
+                                    <li><a href="#7.1.4" class="toc-h4">7.1.4 Performance bottlenecks</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#7.2" class="toc-h3">7.2 Логування в Docker</a>
+                                <ul>
+                                    <li><a href="#7.2.1" class="toc-h4">7.2.1 Logging drivers</a></li>
+                                    <li><a href="#7.2.2" class="toc-h4">7.2.2 Centralized logging</a></li>
+                                    <li><a href="#7.2.3" class="toc-h4">7.2.3 Log rotation та management</a></li>
+                                    <li><a href="#7.2.4" class="toc-h4">7.2.4 Structured logging</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#7.3" class="toc-h3">7.3 Prometheus та Grafana</a>
+                                <ul>
+                                    <li><a href="#7.3.1" class="toc-h4">7.3.1 Prometheus для Docker</a></li>
+                                    <li><a href="#7.3.2" class="toc-h4">7.3.2 Node Exporter та cAdvisor</a></li>
+                                    <li><a href="#7.3.3" class="toc-h4">7.3.3 Grafana dashboards</a></li>
+                                    <li><a href="#7.3.4" class="toc-h4">7.3.4 Alerting та notifications</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#7.4" class="toc-h3">7.4 Troubleshooting</a>
+                                <ul>
+                                    <li><a href="#7.4.1" class="toc-h4">7.4.1 Дебагінг контейнерів</a></li>
+                                    <li><a href="#7.4.2" class="toc-h4">7.4.2 Performance профілювання</a></li>
+                                    <li><a href="#7.4.3" class="toc-h4">7.4.3 Network troubleshooting</a></li>
+                                    <li><a href="#7.4.4" class="toc-h4">7.4.4 Storage issues</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#8" class="toc-h2">8. Docker Swarm</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#8.1" class="toc-h3">8.1 Основи Docker Swarm</a>
+                                <ul>
+                                    <li><a href="#8.1.1" class="toc-h4">8.1.1 Swarm vs single-host Docker</a></li>
+                                    <li><a href="#8.1.2" class="toc-h4">8.1.2 Manager та Worker nodes</a></li>
+                                    <li><a href="#8.1.3" class="toc-h4">8.1.3 Raft consensus</a></li>
+                                    <li><a href="#8.1.4" class="toc-h4">8.1.4 High Availability</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#8.2" class="toc-h3">8.2 Управління Swarm</a>
+                                <ul>
+                                    <li><a href="#8.2.1" class="toc-h4">8.2.1 docker swarm init та join</a></li>
+                                    <li><a href="#8.2.2" class="toc-h4">8.2.2 Node management</a></li>
+                                    <li><a href="#8.2.3" class="toc-h4">8.2.3 Tokens та security</a></li>
+                                    <li><a href="#8.2.4" class="toc-h4">8.2.4 Swarm maintenance</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#8.3" class="toc-h3">8.3 Services та Stacks</a>
+                                <ul>
+                                    <li><a href="#8.3.1" class="toc-h4">8.3.1 docker service create</a></li>
+                                    <li><a href="#8.3.2" class="toc-h4">8.3.2 Scaling та rolling updates</a></li>
+                                    <li><a href="#8.3.3" class="toc-h4">8.3.3 docker stack deploy</a></li>
+                                    <li><a href="#8.3.4" class="toc-h4">8.3.4 Load balancing</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#8.4" class="toc-h3">8.4 Production deployment</a>
+                                <ul>
+                                    <li><a href="#8.4.1" class="toc-h4">8.4.1 Cluster planning</a></li>
+                                    <li><a href="#8.4.2" class="toc-h4">8.4.2 Backup та disaster recovery</a></li>
+                                    <li><a href="#8.4.3" class="toc-h4">8.4.3 Monitoring Swarm cluster</a></li>
+                                    <li><a href="#8.4.4" class="toc-h4">8.4.4 Swarm vs Kubernetes</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#9" class="toc-h2">9. CI/CD з Docker</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#9.1" class="toc-h3">9.1 Docker в CI/CD pipeline</a>
+                                <ul>
+                                    <li><a href="#9.1.1" class="toc-h4">9.1.1 Benefits контейнерів в CI/CD</a></li>
+                                    <li><a href="#9.1.2" class="toc-h4">9.1.2 Build, Test, Deploy workflow</a></li>
+                                    <li><a href="#9.1.3" class="toc-h4">9.1.3 Image versioning стратегії</a></li>
+                                    <li><a href="#9.1.4" class="toc-h4">9.1.4 Environment promotion</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#9.2" class="toc-h3">9.2 GitHub Actions з Docker</a>
+                                <ul>
+                                    <li><a href="#9.2.1" class="toc-h4">9.2.1 Docker actions</a></li>
+                                    <li><a href="#9.2.2" class="toc-h4">9.2.2 Multi-stage builds в CI</a></li>
+                                    <li><a href="#9.2.3" class="toc-h4">9.2.3 Registry integration</a></li>
+                                    <li><a href="#9.2.4" class="toc-h4">9.2.4 Security scanning в pipeline</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#9.3" class="toc-h3">9.3 Jenkins та Docker</a>
+                                <ul>
+                                    <li><a href="#9.3.1" class="toc-h4">9.3.1 Jenkins в Docker</a></li>
+                                    <li><a href="#9.3.2" class="toc-h4">9.3.2 Docker pipeline plugin</a></li>
+                                    <li><a href="#9.3.3" class="toc-h4">9.3.3 Parallel builds</a></li>
+                                    <li><a href="#9.3.4" class="toc-h4">9.3.4 Build cache optimization</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#9.4" class="toc-h3">9.4 GitLab CI та інші платформи</a>
+                                <ul>
+                                    <li><a href="#9.4.1" class="toc-h4">9.4.1 GitLab CI з Docker</a></li>
+                                    <li><a href="#9.4.2" class="toc-h4">9.4.2 Azure DevOps Pipelines</a></li>
+                                    <li><a href="#9.4.3" class="toc-h4">9.4.3 AWS CodeBuild</a></li>
+                                    <li><a href="#9.4.4" class="toc-h4">9.4.4 Best practices для CI/CD</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#10" class="toc-h2">10. Production deployment</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#10.1" class="toc-h3">10.1 Production readiness</a>
+                                <ul>
+                                    <li><a href="#10.1.1" class="toc-h4">10.1.1 Resource planning</a></li>
+                                    <li><a href="#10.1.2" class="toc-h4">10.1.2 Health checks та probes</a></li>
+                                    <li><a href="#10.1.3" class="toc-h4">10.1.3 Graceful shutdown</a></li>
+                                    <li><a href="#10.1.4" class="toc-h4">10.1.4 Environment configuration</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#10.2" class="toc-h3">10.2 Cloud deployment</a>
+                                <ul>
+                                    <li><a href="#10.2.1" class="toc-h4">10.2.1 AWS ECS та Fargate</a></li>
+                                    <li><a href="#10.2.2" class="toc-h4">10.2.2 Google Cloud Run</a></li>
+                                    <li><a href="#10.2.3" class="toc-h4">10.2.3 Azure Container Instances</a></li>
+                                    <li><a href="#10.2.4" class="toc-h4">10.2.4 Digital Ocean Droplets</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#10.3" class="toc-h3">10.3 Backup та disaster recovery</a>
+                                <ul>
+                                    <li><a href="#10.3.1" class="toc-h4">10.3.1 Data backup стратегії</a></li>
+                                    <li><a href="#10.3.2" class="toc-h4">10.3.2 Container state management</a></li>
+                                    <li><a href="#10.3.3" class="toc-h4">10.3.3 Recovery procedures</a></li>
+                                    <li><a href="#10.3.4" class="toc-h4">10.3.4 Testing disaster recovery</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#10.4" class="toc-h3">10.4 Performance optimization</a>
+                                <ul>
+                                    <li><a href="#10.4.1" class="toc-h4">10.4.1 Image optimization</a></li>
+                                    <li><a href="#10.4.2" class="toc-h4">10.4.2 Runtime tuning</a></li>
+                                    <li><a href="#10.4.3" class="toc-h4">10.4.3 Resource limits</a></li>
+                                    <li><a href="#10.4.4" class="toc-h4">10.4.4 Scaling strategies</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#11" class="toc-h2">11. Advanced topics</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#11.1" class="toc-h3">11.1 Container orchestration</a>
+                                <ul>
+                                    <li><a href="#11.1.1" class="toc-h4">11.1.1 Kubernetes vs Docker Swarm</a></li>
+                                    <li><a href="#11.1.2" class="toc-h4">11.1.2 Container runtimes (containerd, CRI-O)</a></li>
+                                    <li><a href="#11.1.3" class="toc-h4">11.1.3 Service mesh (Istio, Linkerd)</a></li>
+                                    <li><a href="#11.1.4" class="toc-h4">11.1.4 Migration до Kubernetes</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#11.2" class="toc-h3">11.2 Advanced networking</a>
+                                <ul>
+                                    <li><a href="#11.2.1" class="toc-h4">11.2.1 CNI plugins</a></li>
+                                    <li><a href="#11.2.2" class="toc-h4">11.2.2 Network performance tuning</a></li>
+                                    <li><a href="#11.2.3" class="toc-h4">11.2.3 Multi-host networking</a></li>
+                                    <li><a href="#11.2.4" class="toc-h4">11.2.4 Network automation</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#11.3" class="toc-h3">11.3 Storage management</a>
+                                <ul>
+                                    <li><a href="#11.3.1" class="toc-h4">11.3.1 Persistent storage patterns</a></li>
+                                    <li><a href="#11.3.2" class="toc-h4">11.3.2 Storage drivers</a></li>
+                                    <li><a href="#11.3.3" class="toc-h4">11.3.3 Distributed storage</a></li>
+                                    <li><a href="#11.3.4" class="toc-h4">11.3.4 Storage optimization</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#11.4" class="toc-h3">11.4 Container governance</a>
+                                <ul>
+                                    <li><a href="#11.4.1" class="toc-h4">11.4.1 Policy as Code</a></li>
+                                    <li><a href="#11.4.2" class="toc-h4">11.4.2 Compliance automation</a></li>
+                                    <li><a href="#11.4.3" class="toc-h4">11.4.3 Container registries management</a></li>
+                                    <li><a href="#11.4.4" class="toc-h4">11.4.4 Enterprise patterns</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#12" class="toc-h2">12. Практичні проекти та case studies</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#12.1" class="toc-h3">12.1 Microservices проект</a>
+                                <ul>
+                                    <li><a href="#12.1.1" class="toc-h4">12.1.1 Архітектура та планування</a></li>
+                                    <li><a href="#12.1.2" class="toc-h4">12.1.2 Service decomposition</a></li>
+                                    <li><a href="#12.1.3" class="toc-h4">12.1.3 Inter-service communication</a></li>
+                                    <li><a href="#12.1.4" class="toc-h4">12.1.4 Deployment та monitoring</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#12.2" class="toc-h3">12.2 E-commerce платформа</a>
+                                <ul>
+                                    <li><a href="#12.2.1" class="toc-h4">12.2.1 Multi-tier архітектура</a></li>
+                                    <li><a href="#12.2.2" class="toc-h4">12.2.2 Database контейнеризація</a></li>
+                                    <li><a href="#12.2.3" class="toc-h4">12.2.3 Load balancing та caching</a></li>
+                                    <li><a href="#12.2.4" class="toc-h4">12.2.4 Security implementation</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#12.3" class="toc-h3">12.3 Legacy application modernization</a>
+                                <ul>
+                                    <li><a href="#12.3.1" class="toc-h4">12.3.1 Assessment та планування</a></li>
+                                    <li><a href="#12.3.2" class="toc-h4">12.3.2 Containerization strategy</a></li>
+                                    <li><a href="#12.3.3" class="toc-h4">12.3.3 Migration phases</a></li>
+                                    <li><a href="#12.3.4" class="toc-h4">12.3.4 Testing та rollback</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#12.4" class="toc-h3">12.4 Best practices та anti-patterns</a>
+                                <ul>
+                                    <li><a href="#12.4.1" class="toc-h4">12.4.1 Common mistakes</a></li>
+                                    <li><a href="#12.4.2" class="toc-h4">12.4.2 Performance anti-patterns</a></li>
+                                    <li><a href="#12.4.3" class="toc-h4">12.4.3 Security anti-patterns</a></li>
+                                    <li><a href="#12.4.4" class="toc-h4">12.4.4 Enterprise best practices</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+
+            <article class="article-content">
+                <div id="1">
+                    <h2>1. Основи контейнеризації</h2>
+                    <div id="1.1">
+                        <h3>1.1 Теорія контейнеризації</h3>
+                        <div id="1.1.1">
+                            <h4>1.1.1 Що таке контейнери та їх переваги</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="1.1.2">
+                            <h4>1.1.2 Контейнери vs Віртуальні машини</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="1.1.3">
+                            <h4>1.1.3 Linux namespaces та cgroups</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="1.1.4">
+                            <h4>1.1.4 Історія та еволюція контейнерів</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <!-- Additional subsections placeholder -->
+                </div>
+
+                <!-- Placeholder sections for remaining content -->
+                <div id="2">
+                    <h2>2. Основи роботи з контейнерами</h2>
+                    <!-- Sections 2.1-2.4 content placeholders -->
+                </div>
+
+                <div id="3">
+                    <h2>3. Dockerfile та створення образів</h2>
+                    <!-- Sections 3.1-3.4 content placeholders -->
+                </div>
+
+                <div id="4">
+                    <h2>4. Docker Compose</h2>
+                    <!-- Sections 4.1-4.4 content placeholders -->
+                </div>
+
+                <div id="5">
+                    <h2>5. Мережі в Docker</h2>
+                    <!-- Sections 5.1-5.3 content placeholders -->
+                </div>
+
+                <div id="6">
+                    <h2>6. Безпека Docker</h2>
+                    <!-- Sections 6.1-6.4 content placeholders -->
+                </div>
+
+                <div id="7">
+                    <h2>7. Моніторинг та логування</h2>
+                    <!-- Sections 7.1-7.4 content placeholders -->
+                </div>
+
+                <div id="8">
+                    <h2>8. Docker Swarm</h2>
+                    <!-- Sections 8.1-8.4 content placeholders -->
+                </div>
+
+                <div id="9">
+                    <h2>9. CI/CD з Docker</h2>
+                    <!-- Sections 9.1-9.4 content placeholders -->
+                </div>
+
+                <div id="10">
+                    <h2>10. Production deployment</h2>
+                    <!-- Sections 10.1-10.4 content placeholders -->
+                </div>
+
+                <div id="11">
+                    <h2>11. Advanced topics</h2>
+                    <!-- Sections 11.1-11.4 content placeholders -->
+                </div>
+
+                <div id="12">
+                    <h2>12. Практичні проекти та case studies</h2>
+                    <!-- Sections 12.1-12.4 content placeholders -->
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ITLearningUA. Навчання IT українською мовою.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Prism.js
+        Prism.highlightAll();
+    </script>
+    <script src="../../script.js"></script>
+</body>
+</html>

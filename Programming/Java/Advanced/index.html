@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Просунута Java - ITLearningUA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&family=VT323&display=swap" rel="stylesheet">
+    <link href="../../../style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="../../../index.html" class="logo">ITLearningUA</a>
+            <ul class="nav-links">
+                <li><a href="../../../index.html">Головна</a></li>
+                <li><a href="../../index.html">Програмування</a></li>
+                <li><a href="../index.html">Java</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="article-header">
+        <div class="wrapper">
+            <div class="breadcrumb">
+                <a href="../../../index.html">Головна</a> / <a href="../../index.html">Програмування</a> / <a href="../index.html">Java</a> / Просунута Java
+            </div>
+            
+            <h1 class="article-title">Просунута Java</h1>
+            <div class="article-meta">
+                <span>Програмування</span>
+                <span>Java</span>
+                <span>Просунутий рівень</span>
+            </div>
+            <div class="article-tag">Повний курс</div>
+            <p class="article-description">
+                Поглиблене вивчення Java - обробка винятків, I/O, багатопоточність, колекції, лямбда-вирази та сучасні можливості
+            </p>
+        </div>
+    </section>
+
+    <div class="wrapper">
+        <div class="main-content">
+            <aside class="table-of-contents">
+                <h3 class="toc-title">Зміст</h3>
+                <ul class="toc-list">
+                    <li class="toc-section">
+                        <a href="#1" class="toc-h2">1. Робота з файлами та I/O</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#1.1" class="toc-h3">1.1 File API</a>
+                                <ul>
+                                    <li><a href="#1.1.1" class="toc-h4">1.1.1 File та Files класи</a></li>
+                                    <li><a href="#1.1.2" class="toc-h4">1.1.2 Path та Paths</a></li>
+                                    <li><a href="#1.1.3" class="toc-h4">1.1.3 Операції з файлами</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#1.2" class="toc-h3">1.2 Потоки (Streams)</a>
+                                <ul>
+                                    <li><a href="#1.2.1" class="toc-h4">1.2.1 InputStream/OutputStream</a></li>
+                                    <li><a href="#1.2.2" class="toc-h4">1.2.2 Reader/Writer</a></li>
+                                    <li><a href="#1.2.3" class="toc-h4">1.2.3 Буферизовані потоки</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#1.3" class="toc-h3">1.3 Серіалізація</a></li>
+                            <li><a href="#1.4" class="toc-h3">1.4 NIO.2</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#2" class="toc-h2">2. Колекції та Generics</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#3.1" class="toc-h3">3.1 Collections Framework</a>
+                                <ul>
+                                    <li><a href="#3.1.1" class="toc-h4">3.1.1 List, Set, Map інтерфейси</a></li>
+                                    <li><a href="#3.1.2" class="toc-h4">3.1.2 Реалізації колекцій</a></li>
+                                    <li><a href="#3.1.3" class="toc-h4">3.1.3 Collections утиліти</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#3.2" class="toc-h3">3.2 Generics</a>
+                                <ul>
+                                    <li><a href="#3.2.1" class="toc-h4">3.2.1 Параметризовані типи</a></li>
+                                    <li><a href="#3.2.2" class="toc-h4">3.2.2 Wildcards</a></li>
+                                    <li><a href="#3.2.3" class="toc-h4">3.2.3 Обмеження типів</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#3.3" class="toc-h3">3.3 Ітератори та Iterable</a></li>
+                            <li><a href="#3.4" class="toc-h3">3.4 Comparator та Comparable</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#4" class="toc-h2">4. Багатопоточність</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#4.1" class="toc-h3">4.1 Основи многопоточності</a>
+                                <ul>
+                                    <li><a href="#4.1.1" class="toc-h4">4.1.1 Thread клас</a></li>
+                                    <li><a href="#4.1.2" class="toc-h4">4.1.2 Runnable інтерфейс</a></li>
+                                    <li><a href="#4.1.3" class="toc-h4">4.1.3 Життєвий цикл потоків</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#4.2" class="toc-h3">4.2 Синхронізація</a>
+                                <ul>
+                                    <li><a href="#4.2.1" class="toc-h4">4.2.1 synchronized ключове слово</a></li>
+                                    <li><a href="#4.2.2" class="toc-h4">4.2.2 Lock інтерфейси</a></li>
+                                    <li><a href="#4.2.3" class="toc-h4">4.2.3 Volatile змінні</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#4.3" class="toc-h3">4.3 Executor Framework</a></li>
+                            <li><a href="#4.4" class="toc-h3">4.4 Concurrent колекції</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#5" class="toc-h2">5. Функціональне програмування</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#5.1" class="toc-h3">5.1 Лямбда-вирази</a>
+                                <ul>
+                                    <li><a href="#5.1.1" class="toc-h4">5.1.1 Синтаксис лямбда-виразів</a></li>
+                                    <li><a href="#5.1.2" class="toc-h4">5.1.2 Functional інтерфейси</a></li>
+                                    <li><a href="#5.1.3" class="toc-h4">5.1.3 Method References</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#5.2" class="toc-h3">5.2 Stream API</a>
+                                <ul>
+                                    <li><a href="#5.2.1" class="toc-h4">5.2.1 Створення потоків</a></li>
+                                    <li><a href="#5.2.2" class="toc-h4">5.2.2 Intermediate операції</a></li>
+                                    <li><a href="#5.2.3" class="toc-h4">5.2.3 Terminal операції</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#5.3" class="toc-h3">5.3 Optional</a></li>
+                            <li><a href="#5.4" class="toc-h3">5.4 Parallel Streams</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#6" class="toc-h2">6. Рефлексія та анотації</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#6.1" class="toc-h3">6.1 Reflection API</a>
+                                <ul>
+                                    <li><a href="#6.1.1" class="toc-h4">6.1.1 Class об'єкти</a></li>
+                                    <li><a href="#6.1.2" class="toc-h4">6.1.2 Методи та поля</a></li>
+                                    <li><a href="#6.1.3" class="toc-h4">6.1.3 Динамічне створення об'єктів</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#6.2" class="toc-h3">6.2 Анотації</a>
+                                <ul>
+                                    <li><a href="#6.2.1" class="toc-h4">6.2.1 Вбудовані анотації</a></li>
+                                    <li><a href="#6.2.2" class="toc-h4">6.2.2 Власні анотації</a></li>
+                                    <li><a href="#6.2.3" class="toc-h4">6.2.3 Annotation Processing</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#7" class="toc-h2">7. Сучасні можливості Java</a>
+                        <ul>
+                            <li><a href="#7.1" class="toc-h3">7.1 Модульна система (JPMS)</a></li>
+                            <li><a href="#7.2" class="toc-h3">7.2 Record класи</a></li>
+                            <li><a href="#7.3" class="toc-h3">7.3 Sealed класи</a></li>
+                            <li><a href="#7.4" class="toc-h3">7.4 Pattern Matching</a></li>
+                            <li><a href="#7.5" class="toc-h3">7.5 Text Blocks</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#8" class="toc-h2">8. Тестування та якість коду</a>
+                        <ul>
+                            <li><a href="#8.1" class="toc-h3">8.1 JUnit 5</a></li>
+                            <li><a href="#8.2" class="toc-h3">8.2 Mockito</a></li>
+                            <li><a href="#8.3" class="toc-h3">8.3 Code Coverage</a></li>
+                            <li><a href="#8.4" class="toc-h3">8.4 Best Practices</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+
+            <article class="article-content">
+                <div id="1">
+                    <h2>1. Обробка винятків</h2>
+                    <div id="1.1">
+                        <h3>1.1 Основи винятків</h3>
+                        <div id="1.1.1">
+                            <h4>1.1.1 Типи винятків</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="1.1.2">
+                            <h4>1.1.2 try-catch блоки</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="1.1.3">
+                            <h4>1.1.3 finally блок</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="1.2">
+                        <h3>1.2 Власні винятки</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="1.3">
+                        <h3>1.3 throws та throw</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="1.4">
+                        <h3>1.4 try-with-resources</h3>
+                        <!-- Content to be added -->
+                    </div>
+                </div>
+
+                <div id="2">
+                    <h2>2. Робота з файлами та I/O</h2>
+                    <div id="2.1">
+                        <h3>2.1 File API</h3>
+                        <div id="2.1.1">
+                            <h4>2.1.1 File та Files класи</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="2.1.2">
+                            <h4>2.1.2 Path та Paths</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="2.1.3">
+                            <h4>2.1.3 Операції з файлами</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="2.2">
+                        <h3>2.2 Потоки (Streams)</h3>
+                        <div id="2.2.1">
+                            <h4>2.2.1 InputStream/OutputStream</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="2.2.2">
+                            <h4>2.2.2 Reader/Writer</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="2.2.3">
+                            <h4>2.2.3 Буферизовані потоки</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="2.3">
+                        <h3>2.3 Серіалізація</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="2.4">
+                        <h3>2.4 NIO.2</h3>
+                        <!-- Content to be added -->
+                    </div>
+                </div>
+
+                <div id="3">
+                    <h2>3. Колекції та Generics</h2>
+                    <div id="3.1">
+                        <h3>3.1 Collections Framework</h3>
+                        <div id="3.1.1">
+                            <h4>3.1.1 List, Set, Map інтерфейси</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="3.1.2">
+                            <h4>3.1.2 Реалізації колекцій</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="3.1.3">
+                            <h4>3.1.3 Collections утиліти</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="3.2">
+                        <h3>3.2 Generics</h3>
+                        <div id="3.2.1">
+                            <h4>3.2.1 Параметризовані типи</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="3.2.2">
+                            <h4>3.2.2 Wildcards</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="3.2.3">
+                            <h4>3.2.3 Обмеження типів</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="3.3">
+                        <h3>3.3 Ітератори та Iterable</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="3.4">
+                        <h3>3.4 Comparator та Comparable</h3>
+                        <!-- Content to be added -->
+                    </div>
+                </div>
+
+                <div id="4">
+                    <h2>4. Багатопоточність</h2>
+                    <div id="4.1">
+                        <h3>4.1 Основи многопоточності</h3>
+                        <div id="4.1.1">
+                            <h4>4.1.1 Thread клас</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="4.1.2">
+                            <h4>4.1.2 Runnable інтерфейс</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="4.1.3">
+                            <h4>4.1.3 Життєвий цикл потоків</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="4.2">
+                        <h3>4.2 Синхронізація</h3>
+                        <div id="4.2.1">
+                            <h4>4.2.1 synchronized ключове слово</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="4.2.2">
+                            <h4>4.2.2 Lock інтерфейси</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="4.2.3">
+                            <h4>4.2.3 Volatile змінні</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="4.3">
+                        <h3>4.3 Executor Framework</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="4.4">
+                        <h3>4.4 Concurrent колекції</h3>
+                        <!-- Content to be added -->
+                    </div>
+                </div>
+
+                <div id="5">
+                    <h2>5. Функціональне програмування</h2>
+                    <div id="5.1">
+                        <h3>5.1 Лямбда-вирази</h3>
+                        <div id="5.1.1">
+                            <h4>5.1.1 Синтаксис лямбда-виразів</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="5.1.2">
+                            <h4>5.1.2 Functional інтерфейси</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="5.1.3">
+                            <h4>5.1.3 Method References</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="5.2">
+                        <h3>5.2 Stream API</h3>
+                        <div id="5.2.1">
+                            <h4>5.2.1 Створення потоків</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="5.2.2">
+                            <h4>5.2.2 Intermediate операції</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="5.2.3">
+                            <h4>5.2.3 Terminal операції</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="5.3">
+                        <h3>5.3 Optional</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="5.4">
+                        <h3>5.4 Parallel Streams</h3>
+                        <!-- Content to be added -->
+                    </div>
+                </div>
+
+                <div id="6">
+                    <h2>6. Рефлексія та анотації</h2>
+                    <div id="6.1">
+                        <h3>6.1 Reflection API</h3>
+                        <div id="6.1.1">
+                            <h4>6.1.1 Class об'єкти</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="6.1.2">
+                            <h4>6.1.2 Методи та поля</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="6.1.3">
+                            <h4>6.1.3 Динамічне створення об'єктів</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="6.2">
+                        <h3>6.2 Анотації</h3>
+                        <div id="6.2.1">
+                            <h4>6.2.1 Вбудовані анотації</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="6.2.2">
+                            <h4>6.2.2 Власні анотації</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="6.2.3">
+                            <h4>6.2.3 Annotation Processing</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="7">
+                    <h2>7. Сучасні можливості Java</h2>
+                    <div id="7.1">
+                        <h3>7.1 Модульна система (JPMS)</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="7.2">
+                        <h3>7.2 Record класи</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="7.3">
+                        <h3>7.3 Sealed класи</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="7.4">
+                        <h3>7.4 Pattern Matching</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="7.5">
+                        <h3>7.5 Text Blocks</h3>
+                        <!-- Content to be added -->
+                    </div>
+                </div>
+
+                <div id="8">
+                    <h2>8. Тестування та якість коду</h2>
+                    <div id="8.1">
+                        <h3>8.1 JUnit 5</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="8.2">
+                        <h3>8.2 Mockito</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="8.3">
+                        <h3>8.3 Code Coverage</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="8.4">
+                        <h3>8.4 Best Practices</h3>
+                        <!-- Content to be added -->
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ITLearningUA. Навчання IT українською мовою.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Prism.js
+        Prism.highlightAll();
+    </script>
+    <script src="../../../script.js"></script>
+</body>
+</html>

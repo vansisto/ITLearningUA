@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестування в Java - ITLearningUA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&family=VT323&display=swap" rel="stylesheet">
+    <link href="../../../style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="../../../index.html" class="logo">ITLearningUA</a>
+            <ul class="nav-links">
+                <li><a href="../../../index.html">Головна</a></li>
+                <li><a href="../../index.html">Програмування</a></li>
+                <li><a href="../index.html">Java</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="article-header">
+        <div class="wrapper">
+            <div class="breadcrumb">
+                <a href="../../../index.html">Головна</a> / <a href="../../index.html">Програмування</a> / <a href="../index.html">Java</a> / Тестування в Java
+            </div>
+            
+            <h1 class="article-title">Тестування в Java</h1>
+            <div class="article-meta">
+                <span>Програмування</span>
+                <span>Java</span>
+                <span>Тестування</span>
+            </div>
+            <div class="article-tag">Повний курс</div>
+            <p class="article-description">
+                Комплексне вивчення тестування Java додатків - від unit тестів до інтеграційних тестів, TDD, BDD та автоматизації тестування
+            </p>
+        </div>
+    </section>
+
+    <div class="wrapper">
+        <div class="main-content">
+            <aside class="table-of-contents">
+                <h3 class="toc-title">Зміст</h3>
+                <ul class="toc-list">
+                    <li class="toc-section">
+                        <a href="#1" class="toc-h2">1. Основи тестування</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#1.1" class="toc-h3">1.1 Теорія тестування</a>
+                                <ul>
+                                    <li><a href="#1.1.1" class="toc-h4">1.1.1 Що таке тестування та його важливість</a></li>
+                                    <li><a href="#1.1.2" class="toc-h4">1.1.2 Типи тестування (Unit, Integration, E2E)</a></li>
+                                    <li><a href="#1.1.3" class="toc-h4">1.1.3 Піраміда тестування</a></li>
+                                    <li><a href="#1.1.4" class="toc-h4">1.1.4 Test-First vs Test-Last підходи</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#1.2" class="toc-h3">1.2 Принципи якісного тестування</a>
+                                <ul>
+                                    <li><a href="#1.2.1" class="toc-h4">1.2.1 FIRST принципи</a></li>
+                                    <li><a href="#1.2.2" class="toc-h4">1.2.2 AAA Pattern (Arrange, Act, Assert)</a></li>
+                                    <li><a href="#1.2.3" class="toc-h4">1.2.3 Given-When-Then</a></li>
+                                    <li><a href="#1.2.4" class="toc-h4">1.2.4 Імена тестів та структура</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#1.3" class="toc-h3">1.3 Налаштування тестового середовища</a></li>
+                            <li><a href="#1.4" class="toc-h3">1.4 Вступ до Test Coverage</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#2" class="toc-h2">2. JUnit 5</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#2.1" class="toc-h3">2.1 Основи JUnit 5</a>
+                                <ul>
+                                    <li><a href="#2.1.1" class="toc-h4">2.1.1 Архітектура JUnit 5 (Platform, Jupiter, Vintage)</a></li>
+                                    <li><a href="#2.1.2" class="toc-h4">2.1.2 Налаштування проекту</a></li>
+                                    <li><a href="#2.1.3" class="toc-h4">2.1.3 Перший тест</a></li>
+                                    <li><a href="#2.1.4" class="toc-h4">2.1.4 Lifecycle методи</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#2.2" class="toc-h3">2.2 Анотації JUnit 5</a>
+                                <ul>
+                                    <li><a href="#2.2.1" class="toc-h4">2.2.1 @Test, @BeforeEach, @AfterEach</a></li>
+                                    <li><a href="#2.2.2" class="toc-h4">2.2.2 @BeforeAll, @AfterAll</a></li>
+                                    <li><a href="#2.2.3" class="toc-h4">2.2.3 @DisplayName, @Disabled</a></li>
+                                    <li><a href="#2.2.4" class="toc-h4">2.2.4 @Nested тести</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#2.3" class="toc-h3">2.3 Assertions та Assumptions</a>
+                                <ul>
+                                    <li><a href="#2.3.1" class="toc-h4">2.3.1 Базові assertions</a></li>
+                                    <li><a href="#2.3.2" class="toc-h4">2.3.2 assertAll та групові перевірки</a></li>
+                                    <li><a href="#2.3.3" class="toc-h4">2.3.3 assertThrows та exception тестування</a></li>
+                                    <li><a href="#2.3.4" class="toc-h4">2.3.4 Assumptions та умовні тести</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#2.4" class="toc-h3">2.4 Параметризовані тести</a>
+                                <ul>
+                                    <li><a href="#2.4.1" class="toc-h4">2.4.1 @ParameterizedTest основи</a></li>
+                                    <li><a href="#2.4.2" class="toc-h4">2.4.2 @ValueSource, @EnumSource</a></li>
+                                    <li><a href="#2.4.3" class="toc-h4">2.4.3 @CsvSource, @CsvFileSource</a></li>
+                                    <li><a href="#2.4.4" class="toc-h4">2.4.4 @MethodSource та власні джерела даних</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#2.5" class="toc-h3">2.5 Розширені можливості</a>
+                                <ul>
+                                    <li><a href="#2.5.1" class="toc-h4">2.5.1 Dynamic тести</a></li>
+                                    <li><a href="#2.5.2" class="toc-h4">2.5.2 Timeout тести</a></li>
+                                    <li><a href="#2.5.3" class="toc-h4">2.5.3 Паралельне виконання тестів</a></li>
+                                    <li><a href="#2.5.4" class="toc-h4">2.5.4 Extensions система</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#3" class="toc-h2">3. Mockito та Test Doubles</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#3.1" class="toc-h3">3.1 Теорія Test Doubles</a>
+                                <ul>
+                                    <li><a href="#3.1.1" class="toc-h4">3.1.1 Dummy, Fake, Stub, Spy, Mock</a></li>
+                                    <li><a href="#3.1.2" class="toc-h4">3.1.2 Коли використовувати кожен тип</a></li>
+                                    <li><a href="#3.1.3" class="toc-h4">3.1.3 Проблеми з надмірним мокуванням</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#3.2" class="toc-h3">3.2 Основи Mockito</a>
+                                <ul>
+                                    <li><a href="#3.2.1" class="toc-h4">3.2.1 Налаштування Mockito</a></li>
+                                    <li><a href="#3.2.2" class="toc-h4">3.2.2 Створення моків (@Mock, @Spy)</a></li>
+                                    <li><a href="#3.2.3" class="toc-h4">3.2.3 when().thenReturn() та stubbing</a></li>
+                                    <li><a href="#3.2.4" class="toc-h4">3.2.4 verify() та перевірка взаємодій</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#3.3" class="toc-h3">3.3 Розширені техніки Mockito</a>
+                                <ul>
+                                    <li><a href="#3.3.1" class="toc-h4">3.3.1 ArgumentMatchers та ArgumentCaptor</a></li>
+                                    <li><a href="#3.3.2" class="toc-h4">3.3.2 doThrow(), doNothing(), doAnswer()</a></li>
+                                    <li><a href="#3.3.3" class="toc-h4">3.3.3 @InjectMocks та dependency injection</a></li>
+                                    <li><a href="#3.3.4" class="toc-h4">3.3.4 Мокування static методів</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#3.4" class="toc-h3">3.4 Best Practices</a>
+                                <ul>
+                                    <li><a href="#3.4.1" class="toc-h4">3.4.1 Коли НЕ використовувати моки</a></li>
+                                    <li><a href="#3.4.2" class="toc-h4">3.4.2 Test Smells та їх уникнення</a></li>
+                                    <li><a href="#3.4.3" class="toc-h4">3.4.3 Мокування зовнішніх залежностей</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#4" class="toc-h2">4. Spring Boot Testing</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#4.1" class="toc-h3">4.1 Spring Test Context</a>
+                                <ul>
+                                    <li><a href="#4.1.1" class="toc-h4">4.1.1 @SpringBootTest анотація</a></li>
+                                    <li><a href="#4.1.2" class="toc-h4">4.1.2 Test Slices (@WebMvcTest, @DataJpaTest)</a></li>
+                                    <li><a href="#4.1.3" class="toc-h4">4.1.3 @MockBean та @SpyBean</a></li>
+                                    <li><a href="#4.1.4" class="toc-h4">4.1.4 Test Profiles та конфігурація</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#4.2" class="toc-h3">4.2 Web Layer Testing</a>
+                                <ul>
+                                    <li><a href="#4.2.1" class="toc-h4">4.2.1 MockMvc основи</a></li>
+                                    <li><a href="#4.2.2" class="toc-h4">4.2.2 Тестування REST Controllers</a></li>
+                                    <li><a href="#4.2.3" class="toc-h4">4.2.3 JSON assertions та JsonPath</a></li>
+                                    <li><a href="#4.2.4" class="toc-h4">4.2.4 Security та authentication тести</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#4.3" class="toc-h3">4.3 Data Layer Testing</a>
+                                <ul>
+                                    <li><a href="#4.3.1" class="toc-h4">4.3.1 @DataJpaTest та repository тести</a></li>
+                                    <li><a href="#4.3.2" class="toc-h4">4.3.2 TestEntityManager</a></li>
+                                    <li><a href="#4.3.3" class="toc-h4">4.3.3 @Sql анотація та тестові дані</a></li>
+                                    <li><a href="#4.3.4" class="toc-h4">4.3.4 Embedded databases</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#4.4" class="toc-h3">4.4 Integration Testing</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#5" class="toc-h2">5. Test-Driven Development (TDD)</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#5.1" class="toc-h3">5.1 Основи TDD</a>
+                                <ul>
+                                    <li><a href="#5.1.1" class="toc-h4">5.1.1 Red-Green-Refactor цикл</a></li>
+                                    <li><a href="#5.1.2" class="toc-h4">5.1.2 Переваги та недоліки TDD</a></li>
+                                    <li><a href="#5.1.3" class="toc-h4">5.1.3 Коли використовувати TDD</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#5.2" class="toc-h3">5.2 Практика TDD</a>
+                                <ul>
+                                    <li><a href="#5.2.1" class="toc-h4">5.2.1 Kata вправи</a></li>
+                                    <li><a href="#5.2.2" class="toc-h4">5.2.2 TDD з простими алгоритмами</a></li>
+                                    <li><a href="#5.2.3" class="toc-h4">5.2.3 TDD для бізнес-логіки</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#5.3" class="toc-h3">5.3 Outside-In TDD</a>
+                                <ul>
+                                    <li><a href="#5.3.1" class="toc-h4">5.3.1 London School vs Chicago School</a></li>
+                                    <li><a href="#5.3.2" class="toc-h4">5.3.2 Acceptance Test Driven Development</a></li>
+                                    <li><a href="#5.3.3" class="toc-h4">5.3.3 Double Loop TDD</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#5.4" class="toc-h3">5.4 TDD Anti-patterns</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#6" class="toc-h2">6. Behavior-Driven Development (BDD)</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#6.1" class="toc-h3">6.1 Введення в BDD</a>
+                                <ul>
+                                    <li><a href="#6.1.1" class="toc-h4">6.1.1 Що таке BDD та його цілі</a></li>
+                                    <li><a href="#6.1.2" class="toc-h4">6.1.2 Gherkin синтаксис</a></li>
+                                    <li><a href="#6.1.3" class="toc-h4">6.1.3 User Stories та Scenarios</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#6.2" class="toc-h3">6.2 Cucumber</a>
+                                <ul>
+                                    <li><a href="#6.2.1" class="toc-h4">6.2.1 Налаштування Cucumber-JVM</a></li>
+                                    <li><a href="#6.2.2" class="toc-h4">6.2.2 Feature files та Step Definitions</a></li>
+                                    <li><a href="#6.2.3" class="toc-h4">6.2.3 Hooks та Background</a></li>
+                                    <li><a href="#6.2.4" class="toc-h4">6.2.4 Data Tables та Scenario Outline</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#6.3" class="toc-h3">6.3 BDD Best Practices</a>
+                                <ul>
+                                    <li><a href="#6.3.1" class="toc-h4">6.3.1 Написання ефективних scenarios</a></li>
+                                    <li><a href="#6.3.2" class="toc-h4">6.3.2 Page Object Pattern для BDD</a></li>
+                                    <li><a href="#6.3.3" class="toc-h4">6.3.3 Collaboration між командами</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#7" class="toc-h2">7. Performance та Load Testing</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#7.1" class="toc-h3">7.1 Типи performance тестування</a>
+                                <ul>
+                                    <li><a href="#7.1.1" class="toc-h4">7.1.1 Load, Stress, Spike, Volume Testing</a></li>
+                                    <li><a href="#7.1.2" class="toc-h4">7.1.2 Метрики продуктивності</a></li>
+                                    <li><a href="#7.1.3" class="toc-h4">7.1.3 Performance baseline</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#7.2" class="toc-h3">7.2 JMH (Java Microbenchmark Harness)</a>
+                                <ul>
+                                    <li><a href="#7.2.1" class="toc-h4">7.2.1 Налаштування JMH</a></li>
+                                    <li><a href="#7.2.2" class="toc-h4">7.2.2 Benchmark анотації</a></li>
+                                    <li><a href="#7.2.3" class="toc-h4">7.2.3 State та Scope</a></li>
+                                    <li><a href="#7.2.4" class="toc-h4">7.2.4 Аналіз результатів</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#7.3" class="toc-h3">7.3 JMeter та Gatling</a>
+                                <ul>
+                                    <li><a href="#7.3.1" class="toc-h4">7.3.1 Створення load тестів</a></li>
+                                    <li><a href="#7.3.2" class="toc-h4">7.3.2 HTTP та API тестування</a></li>
+                                    <li><a href="#7.3.3" class="toc-h4">7.3.3 Reporting та аналіз</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#7.4" class="toc-h3">7.4 Memory та CPU profiling</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#8" class="toc-h2">8. Test Coverage та Code Quality</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#8.1" class="toc-h3">8.1 Code Coverage метрики</a>
+                                <ul>
+                                    <li><a href="#8.1.1" class="toc-h4">8.1.1 Line, Branch, Method Coverage</a></li>
+                                    <li><a href="#8.1.2" class="toc-h4">8.1.2 Mutation Testing</a></li>
+                                    <li><a href="#8.1.3" class="toc-h4">8.1.3 Coverage цілі та обмеження</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#8.2" class="toc-h3">8.2 JaCoCo</a>
+                                <ul>
+                                    <li><a href="#8.2.1" class="toc-h4">8.2.1 Налаштування JaCoCo</a></li>
+                                    <li><a href="#8.2.2" class="toc-h4">8.2.2 Maven та Gradle інтеграція</a></li>
+                                    <li><a href="#8.2.3" class="toc-h4">8.2.3 Coverage reports</a></li>
+                                    <li><a href="#8.2.4" class="toc-h4">8.2.4 Coverage gates</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#8.3" class="toc-h3">8.3 Mutation Testing</a>
+                                <ul>
+                                    <li><a href="#8.3.1" class="toc-h4">8.3.1 Концепція Mutation Testing</a></li>
+                                    <li><a href="#8.3.2" class="toc-h4">8.3.2 PIT Testing</a></li>
+                                    <li><a href="#8.3.3" class="toc-h4">8.3.3 Mutation Score</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#8.4" class="toc-h3">8.4 Static Analysis та SonarQube</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#9" class="toc-h2">9. Testcontainers та Integration Testing</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#9.1" class="toc-h3">9.1 Введення в Testcontainers</a>
+                                <ul>
+                                    <li><a href="#9.1.1" class="toc-h4">9.1.1 Проблеми integration тестування</a></li>
+                                    <li><a href="#9.1.2" class="toc-h4">9.1.2 Docker та Testcontainers концепції</a></li>
+                                    <li><a href="#9.1.3" class="toc-h4">9.1.3 Переваги перед in-memory БД</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#9.2" class="toc-h3">9.2 Основи Testcontainers</a>
+                                <ul>
+                                    <li><a href="#9.2.1" class="toc-h4">9.2.1 Налаштування та dependencies</a></li>
+                                    <li><a href="#9.2.2" class="toc-h4">9.2.2 Generic Container</a></li>
+                                    <li><a href="#9.2.3" class="toc-h4">9.2.3 Specialized Modules (PostgreSQL, Redis, etc.)</a></li>
+                                    <li><a href="#9.2.4" class="toc-h4">9.2.4 Container lifecycle</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#9.3" class="toc-h3">9.3 Практичне використання</a>
+                                <ul>
+                                    <li><a href="#9.3.1" class="toc-h4">9.3.1 Database testing</a></li>
+                                    <li><a href="#9.3.2" class="toc-h4">9.3.2 Message Queue testing</a></li>
+                                    <li><a href="#9.3.3" class="toc-h4">9.3.3 External Services mocking</a></li>
+                                    <li><a href="#9.3.4" class="toc-h4">9.3.4 Network та wait strategies</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#9.4" class="toc-h3">9.4 Advanced Testcontainers</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#10" class="toc-h2">10. CI/CD та Test Automation</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#10.1" class="toc-h3">10.1 Тестування в CI/CD</a>
+                                <ul>
+                                    <li><a href="#10.1.1" class="toc-h4">10.1.1 Test stages в pipeline</a></li>
+                                    <li><a href="#10.1.2" class="toc-h4">10.1.2 Parallel test execution</a></li>
+                                    <li><a href="#10.1.3" class="toc-h4">10.1.3 Test reports та artifacts</a></li>
+                                    <li><a href="#10.1.4" class="toc-h4">10.1.4 Flaky tests управління</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#10.2" class="toc-h3">10.2 GitHub Actions для Java</a>
+                                <ul>
+                                    <li><a href="#10.2.1" class="toc-h4">10.2.1 Workflow конфігурація</a></li>
+                                    <li><a href="#10.2.2" class="toc-h4">10.2.2 Matrix testing (JDK versions)</a></li>
+                                    <li><a href="#10.2.3" class="toc-h4">10.2.3 Cache optimization</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#10.3" class="toc-h3">10.3 Jenkins та Maven/Gradle</a>
+                                <ul>
+                                    <li><a href="#10.3.1" class="toc-h4">10.3.1 Pipeline конфігурація</a></li>
+                                    <li><a href="#10.3.2" class="toc-h4">10.3.2 Test reporting plugins</a></li>
+                                    <li><a href="#10.3.3" class="toc-h4">10.3.3 Quality gates</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#10.4" class="toc-h3">10.4 Container-based testing</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#11" class="toc-h2">11. Advanced Testing Patterns</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#11.1" class="toc-h3">11.1 Test Patterns</a>
+                                <ul>
+                                    <li><a href="#11.1.1" class="toc-h4">11.1.1 Object Mother Pattern</a></li>
+                                    <li><a href="#11.1.2" class="toc-h4">11.1.2 Test Builder Pattern</a></li>
+                                    <li><a href="#11.1.3" class="toc-h4">11.1.3 Page Object Pattern</a></li>
+                                    <li><a href="#11.1.4" class="toc-h4">11.1.4 Test Fixtures та Data Builders</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#11.2" class="toc-h3">11.2 Contract Testing</a>
+                                <ul>
+                                    <li><a href="#11.2.1" class="toc-h4">11.2.1 Consumer-Driven Contracts</a></li>
+                                    <li><a href="#11.2.2" class="toc-h4">11.2.2 Pact Framework</a></li>
+                                    <li><a href="#11.2.3" class="toc-h4">11.2.3 API Contract Testing</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#11.3" class="toc-h3">11.3 Property-Based Testing</a>
+                                <ul>
+                                    <li><a href="#11.3.1" class="toc-h4">11.3.1 QuickCheck концепції</a></li>
+                                    <li><a href="#11.3.2" class="toc-h4">11.3.2 jqwik framework</a></li>
+                                    <li><a href="#11.3.3" class="toc-h4">11.3.3 Generators та Arbitraries</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#11.4" class="toc-h3">11.4 Chaos Engineering</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#12" class="toc-h2">12. Testing Best Practices та Anti-patterns</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#12.1" class="toc-h3">12.1 Testing Principles</a>
+                                <ul>
+                                    <li><a href="#12.1.1" class="toc-h4">12.1.1 SOLID принципи в тестах</a></li>
+                                    <li><a href="#12.1.2" class="toc-h4">12.1.2 DRY vs DAMP в тестах</a></li>
+                                    <li><a href="#12.1.3" class="toc-h4">12.1.3 Test Independence</a></li>
+                                    <li><a href="#12.1.4" class="toc-h4">12.1.4 Test Data Management</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#12.2" class="toc-h3">12.2 Common Anti-patterns</a>
+                                <ul>
+                                    <li><a href="#12.2.1" class="toc-h4">12.2.1 Brittle Tests</a></li>
+                                    <li><a href="#12.2.2" class="toc-h4">12.2.2 Slow Tests</a></li>
+                                    <li><a href="#12.2.3" class="toc-h4">12.2.3 Flaky Tests</a></li>
+                                    <li><a href="#12.2.4" class="toc-h4">12.2.4 Over-mocking</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#12.3" class="toc-h3">12.3 Test Maintenance</a>
+                                <ul>
+                                    <li><a href="#12.3.1" class="toc-h4">12.3.1 Refactoring тестів</a></li>
+                                    <li><a href="#12.3.2" class="toc-h4">12.3.2 Test Debt управління</a></li>
+                                    <li><a href="#12.3.3" class="toc-h4">12.3.3 Legacy Code тестування</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#12.4" class="toc-h3">12.4 Team practices</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+
+            <article class="article-content">
+                <div id="1">
+                    <h2>1. Основи тестування</h2>
+                    <div id="1.1">
+                        <h3>1.1 Теорія тестування</h3>
+                        <div id="1.1.1">
+                            <h4>1.1.1 Що таке тестування та його важливість</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="1.1.2">
+                            <h4>1.1.2 Типи тестування (Unit, Integration, E2E)</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="1.1.3">
+                            <h4>1.1.3 Піраміда тестування</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="1.1.4">
+                            <h4>1.1.4 Test-First vs Test-Last підходи</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="1.2">
+                        <h3>1.2 Принципи якісного тестування</h3>
+                        <div id="1.2.1">
+                            <h4>1.2.1 FIRST принципи</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="1.2.2">
+                            <h4>1.2.2 AAA Pattern (Arrange, Act, Assert)</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="1.2.3">
+                            <h4>1.2.3 Given-When-Then</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="1.2.4">
+                            <h4>1.2.4 Імена тестів та структура</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="1.3">
+                        <h3>1.3 Налаштування тестового середовища</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="1.4">
+                        <h3>1.4 Вступ до Test Coverage</h3>
+                        <!-- Content to be added -->
+                    </div>
+                </div>
+
+                <!-- Placeholder sections for remaining content -->
+                <div id="2">
+                    <h2>2. JUnit 5</h2>
+                    <!-- Sections 2.1-2.5 content placeholders -->
+                </div>
+
+                <div id="3">
+                    <h2>3. Mockito та Test Doubles</h2>
+                    <!-- Sections 3.1-3.4 content placeholders -->
+                </div>
+
+                <div id="4">
+                    <h2>4. Spring Boot Testing</h2>
+                    <!-- Sections 4.1-4.4 content placeholders -->
+                </div>
+
+                <div id="5">
+                    <h2>5. Test-Driven Development (TDD)</h2>
+                    <!-- Sections 5.1-5.4 content placeholders -->
+                </div>
+
+                <div id="6">
+                    <h2>6. Behavior-Driven Development (BDD)</h2>
+                    <!-- Sections 6.1-6.3 content placeholders -->
+                </div>
+
+                <div id="7">
+                    <h2>7. Performance та Load Testing</h2>
+                    <!-- Sections 7.1-7.4 content placeholders -->
+                </div>
+
+                <div id="8">
+                    <h2>8. Test Coverage та Code Quality</h2>
+                    <!-- Sections 8.1-8.4 content placeholders -->
+                </div>
+
+                <div id="9">
+                    <h2>9. Testcontainers та Integration Testing</h2>
+                    <!-- Sections 9.1-9.4 content placeholders -->
+                </div>
+
+                <div id="10">
+                    <h2>10. CI/CD та Test Automation</h2>
+                    <!-- Sections 10.1-10.4 content placeholders -->
+                </div>
+
+                <div id="11">
+                    <h2>11. Advanced Testing Patterns</h2>
+                    <!-- Sections 11.1-11.4 content placeholders -->
+                </div>
+
+                <div id="12">
+                    <h2>12. Testing Best Practices та Anti-patterns</h2>
+                    <!-- Sections 12.1-12.4 content placeholders -->
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ITLearningUA. Навчання IT українською мовою.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Prism.js
+        Prism.highlightAll();
+    </script>
+    <script src="../../../script.js"></script>
+</body>
+</html>

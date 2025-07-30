@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Основи Java - ITLearningUA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&family=VT323&display=swap" rel="stylesheet">
+    <link href="../../../style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="../../../index.html" class="logo">ITLearningUA</a>
+            <ul class="nav-links">
+                <li><a href="../../../index.html">Головна</a></li>
+                <li><a href="../../index.html">Програмування</a></li>
+                <li><a href="../index.html">Java</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="article-header">
+        <div class="wrapper">
+            <div class="breadcrumb">
+                <a href="../../../index.html">Головна</a> / <a href="../../index.html">Програмування</a> / <a href="../index.html">Java</a> / Основи Java
+            </div>
+            
+            <h1 class="article-title">Основи Java</h1>
+            <div class="article-meta">
+                <span>Програмування</span>
+                <span>Java</span>
+                <span>Основи</span>
+            </div>
+            <div class="article-tag">Повний курс</div>
+            <p class="article-description">
+                Комплексне вивчення основ мови програмування Java - від синтаксису до об'єктно-орієнтованого програмування
+            </p>
+        </div>
+    </section>
+
+    <div class="wrapper">
+        <div class="main-content">
+            <aside class="table-of-contents">
+                <h3 class="toc-title">Зміст</h3>
+                <ul class="toc-list">
+                    <li class="toc-section">
+                        <a href="#1" class="toc-h2">1. Вступ до Java</a>
+                        <ul>
+                            <li><a href="#1.1" class="toc-h3">1.1 Що таке Java та її особливості</a></li>
+                            <li><a href="#1.2" class="toc-h3">1.2 Історія та версії Java</a></li>
+                            <li><a href="#1.3" class="toc-h3">1.3 JVM, JRE, JDK - розбір компонентів</a></li>
+                            <li><a href="#1.4" class="toc-h3">1.4 Встановлення та налаштування середовища</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#2" class="toc-h2">2. Основи синтаксису</a>
+                        <ul>
+                            <li><a href="#2.1" class="toc-h3">2.1 Перша програма Hello World</a></li>
+                            <li><a href="#2.2" class="toc-h3">2.2 Коментарі в Java</a></li>
+                            <li class="toc-subsection">
+                                <a href="#2.3" class="toc-h3">2.3 Змінні та типи даних</a>
+                                <ul>
+                                    <li><a href="#2.3.1" class="toc-h4">2.3.1 Примітивні типи</a></li>
+                                    <li><a href="#2.3.2" class="toc-h4">2.3.2 Wrapper класи</a></li>
+                                    <li><a href="#2.3.3" class="toc-h4">2.3.3 String та StringBuilder</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#2.4" class="toc-h3">2.4 Оператори</a>
+                                <ul>
+                                    <li><a href="#2.4.1" class="toc-h4">2.4.1 Арифметичні оператори</a></li>
+                                    <li><a href="#2.4.2" class="toc-h4">2.4.2 Логічні оператори</a></li>
+                                    <li><a href="#2.4.3" class="toc-h4">2.4.3 Оператори порівняння</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#2.5" class="toc-h3">2.5 Введення та виведення даних</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#3" class="toc-h2">3. Структури керування</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#3.1" class="toc-h3">3.1 Умовні оператори</a>
+                                <ul>
+                                    <li><a href="#3.1.1" class="toc-h4">3.1.1 if-else</a></li>
+                                    <li><a href="#3.1.2" class="toc-h4">3.1.2 switch-case</a></li>
+                                    <li><a href="#3.1.3" class="toc-h4">3.1.3 Тернарний оператор</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#3.2" class="toc-h3">3.2 Цикли</a>
+                                <ul>
+                                    <li><a href="#3.2.1" class="toc-h4">3.2.1 for цикл</a></li>
+                                    <li><a href="#3.2.2" class="toc-h4">3.2.2 while та do-while</a></li>
+                                    <li><a href="#3.2.3" class="toc-h4">3.2.3 enhanced for (for-each)</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#3.3" class="toc-h3">3.3 Керування циклами (break, continue)</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#4" class="toc-h2">4. Основи ООП</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#4.1" class="toc-h3">4.1 Класи та об'єкти</a>
+                                <ul>
+                                    <li><a href="#4.1.1" class="toc-h4">4.1.1 Створення класів</a></li>
+                                    <li><a href="#4.1.2" class="toc-h4">4.1.2 Поля та методи</a></li>
+                                    <li><a href="#4.1.3" class="toc-h4">4.1.3 Створення об'єктів</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#4.2" class="toc-h3">4.2 Конструктори</a>
+                                <ul>
+                                    <li><a href="#4.2.1" class="toc-h4">4.2.1 Конструктор за замовчуванням</a></li>
+                                    <li><a href="#4.2.2" class="toc-h4">4.2.2 Параметризовані конструктори</a></li>
+                                    <li><a href="#4.2.3" class="toc-h4">4.2.3 Перевантаження конструкторів</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#4.3" class="toc-h3">4.3 Інкапсуляція</a>
+                                <ul>
+                                    <li><a href="#4.3.1" class="toc-h4">4.3.1 Модифікатори доступу</a></li>
+                                    <li><a href="#4.3.2" class="toc-h4">4.3.2 Getter та Setter методи</a></li>
+                                    <li><a href="#4.3.3" class="toc-h4">4.3.3 this ключове слово</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#5" class="toc-h2">5. Розширені концепції ООП</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#5.1" class="toc-h3">5.1 Наслідування</a>
+                                <ul>
+                                    <li><a href="#5.1.1" class="toc-h4">5.1.1 extends ключове слово</a></li>
+                                    <li><a href="#5.1.2" class="toc-h4">5.1.2 super ключове слово</a></li>
+                                    <li><a href="#5.1.3" class="toc-h4">5.1.3 Перевизначення методів</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#5.2" class="toc-h3">5.2 Поліморфізм</a>
+                                <ul>
+                                    <li><a href="#5.2.1" class="toc-h4">5.2.1 Перевантаження методів</a></li>
+                                    <li><a href="#5.2.2" class="toc-h4">5.2.2 Віртуальні методи</a></li>
+                                    <li><a href="#5.2.3" class="toc-h4">5.2.3 instanceof оператор</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#5.3" class="toc-h3">5.3 Абстрактні класи</a></li>
+                            <li class="toc-subsection">
+                                <a href="#5.4" class="toc-h3">5.4 Інтерфейси</a>
+                                <ul>
+                                    <li><a href="#5.4.1" class="toc-h4">5.4.1 Створення інтерфейсів</a></li>
+                                    <li><a href="#5.4.2" class="toc-h4">5.4.2 Імплементація інтерфейсів</a></li>
+                                    <li><a href="#5.4.3" class="toc-h4">5.4.3 Default та static методи</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#6" class="toc-h2">6. Масиви та колекції</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#6.1" class="toc-h3">6.1 Масиви</a>
+                                <ul>
+                                    <li><a href="#6.1.1" class="toc-h4">6.1.1 Одновимірні масиви</a></li>
+                                    <li><a href="#6.1.2" class="toc-h4">6.1.2 Багатовимірні масиви</a></li>
+                                    <li><a href="#6.1.3" class="toc-h4">6.1.3 Операції з масивами</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#6.2" class="toc-h3">6.2 ArrayList</a></li>
+                            <li><a href="#6.3" class="toc-h3">6.3 HashMap та HashSet</a></li>
+                            <li><a href="#6.4" class="toc-h3">6.4 Інші колекції</a></li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#7" class="toc-h2">7. Обробка винятків</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#7.1" class="toc-h3">7.1 Основи винятків</a>
+                                <ul>
+                                    <li><a href="#7.1.1" class="toc-h4">7.1.1 Типи винятків</a></li>
+                                    <li><a href="#7.1.2" class="toc-h4">7.1.2 try-catch блоки</a></li>
+                                    <li><a href="#7.1.3" class="toc-h4">7.1.3 finally блок</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#7.2" class="toc-h3">7.2 Власні винятки</a></li>
+                            <li><a href="#7.3" class="toc-h3">7.3 throws та throw</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+
+            <article class="article-content">
+                <div id="1">
+                    <h2>1. Вступ до Java</h2>
+                    <div id="1.1">
+                        <h3>1.1 Що таке Java та її особливості</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="1.2">
+                        <h3>1.2 Історія та версії Java</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="1.3">
+                        <h3>1.3 JVM, JRE, JDK - розбір компонентів</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="1.4">
+                        <h3>1.4 Встановлення та налаштування середовища</h3>
+                        <!-- Content to be added -->
+                    </div>
+                </div>
+
+                <div id="2">
+                    <h2>2. Основи синтаксису</h2>
+                    <div id="2.1">
+                        <h3>2.1 Перша програма Hello World</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="2.2">
+                        <h3>2.2 Коментарі в Java</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="2.3">
+                        <h3>2.3 Змінні та типи даних</h3>
+                        <div id="2.3.1">
+                            <h4>2.3.1 Примітивні типи</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="2.3.2">
+                            <h4>2.3.2 Wrapper класи</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="2.3.3">
+                            <h4>2.3.3 String та StringBuilder</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="2.4">
+                        <h3>2.4 Оператори</h3>
+                        <div id="2.4.1">
+                            <h4>2.4.1 Арифметичні оператори</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="2.4.2">
+                            <h4>2.4.2 Логічні оператори</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="2.4.3">
+                            <h4>2.4.3 Оператори порівняння</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="2.5">
+                        <h3>2.5 Введення та виведення даних</h3>
+                        <!-- Content to be added -->
+                    </div>
+                </div>
+
+                <div id="3">
+                    <h2>3. Структури керування</h2>
+                    <div id="3.1">
+                        <h3>3.1 Умовні оператори</h3>
+                        <div id="3.1.1">
+                            <h4>3.1.1 if-else</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="3.1.2">
+                            <h4>3.1.2 switch-case</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="3.1.3">
+                            <h4>3.1.3 Тернарний оператор</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="3.2">
+                        <h3>3.2 Цикли</h3>
+                        <div id="3.2.1">
+                            <h4>3.2.1 for цикл</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="3.2.2">
+                            <h4>3.2.2 while та do-while</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="3.2.3">
+                            <h4>3.2.3 enhanced for (for-each)</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="3.3">
+                        <h3>3.3 Керування циклами (break, continue)</h3>
+                        <!-- Content to be added -->
+                    </div>
+                </div>
+
+                <div id="4">
+                    <h2>4. Основи ООП</h2>
+                    <div id="4.1">
+                        <h3>4.1 Класи та об'єкти</h3>
+                        <div id="4.1.1">
+                            <h4>4.1.1 Створення класів</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="4.1.2">
+                            <h4>4.1.2 Поля та методи</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="4.1.3">
+                            <h4>4.1.3 Створення об'єктів</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="4.2">
+                        <h3>4.2 Конструктори</h3>
+                        <div id="4.2.1">
+                            <h4>4.2.1 Конструктор за замовчуванням</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="4.2.2">
+                            <h4>4.2.2 Параметризовані конструктори</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="4.2.3">
+                            <h4>4.2.3 Перевантаження конструкторів</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="4.3">
+                        <h3>4.3 Інкапсуляція</h3>
+                        <div id="4.3.1">
+                            <h4>4.3.1 Модифікатори доступу</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="4.3.2">
+                            <h4>4.3.2 Getter та Setter методи</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="4.3.3">
+                            <h4>4.3.3 this ключове слово</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="5">
+                    <h2>5. Розширені концепції ООП</h2>
+                    <div id="5.1">
+                        <h3>5.1 Наслідування</h3>
+                        <div id="5.1.1">
+                            <h4>5.1.1 extends ключове слово</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="5.1.2">
+                            <h4>5.1.2 super ключове слово</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="5.1.3">
+                            <h4>5.1.3 Перевизначення методів</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="5.2">
+                        <h3>5.2 Поліморфізм</h3>
+                        <div id="5.2.1">
+                            <h4>5.2.1 Перевантаження методів</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="5.2.2">
+                            <h4>5.2.2 Віртуальні методи</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="5.2.3">
+                            <h4>5.2.3 instanceof оператор</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="5.3">
+                        <h3>5.3 Абстрактні класи</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="5.4">
+                        <h3>5.4 Інтерфейси</h3>
+                        <div id="5.4.1">
+                            <h4>5.4.1 Створення інтерфейсів</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="5.4.2">
+                            <h4>5.4.2 Імплементація інтерфейсів</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="5.4.3">
+                            <h4>5.4.3 Default та static методи</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="6">
+                    <h2>6. Масиви та колекції</h2>
+                    <div id="6.1">
+                        <h3>6.1 Масиви</h3>
+                        <div id="6.1.1">
+                            <h4>6.1.1 Одновимірні масиви</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="6.1.2">
+                            <h4>6.1.2 Багатовимірні масиви</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="6.1.3">
+                            <h4>6.1.3 Операції з масивами</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="6.2">
+                        <h3>6.2 ArrayList</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="6.3">
+                        <h3>6.3 HashMap та HashSet</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="6.4">
+                        <h3>6.4 Інші колекції</h3>
+                        <!-- Content to be added -->
+                    </div>
+                </div>
+
+                <div id="7">
+                    <h2>7. Обробка винятків</h2>
+                    <div id="7.1">
+                        <h3>7.1 Основи винятків</h3>
+                        <div id="7.1.1">
+                            <h4>7.1.1 Типи винятків</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="7.1.2">
+                            <h4>7.1.2 try-catch блоки</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="7.1.3">
+                            <h4>7.1.3 finally блок</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <div id="7.2">
+                        <h3>7.2 Власні винятки</h3>
+                        <!-- Content to be added -->
+                    </div>
+                    <div id="7.3">
+                        <h3>7.3 throws та throw</h3>
+                        <!-- Content to be added -->
+                    </div>
+                </div>
+
+            </article>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ITLearningUA. Навчання IT українською.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Prism.js
+        Prism.highlightAll();
+    </script>
+    <script src="../../../script.js"></script>
+</body>
+</html>

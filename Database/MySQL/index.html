@@ -5717,31 +5717,6 @@ DELIMITER ;</code></pre>
     <script>
         // Initialize Prism.js
         Prism.highlightAll();
-
-        // Table of contents functionality
-        const tocLinks = document.querySelectorAll('.toc-list a');
-        const sections = document.querySelectorAll('section[id], div[id]');
-
-        function updateActiveSection() {
-            let currentSection = '';
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 150;
-                if (window.scrollY >= sectionTop) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
-
-            tocLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${currentSection}`) {
-                    link.classList.add('active');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', updateActiveSection);
-        updateActiveSection();
     </script>
     <script src="../../script.js"></script>
 </body>

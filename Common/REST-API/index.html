@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST API - ITLearningUA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&family=VT323&display=swap" rel="stylesheet">
+    <link href="../../style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="../../index.html" class="logo">ITLearningUA</a>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Головна</a></li>
+                <li><a href="../index.html">Загальні теми</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="article-header">
+        <div class="wrapper">
+            <div class="breadcrumb">
+                <a href="../../index.html">Головна</a> / <a href="../index.html">Загальні теми</a> / REST API
+            </div>
+            
+            <h1 class="article-title">REST API</h1>
+            <div class="article-meta">
+                <span>Загальні теми</span>
+                <span>Архітектура</span>
+                <span>REST API</span>
+            </div>
+            <div class="article-tag">Повний курс</div>
+            <p class="article-description">
+                Комплексне вивчення REST API - від теоретичних основ до практичної реалізації та сучасних стандартів
+            </p>
+        </div>
+    </section>
+
+    <div class="wrapper">
+        <div class="main-content">
+            <aside class="table-of-contents">
+                <h3 class="toc-title">Зміст</h3>
+                <ul class="toc-list">
+                    <li class="toc-section">
+                        <a href="#1" class="toc-h2">1. Історія та еволюція веб-архітектури</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#1.1" class="toc-h3">1.1 Історія World Wide Web</a>
+                                <ul>
+                                    <li><a href="#1.1.1" class="toc-h4">1.1.1 Створення WWW та HTTP</a></li>
+                                    <li><a href="#1.1.2" class="toc-h4">1.1.2 Еволюція HTTP версій</a></li>
+                                    <li><a href="#1.1.3" class="toc-h4">1.1.3 Від статичних сторінок до веб-додатків</a></li>
+                                    <li><a href="#1.1.4" class="toc-h4">1.1.4 Виникнення веб-сервісів</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#1.2" class="toc-h3">1.2 До-REST ера</a>
+                                <ul>
+                                    <li><a href="#1.2.1" class="toc-h4">1.2.1 SOAP та XML-RPC</a></li>
+                                    <li><a href="#1.2.2" class="toc-h4">1.2.2 WSDL та Service-Oriented Architecture</a></li>
+                                    <li><a href="#1.2.3" class="toc-h4">1.2.3 Проблеми складних протоколів</a></li>
+                                    <li><a href="#1.2.4" class="toc-h4">1.2.4 Потреба в простоті</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#1.3" class="toc-h3">1.3 Дисертація Роя Філдінга</a>
+                                <ul>
+                                    <li><a href="#1.3.1" class="toc-h4">1.3.1 Roy Fielding та його внесок</a></li>
+                                    <li><a href="#1.3.2" class="toc-h4">1.3.2 "Architectural Styles" (2000 рік)</a></li>
+                                    <li><a href="#1.3.3" class="toc-h4">1.3.3 Визначення REST</a></li>
+                                    <li><a href="#1.3.4" class="toc-h4">1.3.4 Вплив на індустрію</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#2" class="toc-h2">2. Фундаментальні принципи REST</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#2.1" class="toc-h3">2.1 Архітектурні обмеження</a>
+                                <ul>
+                                    <li><a href="#2.1.1" class="toc-h4">2.1.1 Client-Server архітектура</a></li>
+                                    <li><a href="#2.1.2" class="toc-h4">2.1.2 Stateless (Безстатусність)</a></li>
+                                    <li><a href="#2.1.3" class="toc-h4">2.1.3 Cacheable (Кешування)</a></li>
+                                    <li><a href="#2.1.4" class="toc-h4">2.1.4 Uniform Interface</a></li>
+                                    <li><a href="#2.1.5" class="toc-h4">2.1.5 Layered System</a></li>
+                                    <li><a href="#2.1.6" class="toc-h4">2.1.6 Code on Demand (опціонально)</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#2.2" class="toc-h3">2.2 Uniform Interface детально</a>
+                                <ul>
+                                    <li><a href="#2.2.1" class="toc-h4">2.2.1 Resource Identification</a></li>
+                                    <li><a href="#2.2.2" class="toc-h4">2.2.2 Resource Manipulation через Representations</a></li>
+                                    <li><a href="#2.2.3" class="toc-h4">2.2.3 Self-descriptive Messages</a></li>
+                                    <li><a href="#2.2.4" class="toc-h4">2.2.4 Hypermedia as Engine of Application State (HATEOAS)</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#2.3" class="toc-h3">2.3 Переваги REST архітектури</a>
+                                <ul>
+                                    <li><a href="#2.3.1" class="toc-h4">2.3.1 Scalability (Масштабованість)</a></li>
+                                    <li><a href="#2.3.2" class="toc-h4">2.3.2 Simplicity (Простота)</a></li>
+                                    <li><a href="#2.3.3" class="toc-h4">2.3.3 Modifiability (Модифіковність)</a></li>
+                                    <li><a href="#2.3.4" class="toc-h4">2.3.4 Portability (Портабельність)</a></li>
+                                    <li><a href="#2.3.5" class="toc-h4">2.3.5 Reliability (Надійність)</a></li>
+                                    <li><a href="#2.3.6" class="toc-h4">2.3.6 Visibility (Видимість)</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#3" class="toc-h2">3. HTTP як основа REST</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#3.1" class="toc-h3">3.1 HTTP методи</a>
+                                <ul>
+                                    <li><a href="#3.1.1" class="toc-h4">3.1.1 GET - отримання ресурсів</a></li>
+                                    <li><a href="#3.1.2" class="toc-h4">3.1.2 POST - створення ресурсів</a></li>
+                                    <li><a href="#3.1.3" class="toc-h4">3.1.3 PUT - оновлення/заміна ресурсів</a></li>
+                                    <li><a href="#3.1.4" class="toc-h4">3.1.4 PATCH - часткове оновлення</a></li>
+                                    <li><a href="#3.1.5" class="toc-h4">3.1.5 DELETE - видалення ресурсів</a></li>
+                                    <li><a href="#3.1.6" class="toc-h4">3.1.6 HEAD та OPTIONS</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#3.2" class="toc-h3">3.2 HTTP статус коди</a>
+                                <ul>
+                                    <li><a href="#3.2.1" class="toc-h4">3.2.1 1xx Informational</a></li>
+                                    <li><a href="#3.2.2" class="toc-h4">3.2.2 2xx Success</a></li>
+                                    <li><a href="#3.2.3" class="toc-h4">3.2.3 3xx Redirection</a></li>
+                                    <li><a href="#3.2.4" class="toc-h4">3.2.4 4xx Client Error</a></li>
+                                    <li><a href="#3.2.5" class="toc-h4">3.2.5 5xx Server Error</a></li>
+                                    <li><a href="#3.2.6" class="toc-h4">3.2.6 Правильний вибір статус кодів</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#3.3" class="toc-h3">3.3 HTTP заголовки</a>
+                                <ul>
+                                    <li><a href="#3.3.1" class="toc-h4">3.3.1 Content-Type та Accept</a></li>
+                                    <li><a href="#3.3.2" class="toc-h4">3.3.2 Authorization заголовки</a></li>
+                                    <li><a href="#3.3.3" class="toc-h4">3.3.3 Cache-Control та ETag</a></li>
+                                    <li><a href="#3.3.4" class="toc-h4">3.3.4 CORS заголовки</a></li>
+                                    <li><a href="#3.3.5" class="toc-h4">3.3.5 Custom заголовки</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#3.4" class="toc-h3">3.4 Ідемпотентність та безпечність</a>
+                                <ul>
+                                    <li><a href="#3.4.1" class="toc-h4">3.4.1 Поняття ідемпотентності</a></li>
+                                    <li><a href="#3.4.2" class="toc-h4">3.4.2 Безпечні методи</a></li>
+                                    <li><a href="#3.4.3" class="toc-h4">3.4.3 Практичне застосування</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#4" class="toc-h2">4. Дизайн URI та ресурсів</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#4.1" class="toc-h3">4.1 Концепція ресурсів</a>
+                                <ul>
+                                    <li><a href="#4.1.1" class="toc-h4">4.1.1 Що таке ресурс в REST</a></li>
+                                    <li><a href="#4.1.2" class="toc-h4">4.1.2 Resource vs Representation</a></li>
+                                    <li><a href="#4.1.3" class="toc-h4">4.1.3 Ідентифікація ресурсів</a></li>
+                                    <li><a href="#4.1.4" class="toc-h4">4.1.4 Колекції та одиничні ресурси</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#4.2" class="toc-h3">4.2 URI Design Best Practices</a>
+                                <ul>
+                                    <li><a href="#4.2.1" class="toc-h4">4.2.1 Іменники vs дієслова</a></li>
+                                    <li><a href="#4.2.2" class="toc-h4">4.2.2 Ієрархічна структура</a></li>
+                                    <li><a href="#4.2.3" class="toc-h4">4.2.3 Множина vs однина</a></li>
+                                    <li><a href="#4.2.4" class="toc-h4">4.2.4 Kebab-case, camelCase, snake_case</a></li>
+                                    <li><a href="#4.2.5" class="toc-h4">4.2.5 Query parameters використання</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#4.3" class="toc-h3">4.3 Вкладені ресурси</a>
+                                <ul>
+                                    <li><a href="#4.3.1" class="toc-h4">4.3.1 Відносини між ресурсами</a></li>
+                                    <li><a href="#4.3.2" class="toc-h4">4.3.2 Sub-resources структура</a></li>
+                                    <li><a href="#4.3.3" class="toc-h4">4.3.3 Глибина вкладеності</a></li>
+                                    <li><a href="#4.3.4" class="toc-h4">4.3.4 Альтернативні підходи</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#4.4" class="toc-h3">4.4 Версіонування API</a>
+                                <ul>
+                                    <li><a href="#4.4.1" class="toc-h4">4.4.1 Необхідність версіонування</a></li>
+                                    <li><a href="#4.4.2" class="toc-h4">4.4.2 URI versioning (/v1/users)</a></li>
+                                    <li><a href="#4.4.3" class="toc-h4">4.4.3 Header versioning</a></li>
+                                    <li><a href="#4.4.4" class="toc-h4">4.4.4 Media type versioning</a></li>
+                                    <li><a href="#4.4.5" class="toc-h4">4.4.5 Стратегії deprecation</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#5" class="toc-h2">5. Формати даних та Content Negotiation</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#5.1" class="toc-h3">5.1 JSON</a>
+                                <ul>
+                                    <li><a href="#5.1.1" class="toc-h4">5.1.1 JSON як стандарт де-факто</a></li>
+                                    <li><a href="#5.1.2" class="toc-h4">5.1.2 JSON синтаксис та структура</a></li>
+                                    <li><a href="#5.1.3" class="toc-h4">5.1.3 JSON Schema</a></li>
+                                    <li><a href="#5.1.4" class="toc-h4">5.1.4 JSON-LD та семантичний веб</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#5.2" class="toc-h3">5.2 XML та інші формати</a>
+                                <ul>
+                                    <li><a href="#5.2.1" class="toc-h4">5.2.1 XML в REST API</a></li>
+                                    <li><a href="#5.2.2" class="toc-h4">5.2.2 YAML форматування</a></li>
+                                    <li><a href="#5.2.3" class="toc-h4">5.2.3 CSV для табличних даних</a></li>
+                                    <li><a href="#5.2.4" class="toc-h4">5.2.4 Binary формати</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#5.3" class="toc-h3">5.3 Content Negotiation</a>
+                                <ul>
+                                    <li><a href="#5.3.1" class="toc-h4">5.3.1 Accept заголовок</a></li>
+                                    <li><a href="#5.3.2" class="toc-h4">5.3.2 Content-Type відповіді</a></li>
+                                    <li><a href="#5.3.3" class="toc-h4">5.3.3 Language negotiation</a></li>
+                                    <li><a href="#5.3.4" class="toc-h4">5.3.4 Encoding negotiation</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#5.4" class="toc-h3">5.4 Hypermedia</a>
+                                <ul>
+                                    <li><a href="#5.4.1" class="toc-h4">5.4.1 HATEOAS принципи</a></li>
+                                    <li><a href="#5.4.2" class="toc-h4">5.4.2 HAL (Hypertext Application Language)</a></li>
+                                    <li><a href="#5.4.3" class="toc-h4">5.4.3 JSON-LD links</a></li>
+                                    <li><a href="#5.4.4" class="toc-h4">5.4.4 Collection+JSON</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#6" class="toc-h2">6. Аутентифікація та авторизація</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#6.1" class="toc-h3">6.1 Основи безпеки REST API</a>
+                                <ul>
+                                    <li><a href="#6.1.1" class="toc-h4">6.1.1 Authentication vs Authorization</a></li>
+                                    <li><a href="#6.1.2" class="toc-h4">6.1.2 Stateless authentication</a></li>
+                                    <li><a href="#6.1.3" class="toc-h4">6.1.3 Security best practices</a></li>
+                                    <li><a href="#6.1.4" class="toc-h4">6.1.4 HTTPS обов'язковість</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#6.2" class="toc-h3">6.2 Authentication методи</a>
+                                <ul>
+                                    <li><a href="#6.2.1" class="toc-h4">6.2.1 Basic Authentication</a></li>
+                                    <li><a href="#6.2.2" class="toc-h4">6.2.2 API Keys</a></li>
+                                    <li><a href="#6.2.3" class="toc-h4">6.2.3 Bearer Tokens</a></li>
+                                    <li><a href="#6.2.4" class="toc-h4">6.2.4 Digest Authentication</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#6.3" class="toc-h3">6.3 OAuth 2.0</a>
+                                <ul>
+                                    <li><a href="#6.3.1" class="toc-h4">6.3.1 OAuth 2.0 принципи</a></li>
+                                    <li><a href="#6.3.2" class="toc-h4">6.3.2 Authorization Code flow</a></li>
+                                    <li><a href="#6.3.3" class="toc-h4">6.3.3 Client Credentials flow</a></li>
+                                    <li><a href="#6.3.4" class="toc-h4">6.3.4 Implicit та Resource Owner flows</a></li>
+                                    <li><a href="#6.3.5" class="toc-h4">6.3.5 PKCE extension</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#6.4" class="toc-h3">6.4 JWT та сучасні підходи</a>
+                                <ul>
+                                    <li><a href="#6.4.1" class="toc-h4">6.4.1 JSON Web Tokens структура</a></li>
+                                    <li><a href="#6.4.2" class="toc-h4">6.4.2 JWT підпис та верифікація</a></li>
+                                    <li><a href="#6.4.3" class="toc-h4">6.4.3 Refresh tokens</a></li>
+                                    <li><a href="#6.4.4" class="toc-h4">6.4.4 OpenID Connect</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#7" class="toc-h2">7. Обробка помилок та статус коди</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#7.1" class="toc-h3">7.1 Стратегії обробки помилок</a>
+                                <ul>
+                                    <li><a href="#7.1.1" class="toc-h4">7.1.1 Консистентність помилок</a></li>
+                                    <li><a href="#7.1.2" class="toc-h4">7.1.2 Error response structure</a></li>
+                                    <li><a href="#7.1.3" class="toc-h4">7.1.3 Error codes vs HTTP status</a></li>
+                                    <li><a href="#7.1.4" class="toc-h4">7.1.4 Localization помилок</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#7.2" class="toc-h3">7.2 Валідація даних</a>
+                                <ul>
+                                    <li><a href="#7.2.1" class="toc-h4">7.2.1 Input validation</a></li>
+                                    <li><a href="#7.2.2" class="toc-h4">7.2.2 Field-level errors</a></li>
+                                    <li><a href="#7.2.3" class="toc-h4">7.2.3 Business logic validation</a></li>
+                                    <li><a href="#7.2.4" class="toc-h4">7.2.4 Validation frameworks</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#7.3" class="toc-h3">7.3 Rate Limiting та Throttling</a>
+                                <ul>
+                                    <li><a href="#7.3.1" class="toc-h4">7.3.1 Rate limiting стратегії</a></li>
+                                    <li><a href="#7.3.2" class="toc-h4">7.3.2 HTTP 429 Too Many Requests</a></li>
+                                    <li><a href="#7.3.3" class="toc-h4">7.3.3 Rate limit headers</a></li>
+                                    <li><a href="#7.3.4" class="toc-h4">7.3.4 Backoff strategies</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#7.4" class="toc-h3">7.4 Моніторинг та логування</a>
+                                <ul>
+                                    <li><a href="#7.4.1" class="toc-h4">7.4.1 Structured logging</a></li>
+                                    <li><a href="#7.4.2" class="toc-h4">7.4.2 Error tracking</a></li>
+                                    <li><a href="#7.4.3" class="toc-h4">7.4.3 Health checks</a></li>
+                                    <li><a href="#7.4.4" class="toc-h4">7.4.4 Performance metrics</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#8" class="toc-h2">8. Кешування та Performance</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#8.1" class="toc-h3">8.1 HTTP кешування</a>
+                                <ul>
+                                    <li><a href="#8.1.1" class="toc-h4">8.1.1 Cache-Control директиви</a></li>
+                                    <li><a href="#8.1.2" class="toc-h4">8.1.2 ETag та Last-Modified</a></li>
+                                    <li><a href="#8.1.3" class="toc-h4">8.1.3 Conditional requests</a></li>
+                                    <li><a href="#8.1.4" class="toc-h4">8.1.4 Expires header</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#8.2" class="toc-h3">8.2 Кешування стратегії</a>
+                                <ul>
+                                    <li><a href="#8.2.1" class="toc-h4">8.2.1 Browser caching</a></li>
+                                    <li><a href="#8.2.2" class="toc-h4">8.2.2 Proxy caching</a></li>
+                                    <li><a href="#8.2.3" class="toc-h4">8.2.3 CDN integration</a></li>
+                                    <li><a href="#8.2.4" class="toc-h4">8.2.4 Application-level caching</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#8.3" class="toc-h3">8.3 Оптимізація продуктивності</a>
+                                <ul>
+                                    <li><a href="#8.3.1" class="toc-h4">8.3.1 Compression (gzip, brotli)</a></li>
+                                    <li><a href="#8.3.2" class="toc-h4">8.3.2 Pagination strategies</a></li>
+                                    <li><a href="#8.3.3" class="toc-h4">8.3.3 Field selection (sparse fieldsets)</a></li>
+                                    <li><a href="#8.3.4" class="toc-h4">8.3.4 Batch operations</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#8.4" class="toc-h3">8.4 Асинхронні операції</a>
+                                <ul>
+                                    <li><a href="#8.4.1" class="toc-h4">8.4.1 HTTP 202 Accepted</a></li>
+                                    <li><a href="#8.4.2" class="toc-h4">8.4.2 Long polling</a></li>
+                                    <li><a href="#8.4.3" class="toc-h4">8.4.3 WebSockets integration</a></li>
+                                    <li><a href="#8.4.4" class="toc-h4">8.4.4 Server-Sent Events</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#9" class="toc-h2">9. Тестування REST API</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#9.1" class="toc-h3">9.1 Типи тестування API</a>
+                                <ul>
+                                    <li><a href="#9.1.1" class="toc-h4">9.1.1 Unit testing</a></li>
+                                    <li><a href="#9.1.2" class="toc-h4">9.1.2 Integration testing</a></li>
+                                    <li><a href="#9.1.3" class="toc-h4">9.1.3 Contract testing</a></li>
+                                    <li><a href="#9.1.4" class="toc-h4">9.1.4 End-to-end testing</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#9.2" class="toc-h3">9.2 Інструменти тестування</a>
+                                <ul>
+                                    <li><a href="#9.2.1" class="toc-h4">9.2.1 Postman та Newman</a></li>
+                                    <li><a href="#9.2.2" class="toc-h4">9.2.2 curl та HTTPie</a></li>
+                                    <li><a href="#9.2.3" class="toc-h4">9.2.3 REST Assured (Java)</a></li>
+                                    <li><a href="#9.2.4" class="toc-h4">9.2.4 Supertest (Node.js)</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#9.3" class="toc-h3">9.3 Test automation</a>
+                                <ul>
+                                    <li><a href="#9.3.1" class="toc-h4">9.3.1 CI/CD integration</a></li>
+                                    <li><a href="#9.3.2" class="toc-h4">9.3.2 Test data management</a></li>
+                                    <li><a href="#9.3.3" class="toc-h4">9.3.3 Mocking та stubbing</a></li>
+                                    <li><a href="#9.3.4" class="toc-h4">9.3.4 Performance testing</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#9.4" class="toc-h3">9.4 Документація та специфікації</a>
+                                <ul>
+                                    <li><a href="#9.4.1" class="toc-h4">9.4.1 OpenAPI/Swagger</a></li>
+                                    <li><a href="#9.4.2" class="toc-h4">9.4.2 API Blueprint</a></li>
+                                    <li><a href="#9.4.3" class="toc-h4">9.4.3 RAML</a></li>
+                                    <li><a href="#9.4.4" class="toc-h4">9.4.4 Documentation-driven development</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#10" class="toc-h2">10. Сучасні тренди та альтернативи</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#10.1" class="toc-h3">10.1 GraphQL</a>
+                                <ul>
+                                    <li><a href="#10.1.1" class="toc-h4">10.1.1 GraphQL vs REST порівняння</a></li>
+                                    <li><a href="#10.1.2" class="toc-h4">10.1.2 Коли використовувати GraphQL</a></li>
+                                    <li><a href="#10.1.3" class="toc-h4">10.1.3 Hybrid підходи</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#10.2" class="toc-h3">10.2 gRPC та RPC renaissance</a>
+                                <ul>
+                                    <li><a href="#10.2.1" class="toc-h4">10.2.1 gRPC принципи</a></li>
+                                    <li><a href="#10.2.2" class="toc-h4">10.2.2 Protocol Buffers</a></li>
+                                    <li><a href="#10.2.3" class="toc-h4">10.2.3 HTTP/2 переваги</a></li>
+                                    <li><a href="#10.2.4" class="toc-h4">10.2.4 gRPC-Web</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#10.3" class="toc-h3">10.3 Serverless та JAMstack</a>
+                                <ul>
+                                    <li><a href="#10.3.1" class="toc-h4">10.3.1 Serverless Functions API</a></li>
+                                    <li><a href="#10.3.2" class="toc-h4">10.3.2 Edge Computing</a></li>
+                                    <li><a href="#10.3.3" class="toc-h4">10.3.3 JAMstack архітектура</a></li>
+                                    <li><a href="#10.3.4" class="toc-h4">10.3.4 Static Site Generation</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#10.4" class="toc-h3">10.4 API-First підхід</a>
+                                <ul>
+                                    <li><a href="#10.4.1" class="toc-h4">10.4.1 Design-First development</a></li>
+                                    <li><a href="#10.4.2" class="toc-h4">10.4.2 API governance</a></li>
+                                    <li><a href="#10.4.3" class="toc-h4">10.4.3 Microservices patterns</a></li>
+                                    <li><a href="#10.4.4" class="toc-h4">10.4.4 Event-driven architecture</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#11" class="toc-h2">11. Реальні приклади та case studies</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#11.1" class="toc-h3">11.1 Twitter API еволюція</a>
+                                <ul>
+                                    <li><a href="#11.1.1" class="toc-h4">11.1.1 Twitter API v1.1</a></li>
+                                    <li><a href="#11.1.2" class="toc-h4">11.1.2 Rate limiting challenges</a></li>
+                                    <li><a href="#11.1.3" class="toc-h4">11.1.3 API v2 redesign</a></li>
+                                    <li><a href="#11.1.4" class="toc-h4">11.1.4 Уроки та висновки</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#11.2" class="toc-h3">11.2 GitHub API дизайн</a>
+                                <ul>
+                                    <li><a href="#11.2.1" class="toc-h4">11.2.1 RESTful resource modeling</a></li>
+                                    <li><a href="#11.2.2" class="toc-h4">11.2.2 HATEOAS implementation</a></li>
+                                    <li><a href="#11.2.3" class="toc-h4">11.2.3 Pagination patterns</a></li>
+                                    <li><a href="#11.2.4" class="toc-h4">11.2.4 GraphQL adoption</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#11.3" class="toc-h3">11.3 Stripe API досвід</a>
+                                <ul>
+                                    <li><a href="#11.3.1" class="toc-h4">11.3.1 Developer experience focus</a></li>
+                                    <li><a href="#11.3.2" class="toc-h4">11.3.2 Error handling excellence</a></li>
+                                    <li><a href="#11.3.3" class="toc-h4">11.3.3 Documentation quality</a></li>
+                                    <li><a href="#11.3.4" class="toc-h4">11.3.4 Webhooks integration</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#11.4" class="toc-h3">11.4 Enterprise case studies</a>
+                                <ul>
+                                    <li><a href="#11.4.1" class="toc-h4">11.4.1 Netflix API architecture</a></li>
+                                    <li><a href="#11.4.2" class="toc-h4">11.4.2 Amazon Web Services API</a></li>
+                                    <li><a href="#11.4.3" class="toc-h4">11.4.3 Google APIs design</a></li>
+                                    <li><a href="#11.4.4" class="toc-h4">11.4.4 Banking APIs (PSD2)</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-section">
+                        <a href="#12" class="toc-h2">12. Best Practices та майбутнє REST</a>
+                        <ul>
+                            <li class="toc-subsection">
+                                <a href="#12.1" class="toc-h3">12.1 Enterprise REST patterns</a>
+                                <ul>
+                                    <li><a href="#12.1.1" class="toc-h4">12.1.1 API Gateway patterns</a></li>
+                                    <li><a href="#12.1.2" class="toc-h4">12.1.2 Service mesh integration</a></li>
+                                    <li><a href="#12.1.3" class="toc-h4">12.1.3 Circuit breaker pattern</a></li>
+                                    <li><a href="#12.1.4" class="toc-h4">12.1.4 Bulkhead isolation</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#12.2" class="toc-h3">12.2 API Management</a>
+                                <ul>
+                                    <li><a href="#12.2.1" class="toc-h4">12.2.1 API lifecycle management</a></li>
+                                    <li><a href="#12.2.2" class="toc-h4">12.2.2 Developer portals</a></li>
+                                    <li><a href="#12.2.3" class="toc-h4">12.2.3 Analytics та metrics</a></li>
+                                    <li><a href="#12.2.4" class="toc-h4">12.2.4 Monetization strategies</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#12.3" class="toc-h3">12.3 Майбутнє REST API</a>
+                                <ul>
+                                    <li><a href="#12.3.1" class="toc-h4">12.3.1 HTTP/3 та QUIC вплив</a></li>
+                                    <li><a href="#12.3.2" class="toc-h4">12.3.2 WebAssembly integration</a></li>
+                                    <li><a href="#12.3.3" class="toc-h4">12.3.3 AI та machine learning APIs</a></li>
+                                    <li><a href="#12.3.4" class="toc-h4">12.3.4 IoT та edge computing</a></li>
+                                </ul>
+                            </li>
+                            <li class="toc-subsection">
+                                <a href="#12.4" class="toc-h3">12.4 Підсумки та рекомендації</a>
+                                <ul>
+                                    <li><a href="#12.4.1" class="toc-h4">12.4.1 Коли обирати REST</a></li>
+                                    <li><a href="#12.4.2" class="toc-h4">12.4.2 Common anti-patterns</a></li>
+                                    <li><a href="#12.4.3" class="toc-h4">12.4.3 Checklist для REST API</a></li>
+                                    <li><a href="#12.4.4" class="toc-h4">12.4.4 Ресурси для подальшого вивчення</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+
+            <article class="article-content">
+                <div id="1">
+                    <h2>1. Історія та еволюція веб-архітектури</h2>
+                    <div id="1.1">
+                        <h3>1.1 Історія World Wide Web</h3>
+                        <div id="1.1.1">
+                            <h4>1.1.1 Створення WWW та HTTP</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="1.1.2">
+                            <h4>1.1.2 Еволюція HTTP версій</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="1.1.3">
+                            <h4>1.1.3 Від статичних сторінок до веб-додатків</h4>
+                            <!-- Content to be added -->
+                        </div>
+                        <div id="1.1.4">
+                            <h4>1.1.4 Виникнення веб-сервісів</h4>
+                            <!-- Content to be added -->
+                        </div>
+                    </div>
+                    <!-- Additional subsections placeholder -->
+                </div>
+
+                <!-- Placeholder sections for remaining content -->
+                <div id="2">
+                    <h2>2. Фундаментальні принципи REST</h2>
+                    <!-- Sections 2.1-2.3 content placeholders -->
+                </div>
+
+                <div id="3">
+                    <h2>3. HTTP як основа REST</h2>
+                    <!-- Sections 3.1-3.4 content placeholders -->
+                </div>
+
+                <div id="4">
+                    <h2>4. Дизайн URI та ресурсів</h2>
+                    <!-- Sections 4.1-4.4 content placeholders -->
+                </div>
+
+                <div id="5">
+                    <h2>5. Формати даних та Content Negotiation</h2>
+                    <!-- Sections 5.1-5.4 content placeholders -->
+                </div>
+
+                <div id="6">
+                    <h2>6. Аутентифікація та авторизація</h2>
+                    <!-- Sections 6.1-6.4 content placeholders -->
+                </div>
+
+                <div id="7">
+                    <h2>7. Обробка помилок та статус коди</h2>
+                    <!-- Sections 7.1-7.4 content placeholders -->
+                </div>
+
+                <div id="8">
+                    <h2>8. Кешування та Performance</h2>
+                    <!-- Sections 8.1-8.4 content placeholders -->
+                </div>
+
+                <div id="9">
+                    <h2>9. Тестування REST API</h2>
+                    <!-- Sections 9.1-9.4 content placeholders -->
+                </div>
+
+                <div id="10">
+                    <h2>10. Сучасні тренди та альтернативи</h2>
+                    <!-- Sections 10.1-10.4 content placeholders -->
+                </div>
+
+                <div id="11">
+                    <h2>11. Реальні приклади та case studies</h2>
+                    <!-- Sections 11.1-11.4 content placeholders -->
+                </div>
+
+                <div id="12">
+                    <h2>12. Best Practices та майбутнє REST</h2>
+                    <!-- Sections 12.1-12.4 content placeholders -->
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ITLearningUA. Навчання IT українською мовою.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Prism.js
+        Prism.highlightAll();
+    </script>
+    <script src="../../script.js"></script>
+</body>
+</html>
